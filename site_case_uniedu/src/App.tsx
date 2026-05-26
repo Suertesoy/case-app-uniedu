@@ -129,7 +129,7 @@ export default function App() {
           
           {/* Autoria em Destaque */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-border mb-8 shadow-sm transition-all duration-300">
-            <span className="text-xs font-bold text-text-primary">Concepção por:</span>
+            <span className="text-xs font-bold text-text-primary">Autores:</span>
             <span className="text-xs font-extrabold text-brand-strong">Lucas Cabral</span>
             <span className="text-text-secondary text-xs">•</span>
             <span className="text-xs font-extrabold text-brand-strong">Najme Simón Alé</span>
@@ -243,42 +243,96 @@ export default function App() {
               </div>
             </div>
 
-            {/* Placeholder de vídeo/GIF da demonstração do protótipo */}
-            <div className="lg:col-span-7">
-              <div className="w-full aspect-video bg-surface border border-border rounded-3xl p-4 flex flex-col justify-between relative overflow-hidden shadow-lg transition-all duration-300">
-                {/* Simulated browser header */}
-                <div className="flex justify-between items-center border-b border-border/40 pb-3 mb-2">
-                  <div className="flex gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/30" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/30" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/30" />
-                  </div>
-                  <span className="text-[9px] text-text-secondary bg-surface-elevated px-4 py-0.5 rounded border border-border/50 font-mono">
-                    https://projeto-uniedu-corrigido.vercel.app
-                  </span>
-                  <div className="w-6" />
+            {/* Mockup Mobile de iPhone 16 */}
+            <div className="lg:col-span-7 flex justify-center">
+              <div className="w-[280px] h-[520px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
+                {/* Dynamic Island */}
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
+                  <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
                 </div>
 
-                {/* Central Placeholder Label */}
-                <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
-                  <div className="w-16 h-16 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center mb-4 text-brand-strong animate-pulse">
-                    <Play className="w-6 h-6 fill-current" />
+                {/* Tela Interna - Adapta ao Light/Dark mode */}
+                <div className="absolute inset-0 bg-page p-4 pt-10 flex flex-col justify-between text-xs selection:bg-transparent transition-colors duration-300">
+                  
+                  {/* Conteúdo Provisório */}
+                  <div className="space-y-4 flex-1">
+                    {/* Top row */}
+                    <div className="flex justify-between items-center text-[8px] text-text-secondary">
+                      <span>9:41</span>
+                      <span>📶 🔋</span>
+                    </div>
+
+                    {/* Header do Mockup */}
+                    <div className="flex justify-between items-center border-b border-border/40 pb-2">
+                      <div>
+                        <p className="text-[7px] text-text-secondary uppercase tracking-wider">ESTUDOS</p>
+                        <p className="font-bold text-text-primary text-[10px]">UNIEDU App</p>
+                      </div>
+                      <div className="bg-brand/10 border border-brand/20 rounded-full px-2 py-0.5 text-brand-strong text-[8px] font-bold">
+                        ⚡ 5 Dias
+                      </div>
+                    </div>
+
+                    {/* Card de Progresso (Rosa) */}
+                    <div className="bg-gradient-to-r from-brand to-rose-600 rounded-2xl p-3 text-white shadow-md relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-xl" />
+                      <div className="relative z-10">
+                        <p className="text-[7px] text-white/80 font-bold uppercase tracking-wider">Seu Progresso Semanal</p>
+                        <p className="font-bold text-[11px] mt-0.5">Módulo 2: UX Strategy</p>
+                        <div className="mt-2 flex justify-between text-[7px] text-white/90">
+                          <span>3 / 5 aulas concluídas</span>
+                          <span>60%</span>
+                        </div>
+                        <div className="w-full bg-white/20 h-1 rounded-full overflow-hidden mt-1">
+                          <div className="bg-white h-full w-3/5 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Pequenos blocos de pontos/conquistas */}
+                    <div className="grid grid-cols-2 gap-2 text-center text-[8px]">
+                      <div className="bg-surface border border-border rounded-xl p-2.5">
+                        <p className="text-text-secondary font-medium">SALDO ACUMULADO</p>
+                        <p className="text-[11px] font-extrabold text-brand-strong mt-0.5">450 pts</p>
+                      </div>
+                      <div className="bg-surface border border-border rounded-xl p-2.5">
+                        <p className="text-text-secondary font-medium">CONQUISTAS</p>
+                        <p className="text-[11px] font-extrabold text-text-primary mt-0.5">12 salvas</p>
+                      </div>
+                    </div>
+
+                    {/* Bloco de notas rápido ou IA */}
+                    <div className="bg-surface-elevated border border-border rounded-xl p-2.5 space-y-1.5">
+                      <div className="flex justify-between items-center text-[7px]">
+                        <span className="font-bold text-text-primary">Anotação Inteligente</span>
+                        <span className="text-[6px] text-brand font-semibold">Salvo ✔</span>
+                      </div>
+                      <p className="text-[8px] text-text-secondary leading-relaxed bg-surface/50 p-1.5 rounded border border-border/40">
+                        "Foco na retenção do aluno no onboarding..."
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-xs font-bold text-text-primary">
-                    [Placeholder de vídeo / Demo do Protótipo]
-                  </p>
-                  <p className="text-[10px] text-text-secondary max-w-sm mt-2 leading-relaxed">
-                    Vídeo rápido de navegação guiada mostrando o fluxo principal da Home de Progresso, cronograma e Loja de Recompensas.
-                  </p>
+
+                  {/* Barra inferior simplificada */}
+                  <div className="border-t border-border pt-2 flex justify-between items-center text-text-secondary text-[7px] font-medium">
+                    <span className="text-brand-strong font-bold">🏠 Home</span>
+                    <span>📅 Plano</span>
+                    <span>▶ Aulas</span>
+                    <span>🛒 Loja</span>
+                  </div>
+
                 </div>
 
-                {/* Video controls placeholder */}
-                <div className="border-t border-border/40 pt-3 flex justify-between items-center text-[9px] text-text-secondary">
-                  <span>0:00 / 1:30</span>
-                  <div className="w-1/2 h-1 bg-border/40 rounded-full overflow-hidden">
-                    <div className="h-full bg-brand w-1/12" />
-                  </div>
-                  <span>HD ⚙</span>
+                {/* Overlay Premium Provisório Placeholder */}
+                <div className="absolute inset-0 bg-black/70 backdrop-blur-[1px] opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center text-white z-30 select-none pointer-events-none">
+                  <Smartphone className="w-8 h-8 text-brand mb-2 animate-bounce" />
+                  <p className="text-[10px] font-bold tracking-wider uppercase text-brand-soft">Placeholder de Mockup</p>
+                  <p className="text-xs font-semibold mt-1">
+                    [Placeholder de print do protótipo]
+                  </p>
+                  <p className="text-[8px] text-gray-300 mt-2 leading-relaxed">
+                    Visual e proporção mobile representando o layout real do aplicativo. Será substituído por print/vídeo definitivo.
+                  </p>
                 </div>
               </div>
             </div>
@@ -395,26 +449,20 @@ export default function App() {
                 Nossa atuação cobriu do entendimento qualitativo à arquitetura técnica, dividindo o time nas seguintes competências estratégicas:
               </p>
 
-              <div className="flex flex-wrap gap-2 pt-2">
+              <div className="flex flex-wrap gap-2.5 pt-2">
                 {[
                   "UX Research",
-                  "Desk Research",
-                  "Benchmark Competitivo",
-                  "Entrevistas em Profundidade",
-                  "Personas",
-                  "Jornada do Usuário",
-                  "Product Strategy",
+                  "UX Strategy",
                   "UX Writing",
                   "UI Design",
-                  "Design System",
-                  "Prototipação de Alta Fidelidade",
-                  "Testes de Usabilidade",
+                  "Prototipação",
                   "IA aplicada ao Design"
                 ].map((role, idx) => (
                   <span
                     key={idx}
-                    className="px-3.5 py-2 rounded-xl bg-surface border border-border text-xs text-text-primary font-medium hover:border-brand/40 transition-all select-none hover:shadow-sm"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-border text-xs text-text-primary font-semibold hover:border-brand/40 transition-all select-none hover:shadow-sm"
                   >
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand" />
                     {role}
                   </span>
                 ))}
