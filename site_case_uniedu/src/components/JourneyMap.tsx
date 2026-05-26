@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Compass, Eye, ShieldAlert, Sparkles, BookOpen } from "lucide-react";
+import { Compass, Eye, ShieldAlert, Sparkles, MessageSquare, Smile } from "lucide-react";
 
 export default function JourneyMap() {
   const [activeStage, setActiveStage] = useState("descoberta");
@@ -8,65 +8,142 @@ export default function JourneyMap() {
     {
       id: "descoberta",
       label: "1. Descoberta",
-      desc: "Sofrendo com a dispersão",
-      contexto: "Sofia percebe que seus cursos EAD atuais não a motivam a concluir os módulos. Ela estuda esporadicamente, mas se sente dispersa.",
-      acao: "Procura fóruns de design e busca por plataformas alternativas com métodos focados em constância.",
-      pensamento: "'Preciso de algo que se ajuste à minha rotina cansativa, e não de videoaulas infinitas de 1 hora.'",
-      dor: "Fadiga extrema ao chegar do trabalho e ver um dashboard entediante e sem vida.",
-      oportunidade: "Captar o interesse mostrando microdicas de constância e uma proposta de valor focada em progresso diário de 15 minutos."
+      desc: "Busca inicial",
+      contexto: "Sofia quer migrar para UX/UI. Busca um curso introdutório, direto ao ponto e que seja encaixável em sua rotina.",
+      acoes: [
+        "Pesquisa no Google e YouTube por conteúdos introdutórios",
+        "Assiste a vídeos iniciais explicativos de migração",
+        "Conversa com colegas de trabalho que já atuam na área"
+      ],
+      pensamentos: [
+        "Quero entender o básico de UX/UI sem perder tempo.",
+        "Preciso encaixar isso na minha rotina."
+      ],
+      sentimentos: ["Curiosidade", "Empolgação", "Insegurança", "Medo"],
+      dores: [
+        "Não sabe por onde começar em meio a tanto conteúdo solto.",
+        "Medo de investir em algo prolixo e desorganizado."
+      ],
+      oportunidades: [
+        "Trilha de aprendizado linear e clara.",
+        "Exemplos práticos e objetivos nas primeiras aulas.",
+        "Aulas introdutórias gratuitas para avaliação da didática."
+      ]
     },
     {
       id: "consideracao",
       label: "2. Consideração",
       desc: "Análise da Proposta",
-      contexto: "Conhece a proposta do UNIEDU. O conceito de progresso visível e recompensas reais chama sua atenção.",
-      acao: "Lê sobre o funcionamento do plano de estudos adaptável e da loja integrada.",
-      pensamento: "'Será que isso realmente vai me ajudar a manter o ritmo ou é só mais uma promessa de gamificação boba?'",
-      dor: "Medo de investir tempo em mais uma plataforma e abandoná-la nas primeiras semanas.",
-      oportunidade: "Demonstrar valor imediato de forma transparente, reforçando a seriedade acadêmica da loja de recompensas."
+      contexto: "Sofia compara os cursos disponíveis buscando conteúdo sólido, acompanhamento próximo e uma comunidade ativa de suporte.",
+      acoes: [
+        "Lê avaliações de ex-alunos e cases de portfólio",
+        "Analisa detalhadamente a ementa, módulos e duração",
+        "Verifica a validade do certificado e o suporte de monitores"
+      ],
+      pensamentos: [
+        "Quero algo que me transmita segurança de que vou estar preparada pro mercado de trabalho."
+      ],
+      sentimentos: ["Esperança", "Indecisão", "Ansiedade"],
+      dores: [
+        "Sentimento de que as plataformas tradicionais são muito impessoais.",
+        "Vídeos longos e prolixos sem linearidade clara.",
+        "Falta de um preview prático de como funciona a plataforma por dentro."
+      ],
+      oportunidades: [
+        "Exibir a estrutura visual e clara da trilha de estudos.",
+        "Destacar o suporte humano constante e canais de tira-dúvidas.",
+        "Oferecer um tour ou preview interativo do produto antes da compra."
+      ]
     },
     {
       id: "decisao",
       label: "3. Decisão",
       desc: "O Primeiro Passo",
-      contexto: "Sofia cria sua conta e realiza o primeiro onboarding focado em definir sua meta de tempo semanal.",
-      acao: "Responde às perguntas do assistente para formatar um plano realista de 3 aulas semanais de 15 min.",
-      pensamento: "'Gostei de não ser obrigada a seguir um cronograma rígido. Vou tentar assistir a primeira aula hoje.'",
-      dor: "Dúvida sobre conseguir encaixar a meta inicial nas noites de cansaço extremo.",
-      oportunidade: "Reforçar o micro-onboarding inicial com mensagens de incentivo (UX Writing) e feedback imediato de progresso."
+      contexto: "Sofia escolhe a plataforma que aparenta ser mais direta e com melhor apoio. Ela inicia motivada, mas precisa criar consistência.",
+      acoes: [
+        "Realiza o login e faz as primeiras configurações",
+        "Inicia as primeiras videoaulas introdutórias",
+        "Busca os canais de suporte e fóruns de sua turma"
+      ],
+      pensamentos: [
+        "Às vezes não sei por onde começar.",
+        "Quero algo direto e com pessoas para trocar dúvidas."
+      ],
+      sentimentos: ["Motivação", "Frustração", "Ansiedade"],
+      dores: [
+        "Sensação imediata de solidão ao iniciar os estudos noturnos.",
+        "Dificuldade de manter o ritmo nos primeiros dias sem acompanhamento ativo."
+      ],
+      oportunidades: [
+        "Onboarding interativo e gamificado de configuração de perfil.",
+        "Plano de estudos flexível configurável desde o primeiro acesso.",
+        "Ambiente de estudos acolhedor e com ranking desativado por padrão."
+      ]
     },
     {
       id: "adocao",
       label: "4. Adoção",
       desc: "Estudo Habitual",
-      contexto: "Ela estuda há 2 semanas. Usa o player integrado e faz anotações rápidas sincronizadas sem trocar de tela.",
-      acao: "Completa sua meta semanal, acumula pontos e acompanha seu streak de 5 dias.",
-      pensamento: "'É prático anotar as coisas sem pausar o vídeo o tempo todo. E ver meus pontos subindo me faz sentir produtiva.'",
-      dor: "Esquecimento eventual em dias corridos ou bloqueio ao travar em um exercício complexo.",
-      oportunidade: "Enviar notificações push discretas no celular antes de quebrar o streak e oferecer IA contextual no chat."
+      contexto: "Ela assiste às aulas e interage com as ferramentas internas. A velocidade e a praticidade são chaves na rotina.",
+      acoes: [
+        "Utiliza o bloco de notas integrado enquanto assiste",
+        "Acelera os vídeos em sessões de cansaço extremo",
+        "Posta dúvidas pontuais e responde a colegas no fórum"
+      ],
+      pensamentos: [
+        "Não gosto de competir, quero um ambiente colaborativo.",
+        "Gostei da liberdade, mas sinto falta de alguém para trocar ideias."
+      ],
+      sentimentos: ["Felicidade", "Solidão", "Frustração"],
+      dores: [
+        "Frustração severa quando não obtém respostas rápidas em dúvidas.",
+        "Falta de espaço integrado para fazer anotações sem pausar o player.",
+        "Dificuldade em manter foco caso o conteúdo pareça desatualizado."
+      ],
+      oportunidades: [
+        "Bloco de notas integrado sincronizado com o tempo do vídeo (timestamps).",
+        "Medalhas, conquistas ou incentivos simbólicos por módulo concluído.",
+        "Certificado intermediário e badges colecionáveis como reforço positivo."
+      ]
     },
     {
       id: "fidelizacao",
       label: "5. Fidelização",
       desc: "Evolução Tangível",
-      contexto: "Após 2 meses, Sofia resgatou uma mentoria de portfólio na loja com os pontos que acumulou estudando.",
-      acao: "Renova sua assinatura de estudos e recomenda o aplicativo para colegas de trabalho.",
-      pensamento: "'Pela primeira vez, terminei um módulo e ganhei um feedback real no meu portfólio pelo meu esforço diário.'",
-      dor: "Sentimento de platô ou fim das recompensas motivadoras de curto prazo.",
-      oportunidade: "Atualizar os benefícios da loja periodicamente e incentivar Sofia a se tornar mentora de novos alunos na comunidade."
+      contexto: "Finaliza parte da jornada. Sofia sente-se mais confiante para portfólio, mas valoriza imensamente a comunidade e o networking.",
+      acoes: [
+        "Compartilha conquistas e certificados intermediários no LinkedIn",
+        "Participa de eventos ao vivo e mentorias em grupo",
+        "Indica a plataforma para colegas interessados em migração"
+      ],
+      pensamentos: [
+        "Gostei do curso, principalmente do apoio dos professores.",
+        "Me sinto cada vez mais pronta para entrar no mercado."
+      ],
+      sentimentos: ["Satisfação", "Orgulho", "Pertencimento"],
+      dores: [
+        "Dificuldade para manter o networking ativo após concluir as aulas.",
+        "Perda de contato com professores e monitores ao fim do curso."
+      ],
+      oportunidades: [
+        "Acesso contínuo e vitalício à comunidade e ao chat de alunos.",
+        "Convites preferenciais para mentorias avançadas e trilhas corporativas.",
+        "Eventos integrando ex-alunos com recrutadores e profissionais ativos."
+      ]
     }
   ];
 
   const current = stages.find((s) => s.id === activeStage) || stages[0];
 
   return (
-    <section className="py-24 bg-surface/10 border-y border-border transition-all duration-300">
+    <section id="pesquisa" className="py-24 bg-surface/10 border-y border-border transition-all duration-300">
       <div className="max-w-7xl mx-auto px-6">
+        
         <div className="text-center mb-16 space-y-4">
-          <span className="text-xs font-bold uppercase tracking-widest text-brand">Fluxo e Sentimento</span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Jornada do Usuário</h2>
-          <p className="text-text-secondary max-w-2xl mx-auto text-sm">
-            Mapeamento estratégico da jornada comportamental da persona Sofia, cobrindo sentimentos, dores e oportunidades do primeiro contato à fidelização.
+          <span className="text-xs font-bold uppercase tracking-widest text-brand">Entendimento do Comportamento</span>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Jornada da Persona Sofia</h2>
+          <p className="text-text-secondary max-w-3xl mx-auto text-sm leading-relaxed">
+            A jornada da Sofia organiza os principais momentos de decisão, uso e continuidade identificados na pesquisa. Ela ajudou a transformar dores comportamentais em oportunidades de produto, conectando motivação, suporte, progresso e retenção.
           </p>
         </div>
 
@@ -78,7 +155,7 @@ export default function JourneyMap() {
               onClick={() => setActiveStage(stage.id)}
               className={`flex-1 text-center py-4 px-5 rounded-2xl border transition-all duration-300 flex-shrink-0 min-w-[160px] md:min-w-0 cursor-pointer ${
                 activeStage === stage.id
-                  ? "bg-surface-elevated border-brand/40 shadow-md"
+                  ? "bg-surface-elevated border-brand/40 shadow-md scale-[1.01]"
                   : "bg-surface/30 border-border/40 opacity-60 hover:opacity-100"
               }`}
             >
@@ -90,56 +167,105 @@ export default function JourneyMap() {
           ))}
         </div>
 
-        {/* Tab Content Display */}
-        <div className="bg-gradient-to-br from-surface to-surface-elevated border border-border rounded-3xl p-8 shadow-lg relative transition-all duration-300">
+        {/* Journey Content Grid */}
+        <div className="bg-gradient-to-br from-surface to-surface-elevated border border-border rounded-3xl p-6 md:p-10 shadow-lg relative transition-all duration-300">
           <div className="absolute top-0 right-0 w-64 h-64 bg-brand/3 dark:bg-brand/5 rounded-full blur-[80px] pointer-events-none" />
           
-          <div className="grid md:grid-cols-12 gap-8 items-start">
+          <div className="grid lg:grid-cols-12 gap-8 items-start">
             
-            {/* Left side: Context & Action */}
-            <div className="md:col-span-6 space-y-6">
-              <div className="space-y-2">
-                <span className="text-[9px] font-bold text-brand uppercase tracking-wider">Cenário Comportamental</span>
-                <h4 className="text-xl font-bold text-text-primary flex items-center gap-2">
-                  <Compass className="w-5 h-5 text-brand" />
-                  Contexto Atual
-                </h4>
-                <p className="text-xs text-text-secondary leading-relaxed">{current.contexto}</p>
+            {/* Left Side: Context, Actions, Thoughts, Feelings */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Contexto */}
+              <div className="space-y-1.5">
+                <span className="text-[9px] font-bold text-brand uppercase tracking-wider block">Contexto Comportamental</span>
+                <div className="flex gap-2.5 items-start">
+                  <Compass className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" />
+                  <p className="text-xs text-text-secondary leading-relaxed">{current.contexto}</p>
+                </div>
               </div>
 
+              {/* Ações */}
               <div className="space-y-2">
-                <h4 className="text-xl font-bold text-text-primary flex items-center gap-2">
-                  <Eye className="w-5 h-5 text-brand" />
-                  Ação do Usuário
+                <h4 className="text-xs font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
+                  <Eye className="w-4 h-4 text-brand-strong" />
+                  Ações Realizadas
                 </h4>
-                <p className="text-xs text-text-secondary leading-relaxed">{current.acao}</p>
+                <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-5 leading-relaxed">
+                  {current.acoes.map((acao, i) => (
+                    <li key={i}>{acao}</li>
+                  ))}
+                </ul>
               </div>
 
-              <div className="bg-brand/5 border border-brand/15 rounded-2xl p-5 italic text-text-primary text-xs relative">
-                <span className="absolute top-3 left-4 text-3xl text-brand-soft/40 font-serif leading-none">“</span>
-                <p className="pl-6 relative z-10 leading-relaxed">{current.pensamento}</p>
+              {/* Sentimentos (Chips) */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
+                  <Smile className="w-4 h-4 text-brand-strong" />
+                  Sentimentos Associados
+                </h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {current.sentimentos.map((sent, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1 rounded-full bg-brand/10 border border-brand/20 text-brand-strong text-[10px] font-bold"
+                    >
+                      {sent}
+                    </span>
+                  ))}
+                </div>
               </div>
+
+              {/* O que ela Pensa */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4 text-brand-strong" />
+                  O que ela Pensa / Citações
+                </h4>
+                <div className="space-y-2">
+                  {current.pensamentos.map((pens, i) => (
+                    <div
+                      key={i}
+                      className="bg-surface p-3 rounded-2xl border border-border/60 text-xs text-text-secondary italic leading-relaxed relative"
+                    >
+                      <span className="absolute top-2 left-3 text-2xl text-brand-soft/20 font-serif">“</span>
+                      <p className="pl-5">{pens}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
 
-            {/* Right side: Pain & Opportunity */}
-            <div className="md:col-span-6 space-y-6">
-              {/* Dor */}
-              <div className="bg-red-500/5 dark:bg-red-500/3 border border-red-500/10 rounded-2xl p-6 space-y-2">
-                <h4 className="text-sm font-bold text-red-500 uppercase tracking-wider flex items-center gap-2">
+            {/* Right Side: Dores (Friction Points) & Opportunities */}
+            <div className="lg:col-span-5 space-y-6">
+              
+              {/* Dores */}
+              <div className="bg-red-500/5 dark:bg-red-500/3 border border-red-500/10 rounded-2xl p-6 space-y-3">
+                <h4 className="text-xs font-bold text-red-500 uppercase tracking-wider flex items-center gap-2">
                   <ShieldAlert className="w-4 h-4 text-red-500" />
-                  Dor / Ponto de Fricção
+                  Dores / Pontos de Fricção
                 </h4>
-                <p className="text-xs text-text-secondary leading-relaxed">{current.dor}</p>
+                <ul className="space-y-2 text-xs text-text-secondary list-disc pl-5 leading-relaxed">
+                  {current.dores.map((dor, i) => (
+                    <li key={i} className="marker:text-red-500/70">{dor}</li>
+                  ))}
+                </ul>
               </div>
 
-              {/* Oportunidade */}
-              <div className="bg-brand/5 border border-brand/10 rounded-2xl p-6 space-y-2">
-                <h4 className="text-sm font-bold text-brand-strong uppercase tracking-wider flex items-center gap-2">
+              {/* Oportunidades */}
+              <div className="bg-brand/5 border border-brand/10 rounded-2xl p-6 space-y-3">
+                <h4 className="text-xs font-bold text-brand-strong uppercase tracking-wider flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-brand" />
-                  Oportunidade de Produto
+                  Oportunidades de Produto
                 </h4>
-                <p className="text-xs text-text-secondary leading-relaxed">{current.oportunidade}</p>
+                <ul className="space-y-2 text-xs text-text-secondary list-disc pl-5 leading-relaxed">
+                  {current.oportunidades.map((op, i) => (
+                    <li key={i} className="marker:text-brand">{op}</li>
+                  ))}
+                </ul>
               </div>
+
             </div>
 
           </div>
