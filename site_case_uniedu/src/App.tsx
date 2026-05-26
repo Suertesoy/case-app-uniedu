@@ -24,6 +24,7 @@ import {
   Sun,
   Moon
 } from "lucide-react";
+import CursorTrail from "./components/CursorTrail";
 
 export default function App() {
   const [activeSolutionTab, setActiveSolutionTab] = useState("home");
@@ -55,6 +56,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-page text-text-primary selection:bg-brand selection:text-white font-sans transition-colors duration-300">
+      <CursorTrail />
       
       {/* 1. HEADER */}
       <header className="sticky top-0 z-50 bg-page/80 backdrop-blur-md border-b border-border transition-all duration-300">
