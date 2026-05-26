@@ -23,14 +23,15 @@ export default function CursorTrail() {
 
     // Track active particle elements and their timeouts for complete cleanup
     const activeParticles: { element: HTMLDivElement; timeoutId: number }[] = [];
+    const maxParticles = 45;
 
     // Track previous mouse position to calculate angle/direction
     let prevX: number | null = null;
     let prevY: number | null = null;
 
-    // Limit particles density by throttling (e.g. 30ms)
+    // Limit particles density by throttling (e.g. 24ms)
     let lastTime = 0;
-    const throttleMs = 30;
+    const throttleMs = 24;
 
     const handleMouseMove = (e: MouseEvent) => {
       const now = Date.now();
@@ -59,11 +60,22 @@ export default function CursorTrail() {
     };
 
     const createParticle = (x: number, y: number, angle: number) => {
+      // Enforce maximum particle cap to avoid performance degradation
+      if (activeParticles.length >= maxParticles) {
+        const oldest = activeParticles.shift();
+        if (oldest) {
+          window.clearTimeout(oldest.timeoutId);
+          if (container.contains(oldest.element)) {
+            container.removeChild(oldest.element);
+          }
+        }
+      }
+
       const particle = document.createElement("div");
       
       // Capsule shape: width larger than height
-      const width = Math.floor(Math.random() * 11) + 14; // 14px to 24px
-      const height = Math.floor(Math.random() * 5) + 5; // 5px to 9px
+      const width = Math.floor(Math.random() * 9) + 16; // 16px to 24px
+      const height = Math.floor(Math.random() * 4) + 6; // 6px to 9px
       
       particle.style.position = "fixed";
       particle.style.left = `${x - width / 2}px`;
@@ -78,13 +90,13 @@ export default function CursorTrail() {
       // Use radial gradient for soft fade at the edges and intense center
       particle.style.background = "radial-gradient(ellipse, var(--cursor-trail-color) 0%, transparent 85%)";
       
-      // High presence double glow box shadow
-      particle.style.boxShadow = "0 0 10px var(--cursor-trail-glow), 0 0 22px var(--cursor-trail-glow)";
+      // High presence double glow box shadow (wider spread)
+      particle.style.boxShadow = "0 0 12px var(--cursor-trail-glow), 0 0 28px var(--cursor-trail-glow)";
       
       // Set initial transform with rotation and scale(1)
       particle.style.transform = `rotate(${angle}deg) scale(1)`;
       particle.style.opacity = "1";
-      particle.style.transition = "transform 0.85s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.85s cubic-bezier(0.1, 0.8, 0.3, 1)";
+      particle.style.transition = "transform 1.25s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.25s cubic-bezier(0.1, 0.8, 0.3, 1)";
 
       container.appendChild(particle);
 
@@ -97,7 +109,7 @@ export default function CursorTrail() {
       // Track particle and its timeout for removal
       const timeoutId = window.setTimeout(() => {
         removeParticle(particle, timeoutId);
-      }, 850);
+      }, 1250);
 
       activeParticles.push({ element: particle, timeoutId });
     };
