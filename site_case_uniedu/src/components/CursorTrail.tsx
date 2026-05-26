@@ -24,6 +24,10 @@ export default function CursorTrail() {
     // Track active particle elements and their timeouts for complete cleanup
     const activeParticles: { element: HTMLDivElement; timeoutId: number }[] = [];
 
+    // Track previous mouse position to calculate angle/direction
+    let prevX: number | null = null;
+    let prevY: number | null = null;
+
     // Limit particles density by throttling (e.g. 30ms)
     let lastTime = 0;
     const throttleMs = 30;
@@ -33,46 +37,67 @@ export default function CursorTrail() {
       if (now - lastTime < throttleMs) return;
       lastTime = now;
 
-      createParticle(e.clientX, e.clientY);
+      const x = e.clientX;
+      const y = e.clientY;
+
+      if (prevX !== null && prevY !== null) {
+        const dx = x - prevX;
+        const dy = y - prevY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Only draw if mouse has moved a threshold distance
+        if (distance > 3) {
+          const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+          createParticle(x, y, angle);
+        }
+      } else {
+        createParticle(x, y, 0);
+      }
+
+      prevX = x;
+      prevY = y;
     };
 
-    const createParticle = (x: number, y: number) => {
+    const createParticle = (x: number, y: number, angle: number) => {
       const particle = document.createElement("div");
       
-      // Size between 6px and 12px
-      const size = Math.floor(Math.random() * 7) + 6;
+      // Capsule shape: width larger than height
+      const width = Math.floor(Math.random() * 11) + 14; // 14px to 24px
+      const height = Math.floor(Math.random() * 5) + 5; // 5px to 9px
       
       particle.style.position = "fixed";
-      particle.style.left = `${x - size / 2}px`;
-      particle.style.top = `${y - size / 2}px`;
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.borderRadius = "50%";
+      particle.style.left = `${x - width / 2}px`;
+      particle.style.top = `${y - height / 2}px`;
+      particle.style.width = `${width}px`;
+      particle.style.height = `${height}px`;
+      particle.style.borderRadius = "9999px"; // capsule/feixe shape
       particle.style.pointerEvents = "none";
       particle.style.userSelect = "none";
       particle.style.zIndex = "9999";
       
-      // Use variables defined in index.css
-      particle.style.backgroundColor = "var(--cursor-trail)";
-      particle.style.boxShadow = "0 0 8px var(--cursor-trail-glow)";
+      // Use radial gradient for soft fade at the edges and intense center
+      particle.style.background = "radial-gradient(ellipse, var(--cursor-trail-color) 0%, transparent 85%)";
       
-      // Scale and opacity transitions
-      particle.style.transform = "scale(1)";
+      // High presence double glow box shadow
+      particle.style.boxShadow = "0 0 10px var(--cursor-trail-glow), 0 0 22px var(--cursor-trail-glow)";
+      
+      // Set initial transform with rotation and scale(1)
+      particle.style.transform = `rotate(${angle}deg) scale(1)`;
       particle.style.opacity = "1";
-      particle.style.transition = "transform 0.6s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.6s cubic-bezier(0.1, 0.8, 0.3, 1)";
+      particle.style.transition = "transform 0.85s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.85s cubic-bezier(0.1, 0.8, 0.3, 1)";
 
       container.appendChild(particle);
 
       // Start fade/scale transition in next frame
       requestAnimationFrame(() => {
-        particle.style.transform = "scale(0.2)";
+        particle.style.transform = `rotate(${angle}deg) scale(0.15)`;
         particle.style.opacity = "0";
       });
 
       // Track particle and its timeout for removal
       const timeoutId = window.setTimeout(() => {
         removeParticle(particle, timeoutId);
-      }, 600);
+      }, 850);
 
       activeParticles.push({ element: particle, timeoutId });
     };

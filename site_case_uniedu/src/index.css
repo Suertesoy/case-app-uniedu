@@ -16,8 +16,8 @@
   --hero-glow-1: rgba(216, 27, 96, 0.06);
   --hero-glow-2: rgba(240, 98, 146, 0.03);
   
-  --cursor-trail: rgba(216, 27, 96, 0.4);
-  --cursor-trail-glow: rgba(216, 27, 96, 0.15);
+  --cursor-trail-color: #D81B60;
+  --cursor-trail-glow: rgba(216, 27, 96, 0.25);
 }
 
 .dark {
@@ -36,8 +36,8 @@
   --hero-glow-1: rgba(216, 27, 96, 0.12);
   --hero-glow-2: rgba(240, 98, 146, 0.06);
   
-  --cursor-trail: rgba(244, 143, 177, 0.6);
-  --cursor-trail-glow: rgba(244, 143, 177, 0.3);
+  --cursor-trail-color: #F48FB1;
+  --cursor-trail-glow: rgba(244, 143, 177, 0.45);
 }
 
 @theme {
@@ -54,7 +54,7 @@
   --color-glow-1: var(--hero-glow-1);
   --color-glow-2: var(--hero-glow-2);
   
-  --color-cursor-trail: var(--cursor-trail);
+  --color-cursor-trail-color: var(--cursor-trail-color);
   --color-cursor-trail-glow: var(--cursor-trail-glow);
 }
 
