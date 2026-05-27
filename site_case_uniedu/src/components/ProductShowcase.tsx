@@ -2,413 +2,152 @@ import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import MockupReveal3D from "./MockupReveal3D";
 
+interface Decision {
+  id: string;
+  label: string;
+  subtitle: string;
+  image: string;
+  dor: string;
+  insight: string;
+  decisao: string;
+  telaDesc: string;
+  valor: string;
+}
+
+const decisions: Decision[] = [
+  {
+    id: "primeiro-acesso",
+    label: "Primeiro acesso",
+    subtitle: "Login, loading e entrada guiada no produto",
+    image: "/case-screens/01-primeiro-acesso.png",
+    dor: "Plataformas EAD perdem alunos nos primeiros minutos por interfaces confusas ou fluxos de entrada que não criam expectativa positiva sobre o que vem a seguir.",
+    insight: "O primeiro acesso é o momento de maior expectativa e menor comprometimento — a interface deve gerar confiança imediata e curiosidade antes de qualquer conteúdo.",
+    decisao: "Projetar um fluxo de login com identidade visual forte, seguido de uma loading experience com narrativa de marca que prepara o aluno para o ecossistema que vai encontrar.",
+    telaDesc: "Tela de login com logo UNIEDU, campos de acesso e loading animado com feedback de boas-vindas antes da entrada na Home.",
+    valor: "Reduz a ansiedade inicial e cria o primeiro momento de percepção de qualidade do produto, ancorando positivamente a experiência antes mesmo do primeiro conteúdo.",
+  },
+  {
+    id: "plano-estudos",
+    label: "Plano de estudos",
+    subtitle: "Rotina adaptável ao tempo real do aluno",
+    image: "/case-screens/02-plano-estudos.png",
+    dor: "Cronogramas rígidos e metas inalcançáveis fazem o aluno desistir na primeira semana em que a vida real não coopera com a grade do curso.",
+    insight: "Flexibilidade é a principal variável de retenção em cursos online — quem ajusta o ritmo sem sentir falha continua estudando; quem não consegue, abandona.",
+    decisao: "Criar um configurador com planos pré-definidos (Intensivo, Dedicado, Equilibrado, Noturno, Consistente) que o aluno escolhe no onboarding e pode revisar a qualquer momento sem penalidade.",
+    telaDesc: "Cards de seleção de plano com ritmo semanal, horas por dia e tag de perfil comportamental. Estado selecionado com checkmark rosa e CTA para salvar.",
+    valor: "O aluno entra com expectativa realista sobre seu próprio ritmo, reduzindo a sensação de fracasso e aumentando a adesão no médio prazo.",
+  },
+  {
+    id: "onboarding-jornada",
+    label: "Onboarding da jornada",
+    subtitle: "Ciclo aprender → interagir → evoluir → ganhar",
+    image: "/case-screens/03-onboarding-jornada.png",
+    dor: "Alunos não compreendem como o sistema de pontos e recompensas funciona, ignorando funcionalidades que os motivariam a continuar na plataforma.",
+    insight: "Explicar o ciclo de valor logo no primeiro acesso transforma a plataforma de repositório de vídeos em uma experiência de progresso com recompensas reais e percebidas.",
+    decisao: "Criar um modal de onboarding na Home que apresenta visualmente o ecossistema completo — os 4 pilares da jornada — com ícones temáticos e linguagem direta.",
+    telaDesc: "Modal centralizado com mascote UNIEDU, 4 etapas ilustradas (Aprender, Interagir, Evoluir, Ganhar) e CTA 'ENTENDI' para liberar a Home principal.",
+    valor: "Aumenta o entendimento do produto desde o dia 1, gerando engajamento com todas as funcionalidades da plataforma e não apenas com as aulas.",
+  },
+  {
+    id: "home-progresso",
+    label: "Home de progresso",
+    subtitle: "Continuidade, aula em destaque e streak visível",
+    image: "/case-screens/04-home-progresso.png",
+    dor: "Sofia estuda esporadicamente e sente que seu esforço diário é invisível, perdendo o incentivo ao ver apenas barras de progresso semestrais rígidas e impessoais.",
+    insight: "Os alunos necessitam de feedback imediato de suas pequenas vitórias para estabelecer constância como hábito — a Home é o momento de maior abertura para essa mensagem.",
+    decisao: "Criar uma Home centrada em continuidade: saldo de pontos visível, streak ativo, card de última aula com CTA imediato e acesso rápido ao plano de estudos e dúvidas.",
+    telaDesc: "Header com logo, saldo de pontos e notificações. Card de aula em destaque com thumbnail em gradiente, barra de progresso e botão CONTINUAR. Seções de plano e dúvidas.",
+    valor: "Transforma o esforço incremental do aluno em progresso tangível e motivador desde os primeiros segundos do dia, reduzindo o abandono por falta de engajamento.",
+  },
+  {
+    id: "jornada-aprendizado",
+    label: "Jornada de aprendizado",
+    subtitle: "Checklist gamificado que ativa o ecossistema",
+    image: "/case-screens/05-jornada-aprendizado.png",
+    dor: "Sem orientação sobre o próximo passo, o aluno navega por curiosidade em vez de estratégia, perdendo o fio condutor do progresso e não interagindo com o ecossistema completo.",
+    insight: "Gamificar as ações mais valiosas da plataforma com um checklist temporário ativa comportamentos-chave que, quando repetidos, se tornam hábitos duradouros.",
+    decisao: "Criar um bloco 'Jornada de aprendizado' na Home com checklist de 4 ações diárias (aula, comentário, conquista, resgate) com badges de recompensa e barra de progresso visível.",
+    telaDesc: "Card com gradiente rosa-magenta, barra de progresso da jornada diária, 4 itens interativos com ícone e badge de pontos. Estado concluído com riscado e feedback verde.",
+    valor: "Orienta o aluno sobre o que fazer além de assistir aulas, ativando o ciclo completo de valor da plataforma e consolidando hábitos de estudo mais ricos.",
+  },
+  {
+    id: "aulas-trilhas",
+    label: "Aulas e trilhas",
+    subtitle: "Conteúdo organizado por módulos com progresso claro",
+    image: "/case-screens/06-aulas-trilhas.png",
+    dor: "Catálogos desordenados geram paralisia por excesso de escolha e impedem o aluno de manter uma trilha coerente de aprendizado ao longo do semestre.",
+    insight: "A progressão clara por módulos com indicadores visuais de estado reduz a carga cognitiva e mantém o aluno em movimento — ele sempre sabe o próximo passo.",
+    decisao: "Organizar as aulas em módulos sequenciais com barra de progresso individual, acesso rápido à última aula assistida e destaque visual para a próxima aula desbloqueada.",
+    telaDesc: "Lista de módulos com aulas numeradas, progresso em barra colorida e ícones de estado (concluído, em andamento). Thumbnail e CTA de continuidade destacados.",
+    valor: "O aluno sabe exatamente onde está na trilha e o que vem a seguir, reduzindo o tempo de decisão e aumentando o tempo efetivo dedicado ao conteúdo.",
+  },
+  {
+    id: "player-integrado",
+    label: "Player integrado",
+    subtitle: "Estudo, notas e contexto no mesmo fluxo",
+    image: "/case-screens/07-player-integrado.png",
+    dor: "A dispersão mental ao alternar entre o player de vídeo e softwares externos de anotação quebra o fluxo de concentração e reduz a retenção do conteúdo assistido.",
+    insight: "Escrever e sintetizar no momento em que o conteúdo é consumido fixa o aprendizado — eliminar o atrito de troca de ferramenta é uma decisão de produto, não apenas de UX.",
+    decisao: "Unificar player de vídeo, notas contextuais por aula, discussões e acesso ao suporte IA em uma única tela, com salvamento automático e atalho flutuante para anotar durante o vídeo.",
+    telaDesc: "Player com thumbnail em gradiente. Abas de Discussões, Notas, Arquivos e Turma. Bloco de notas com salvamento automático e FAB flutuante para nova anotação.",
+    valor: "Mantém a atenção em um único espaço, aumenta a retenção do conteúdo e cria um banco de conhecimento pessoal do aluno dentro da própria plataforma.",
+  },
+  {
+    id: "loja-recompensas",
+    label: "Loja de recompensas",
+    subtitle: "Pontos convertidos em valor real para a carreira",
+    image: "/case-screens/08-loja-recompensas.png",
+    dor: "Pontos fictícios ou medalhas virtuais perdem o apelo em poucas semanas por não gerarem valor real para a vida profissional do aluno.",
+    insight: "Para motivar o esforço contínuo, a recompensa deve ser útil e valiosa no mundo real — preferencialmente ligada ao crescimento de carreira do próprio aluno.",
+    decisao: "Criar uma loja onde pontos acumulados por constância são trocados por mentoria 1:1, review de portfólio, templates Figma, certificados premium e workshops ao vivo.",
+    telaDesc: "Header com saldo de pontos. Strip de como ganhar. Filtros por categoria (Digital, Mentoria, Curso, Certificado). Grid de produtos com preço e estado de acessibilidade por saldo.",
+    valor: "Vincula o esforço diário a conquistas profissionais tangíveis, tornando a consistência nos estudos uma estratégia de carreira com retorno percebido.",
+  },
+  {
+    id: "comunidade",
+    label: "Comunidade",
+    subtitle: "Troca entre alunos, prova social e pertencimento",
+    image: "/case-screens/09-comunidade.png",
+    dor: "Fóruns estáticos e isolados desestimulam a interação genuína e deixam o aluno se sentindo sozinho em um processo que deveria ser coletivo e estimulante.",
+    insight: "Prova social e pertencimento a uma comunidade ativa são fatores de retenção tão poderosos quanto a qualidade do conteúdo — em alguns perfis, ainda mais.",
+    decisao: "Criar um feed com múltiplas seções (perguntas, feedback de projetos, vagas, eventos, apresentações) e badges de role para diferenciar Mentores, Experientes e Iniciantes.",
+    telaDesc: "Feed com cards de publicações, avatar, role badge (Mentor/Experiente/Iniciante) e contadores de reações. Navegação rápida para Perguntas, Feedback, Vagas e Eventos.",
+    valor: "Combate o isolamento do EAD e cria senso de comunidade profissional, aumentando o engajamento e a permanência na plataforma por razões sociais além do conteúdo.",
+  },
+  {
+    id: "suporte-ia",
+    label: "Suporte e IA contextual",
+    subtitle: "Ajuda no momento de dúvida sem quebrar o estudo",
+    image: "/case-screens/10-suporte-ia.png",
+    dor: "Travar em um exercício e depender de fóruns com resposta incerta paralisa o ritmo e força o abandono da aula — o momento de maior atrito se torna o de maior risco de churn.",
+    insight: "O suporte deve ser imediato e contextualizado — uma IA que conhece as notas e o conteúdo atual do aluno guia a solução de forma muito mais eficaz do que um fórum genérico.",
+    decisao: "Criar um chat com IA que lê o contexto da aula atual e as anotações do aluno, com rota de escalada para monitor humano quando a dúvida exige intervenção.",
+    telaDesc: "Chat com avatar do mascote UNIEDU, bolhas de diálogo com leitura do contexto da aula, sugestões de próximos passos e botão de escalada para monitor.",
+    valor: "Resolve dúvidas no momento exato de atrito, sem quebrar o fluxo de estudo e sem depender de fóruns com tempo de resposta imprevisível.",
+  },
+  {
+    id: "perfil-progresso",
+    label: "Perfil e progresso",
+    subtitle: "Evolução visível, conquistas e próximas metas",
+    image: "/case-screens/11-perfil-progresso.png",
+    dor: "Alunos perdem a noção de quanto já evoluíram, o que reduz a motivação para continuar em momentos de dificuldade — o esforço acumulado fica invisível.",
+    insight: "Ver o próprio crescimento acumulado — aulas, horas, conquistas e certificados — reforça a identidade de quem está progredindo e reduz o churn no médio prazo.",
+    decisao: "Criar um perfil que exibe nível atual com XP, conquistas desbloqueadas, estatísticas de estudo (aulas, horas, dias ativos) e histórico de resgates na loja.",
+    telaDesc: "Header com avatar e nível atual. Cards de estatísticas, badge de conquistas e histórico de resgates. Seção de próximas metas desbloqueáveis com pontos necessários.",
+    valor: "Cria uma narrativa de crescimento pessoal e profissional que o aluno pode visualizar e compartilhar, reforçando sua identidade como alguém em constante evolução.",
+  },
+];
+
 export default function ProductShowcase() {
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeId, setActiveId] = useState("primeiro-acesso");
+  const [imageError, setImageError] = useState(false);
 
-  const modules = [
-    {
-      id: "home",
-      label: "Home de Progresso",
-      subtitle: "Gamificação e tracking comportamental",
-      dor: "Sofia estuda esporadicamente e sente que seu esforço diário é invisível, perdendo o incentivo ao ver apenas barras de progresso semestrais rígidas.",
-      insight: "Os alunos necessitam de feedback imediato de suas pequenas vitórias de aprendizagem para estabelecer constância como hábito.",
-      decisao: "Criar uma Home com foco em micro-onboarding, exibindo um saldo de pontos visível, streaks ativos (sequência de dias) e atalhos rápidos de continuidade do conteúdo.",
-      telaDesc: "Painel mobile dinâmico com indicador de sequência (ex. ⚡ 5 Dias), checklist de boas-vindas e pontuação acumulada.",
-      valor: "Transforma o esforço incremental do aluno em progresso tangível e motivador desde os primeiros segundos do dia.",
-      mockContent: (
-        <div className="space-y-2.5">
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-border/40 pb-2">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-[#A31545] rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-[7px] font-black text-white">U</span>
-              </div>
-              <div>
-                <p className="text-[6px] text-text-secondary uppercase tracking-wider leading-none">Olá,</p>
-                <p className="text-[9px] font-bold text-text-primary leading-tight">Fernanda</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-1 bg-brand/10 border border-brand/20 rounded-full px-2 py-0.5">
-              <span className="text-[7px]">🪙</span>
-              <span className="text-[8px] font-bold text-brand-strong">450 pts</span>
-            </div>
-          </div>
+  const active = decisions.find((d) => d.id === activeId) ?? decisions[0];
 
-          {/* Aula em destaque */}
-          <div>
-            <p className="text-[7px] font-bold text-text-primary mb-1.5">Você está aqui:</p>
-            <div className="bg-surface border border-border rounded-xl overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-br from-[#F48FB1] via-[#EC407A] to-[#A31545] relative h-[60px] flex items-center justify-center">
-                <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center shadow-md">
-                  <span className="text-[#A31545] text-[10px] ml-0.5">▶</span>
-                </div>
-                <span className="absolute bottom-1 right-1.5 bg-black/60 text-white text-[5px] px-1 py-0.5 rounded font-medium">28:22 / 43:39</span>
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/20">
-                  <div className="h-full w-[65%] bg-white/80" />
-                </div>
-              </div>
-              <div className="px-2.5 pt-1.5 pb-2">
-                <p className="text-[6px] text-text-secondary leading-tight mb-1.5">UX Research: Pesquisas Longitudinais — Parte 1</p>
-                <div className="bg-[#A31545] text-white text-center text-[6px] font-bold py-1 rounded-lg tracking-widest">CONTINUAR</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Jornada de aprendizado */}
-          <div className="bg-gradient-to-br from-[#F48FB1] via-[#EC407A] to-[#A31545] rounded-xl p-2.5">
-            <div className="flex items-center justify-between mb-1">
-              <p className="text-[6px] font-bold text-white/70 uppercase tracking-wider">Jornada de hoje</p>
-              <span className="text-[5px] font-bold text-white/80 bg-white/15 px-1 py-0.5 rounded-full">1/4</span>
-            </div>
-            <div className="h-0.5 bg-white/20 rounded-full mb-2">
-              <div className="h-full w-1/4 bg-white/70 rounded-full" />
-            </div>
-            <div className="space-y-1">
-              {[
-                { icon: "📚", label: "Assistir uma aula", pts: "+50 pts", done: true },
-                { icon: "💬", label: "Comentar na aula", pts: "+10 pts", done: false },
-                { icon: "⭐", label: "Ganhar conquista", pts: "+XP", done: false },
-                { icon: "🎁", label: "Resgatar prêmio", pts: "🎉", done: false },
-              ].map((item, i) => (
-                <div key={i} className={`flex items-center gap-1.5 px-2 py-1 rounded-lg ${item.done ? "bg-white/20 border border-white/25" : "bg-white/10"}`}>
-                  <div className={`w-3.5 h-3.5 rounded-full border flex-shrink-0 flex items-center justify-center ${item.done ? "bg-green-400 border-green-400" : "border-white/40"}`}>
-                    {item.done && <span className="text-[5px] text-white font-bold">✓</span>}
-                  </div>
-                  <span className="text-[8px]">{item.icon}</span>
-                  <span className={`text-[7px] flex-1 leading-none ${item.done ? "text-white/50 line-through" : "text-white"}`}>{item.label}</span>
-                  <span className={`text-[5px] font-bold px-1 py-0.5 rounded-full flex-shrink-0 ${item.done ? "bg-green-400/30 text-green-200" : "bg-white/15 text-white/70"}`}>{item.pts}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Stats row */}
-          <div className="grid grid-cols-2 gap-1.5">
-            <div className="bg-surface border border-border rounded-xl p-2 text-center">
-              <p className="text-[5px] text-text-secondary uppercase tracking-wide">Pontos</p>
-              <p className="text-[12px] font-extrabold text-brand-strong mt-0.5">450</p>
-            </div>
-            <div className="bg-surface border border-border rounded-xl p-2 text-center">
-              <p className="text-[5px] text-text-secondary uppercase tracking-wide">Sequência</p>
-              <p className="text-[10px] font-extrabold text-text-primary mt-0.5">⚡ 5 dias</p>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "estatisticas",
-      label: "Plano de Estudos",
-      subtitle: "Cronograma dinâmico e flexível",
-      dor: "A rigidez dos cronogramas tradicionais pune alunos em semanas atribuladas de trabalho, gerando frustração e sensação de incapacidade.",
-      insight: "A flexibilidade estimula a constância. É mais efetivo diminuir o ritmo temporariamente do que forçar o abandono.",
-      decisao: "Desenvolver um configurador que permite ajustar metas semanais por volume (ex. 3 aulas por semana) e sugere revisões curtas em dias mais cheios.",
-      telaDesc: "Painel de cronograma semanal com gráficos de barras de preenchimento de foco e lembretes para manter o streak ativo.",
-      valor: "Reduz a ansiedade do estudante por meio de um planejamento flexível que se molda à vida real.",
-      mockContent: (
-        <div className="space-y-2">
-          {/* Header */}
-          <div className="border-b border-border/40 pb-2">
-            <p className="text-[6px] text-text-secondary uppercase tracking-wider">Meta de aprendizado</p>
-            <p className="text-[10px] font-bold text-text-primary leading-tight">Plano de Estudos</p>
-          </div>
-
-          {/* Plan cards */}
-          <div className="space-y-1.5">
-            {[
-              { icon: "💪", title: "Dedicado", desc: "2h/dia · 5 dias por semana", tag: "Recomendado", selected: true },
-              { icon: "⚖️", title: "Equilibrado", desc: "3h · 3 dias por semana", tag: "Popular", selected: false },
-              { icon: "🌙", title: "Noturno", desc: "1h/dia · foco nos fins de semana", tag: "Flexível", selected: false },
-              { icon: "🎯", title: "Consistente", desc: "4h · 4 dias por semana", tag: "Eficiente", selected: false },
-            ].map((plan, i) => (
-              <div key={i} className={`flex items-center gap-2 p-2 rounded-xl border-2 ${plan.selected ? "border-[#A31545] bg-[#A31545]/5" : "border-border bg-surface"}`}>
-                <span className="text-[12px] flex-shrink-0">{plan.icon}</span>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1 flex-wrap">
-                    <span className="text-[8px] font-bold text-text-primary">{plan.title}</span>
-                    <span className="text-[5px] font-bold bg-[#A31545]/10 text-brand-strong px-1 py-0.5 rounded-full">{plan.tag}</span>
-                  </div>
-                  <p className="text-[6px] text-text-secondary leading-tight">{plan.desc}</p>
-                </div>
-                {plan.selected && (
-                  <div className="w-4 h-4 bg-[#A31545] rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-[6px] text-white font-bold">✓</span>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Streak tracker */}
-          <div className="bg-surface border border-border rounded-xl p-2">
-            <p className="text-[5px] text-text-secondary font-bold uppercase tracking-wide mb-1.5">Dias ativos desta semana</p>
-            <div className="flex justify-between">
-              {["D", "S", "T", "Q", "Q", "S", "S"].map((d, i) => (
-                <div key={i} className="flex flex-col items-center gap-0.5">
-                  <span className="text-[5px] text-text-secondary">{d}</span>
-                  <div className={`w-4 h-4 rounded-full flex items-center justify-center text-[5px] font-bold ${i >= 1 && i <= 3 ? "bg-[#A31545] text-white" : "bg-surface-elevated border border-border text-text-secondary"}`}>
-                    {i >= 1 && i <= 3 ? "✓" : "·"}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-brand/5 border border-brand/10 rounded-xl p-2">
-            <p className="text-[7px] text-brand-strong font-semibold leading-tight">💡 Escolha um plano realista para manter a consistência!</p>
-          </div>
-
-          <div className="bg-[#A31545] text-white text-center text-[7px] font-bold py-1.5 rounded-xl tracking-widest">SALVAR PLANO</div>
-        </div>
-      ),
-    },
-    {
-      id: "player",
-      label: "Player Integrado",
-      subtitle: "Centralização de foco e anotações rápidas",
-      dor: "A dispersão mental provocada ao alternar entre janelas de vídeo e softwares externos de notas sabota o fluxo de concentração.",
-      insight: "Escrever e sintetizar ideias no momento em que são assistidas fixa o conteúdo e economiza tempo de revisão.",
-      decisao: "Integrar um bloco de notas contextualizado diretamente abaixo do vídeo, salvando anotações vinculadas aos timestamps do player.",
-      telaDesc: "Interface com player de vídeo em andamento e editor de notas ricas abaixo com salvamento automático local.",
-      valor: "Mantém a atenção focada em um único espaço, eliminando o atrito de troca de ferramentas.",
-      mockContent: (
-        <div className="space-y-2">
-          {/* Video area */}
-          <div className="bg-gradient-to-br from-purple-500 via-[#EC407A] to-[#A31545] rounded-xl relative overflow-hidden" style={{ aspectRatio: "16/10" }}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-[#A31545] text-[10px] ml-0.5">▶</span>
-              </div>
-            </div>
-            <div className="absolute top-1.5 right-1.5 bg-black/60 rounded-full px-2 py-0.5 flex items-center gap-0.5">
-              <span className="text-[6px] text-white/80">✏️</span>
-              <span className="text-[5px] text-white font-medium">Anotar</span>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/20">
-              <div className="h-full w-[65%] bg-white/80" />
-            </div>
-            <span className="absolute bottom-1.5 left-2 text-[5px] text-white/80">28:22 / 43:39</span>
-          </div>
-
-          {/* Lesson info + tabs */}
-          <div className="border-b border-border pb-1.5">
-            <p className="text-[6px] text-text-secondary font-bold uppercase tracking-wide">UX Strategy</p>
-            <p className="text-[8px] font-bold text-text-primary leading-tight">Pesquisas Longitudinais — Parte 1</p>
-          </div>
-
-          <div className="flex border-b border-border -mt-0.5">
-            {["Discussões", "Notas", "Arquivos", "Turma"].map((tab, i) => (
-              <div key={i} className={`flex-1 text-center text-[5px] py-1.5 border-b-2 font-semibold ${i === 1 ? "border-[#A31545] text-brand-strong" : "border-transparent text-text-secondary"}`}>
-                {tab}
-              </div>
-            ))}
-          </div>
-
-          {/* Notes content */}
-          <div className="space-y-1.5">
-            {/* IA shortcut */}
-            <div className="flex items-center gap-1.5 bg-violet-50 dark:bg-violet-900/10 border border-violet-200 dark:border-violet-800 rounded-xl px-2 py-1.5">
-              <span className="text-[9px]">🦄</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-[6px] font-semibold text-violet-700 dark:text-violet-400">Dúvida sobre esta aula?</p>
-                <p className="text-[5px] text-violet-500 dark:text-violet-500">IA ou Monitor — resposta imediata</p>
-              </div>
-              <span className="text-[8px] text-violet-400 flex-shrink-0">›</span>
-            </div>
-
-            {/* Add note CTA */}
-            <div className="border-2 border-dashed border-[#A31545]/40 bg-[#A31545]/5 rounded-xl py-2 flex items-center justify-center gap-1.5">
-              <div className="w-4 h-4 bg-[#A31545] rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-[7px] text-white font-bold">+</span>
-              </div>
-              <div>
-                <p className="text-[7px] font-semibold text-brand-strong">Nova anotação</p>
-                <p className="text-[5px] text-text-secondary">Salva automaticamente nesta aula</p>
-              </div>
-            </div>
-
-            {/* Existing note */}
-            <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-800 rounded-xl p-2">
-              <div className="flex items-center gap-1 mb-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" />
-                <span className="text-[5px] text-text-secondary">28 Mai · 10:24 — Salvo</span>
-              </div>
-              <p className="text-[7px] text-text-primary leading-relaxed">"Sofia prefere estudar de manhã. Dor principal: progresso invisível em sessões curtas de estudo..."</p>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "loja",
-      label: "Loja de Recompensas",
-      subtitle: "Fechamento do loop de valor",
-      dor: "Pontos fictícios ou medalhas virtuais vazias perdem o apelo em poucas semanas por não gerarem valor real para a vida do aluno.",
-      insight: "Para motivar o esforço contínuo, a recompensa deve ser percebida como útil e valiosa no mundo real.",
-      decisao: "Acoplar uma loja interna onde os pontos acumulados por constância são resgatados por mentoria individualizada, revisões de portfólio e apoio acadêmico.",
-      telaDesc: "Catálogo de prêmios com descrição de pontos necessários, indicação de saldo e CTAs de resgate imediato.",
-      valor: "Vincula o esforço diário de estudos a conquistas profissionais tangíveis e crescimento na carreira.",
-      mockContent: (
-        <div className="space-y-2">
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-border/40 pb-2">
-            <p className="text-[9px] font-bold text-text-primary">Loja</p>
-            <div className="flex items-center gap-1 bg-brand/10 border border-brand/20 rounded-full px-2 py-0.5">
-              <span className="text-[7px]">🪙</span>
-              <span className="text-[8px] font-bold text-brand-strong">450 pts</span>
-            </div>
-          </div>
-
-          {/* How to earn */}
-          <div className="bg-surface border border-border rounded-xl p-1.5">
-            <p className="text-[5px] text-text-secondary font-bold uppercase tracking-wide mb-1">Ganhe pontos estudando</p>
-            <div className="flex gap-1.5">
-              {[
-                { icon: "▶", label: "Aula concluída", pts: "+50 pts" },
-                { icon: "💬", label: "Comentar", pts: "+10 pts" },
-                { icon: "📝", label: "Publicar", pts: "+50 pts" },
-              ].map((item, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-0.5 bg-[#A31545]/5 rounded-lg py-1">
-                  <span className="text-[8px]">{item.icon}</span>
-                  <span className="text-[5px] text-text-secondary text-center leading-tight">{item.label}</span>
-                  <span className="text-[6px] font-bold text-brand-strong">{item.pts}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Category pills */}
-          <div className="flex gap-1 overflow-hidden">
-            {["Todos", "Digital", "Mentoria", "Curso"].map((cat, i) => (
-              <span key={i} className={`flex-shrink-0 text-[6px] font-bold px-2 py-0.5 rounded-full ${i === 0 ? "bg-[#A31545] text-white" : "bg-surface border border-border text-text-secondary"}`}>
-                {cat}
-              </span>
-            ))}
-          </div>
-
-          {/* Products grid */}
-          <div className="grid grid-cols-3 gap-1.5">
-            {[
-              { icon: "🎨", name: "Template Figma DS", price: 400, canBuy: true },
-              { icon: "🎓", name: "Mentoria 1:1 (1h)", price: 500, canBuy: false },
-              { icon: "📐", name: "Kit Wireframes", price: 200, canBuy: true },
-              { icon: "📚", name: "E-book UX Research", price: 300, canBuy: true },
-              { icon: "🏆", name: "Certificado Premium", price: 300, canBuy: true },
-              { icon: "📋", name: "Review de Portfólio", price: 600, canBuy: false },
-            ].map((item, i) => (
-              <div key={i} className="bg-surface border border-border rounded-xl overflow-hidden">
-                <div className="bg-gradient-to-br from-[#F48FB1]/10 to-[#A31545]/10 py-2 flex items-center justify-center">
-                  <span className="text-[16px]">{item.icon}</span>
-                </div>
-                <div className="p-1 space-y-0.5">
-                  <p className="text-[5px] font-semibold text-text-primary text-center leading-tight line-clamp-2">{item.name}</p>
-                  <div className={`flex items-center justify-center gap-0.5 rounded py-0.5 ${item.canBuy ? "bg-[#A31545]" : "bg-surface-elevated border border-border"}`}>
-                    <span className="text-[5px]">🪙</span>
-                    <span className={`text-[7px] font-bold ${item.canBuy ? "text-white" : "text-text-secondary"}`}>{item.price}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: "comunidade",
-      label: "Comunidade e Suporte",
-      subtitle: "Aprendizagem colaborativa com IA",
-      dor: "Travar em exercícios práticos e ter que esperar dias por respostas em fóruns legados paralisa o ritmo de aprendizado do estudante.",
-      insight: "O suporte nos momentos de atrito deve ser ágil e contextualizado com a dúvida exata e anotações do aluno.",
-      decisao: "Criar uma aba integrada de suporte híbrido: uma IA que lê o contexto e notas do aluno para guiar a solução, além de um chat direto com monitores.",
-      telaDesc: "Fórum interno da turma, chat inteligente com IA contextualizada e área de contato humanizado de monitoria.",
-      valor: "Combate o isolamento do EAD e acelera a resolução de dúvidas, removendo barreiras de atrito.",
-      mockContent: (
-        <div className="space-y-2">
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-border/40 pb-2">
-            <p className="text-[9px] font-bold text-text-primary">Comunidade</p>
-            <div className="flex items-center gap-1">
-              <span className="text-[6px] font-bold bg-brand/10 text-brand-strong px-1.5 py-0.5 rounded-full border border-brand/20">Feed</span>
-              <span className="text-[6px] text-text-secondary px-1 py-0.5">Avisos</span>
-            </div>
-          </div>
-
-          {/* IA shortcut */}
-          <div className="flex items-center gap-1.5 bg-violet-50 dark:bg-violet-900/10 border border-violet-200 dark:border-violet-800 rounded-xl px-2 py-1.5">
-            <span className="text-[10px] flex-shrink-0">🦄</span>
-            <div className="flex-1 min-w-0">
-              <p className="text-[7px] font-semibold text-violet-700 dark:text-violet-400">Dúvida sobre sua aula?</p>
-              <p className="text-[5px] text-violet-500 dark:text-violet-500">IA ou Monitor — resposta imediata</p>
-            </div>
-            <span className="text-[8px] text-violet-400 flex-shrink-0">›</span>
-          </div>
-
-          {/* Post 1 */}
-          <div className="bg-surface border border-border rounded-xl p-2 space-y-1.5">
-            <div className="flex items-start gap-1.5">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#F48FB1] to-[#A31545] flex items-center justify-center text-[8px] flex-shrink-0">👩‍💼</div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1 flex-wrap mb-0.5">
-                  <span className="text-[7px] font-bold text-text-primary">Amanda Laurins</span>
-                  <span className="text-[5px] font-bold bg-[#A31545]/10 text-brand-strong px-1 py-0.5 rounded-full">Experiente</span>
-                  <span className="text-[5px] text-text-secondary ml-auto">3h</span>
-                </div>
-                <p className="text-[7px] text-text-secondary leading-relaxed">Consegui minha primeira vaga como Product Designer Junior! 6 meses após iniciar o curso 🎉</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 pt-1 border-t border-border/40">
-              <button className="flex items-center gap-1 text-[6px] text-brand font-medium">
-                <span>❤️</span> <span>635</span>
-              </button>
-              <button className="flex items-center gap-1 text-[6px] text-text-secondary">
-                <span>💬</span> <span>88</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Post 2 */}
-          <div className="bg-surface border border-border rounded-xl p-2 space-y-1.5">
-            <div className="flex items-start gap-1.5">
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-purple-300 to-indigo-400 flex items-center justify-center text-[8px] flex-shrink-0">👩‍🏫</div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1 flex-wrap mb-0.5">
-                  <span className="text-[7px] font-bold text-text-primary">Juliana Mendes</span>
-                  <span className="text-[5px] font-bold bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-1 py-0.5 rounded-full">Mentor</span>
-                  <span className="text-[5px] text-text-secondary ml-auto">2d</span>
-                </div>
-                <p className="text-[7px] text-text-secondary leading-relaxed">Dica: validem hipóteses com usuários reais antes do design! Economiza muito tempo depois. 💡</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 pt-1 border-t border-border/40">
-              <button className="flex items-center gap-1 text-[6px] text-text-secondary">
-                <span>❤️</span> <span>248</span>
-              </button>
-              <button className="flex items-center gap-1 text-[6px] text-text-secondary">
-                <span>💬</span> <span>42</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Section shortcuts */}
-          <div className="grid grid-cols-3 gap-1">
-            {[
-              { icon: "❓", label: "Perguntas", count: 4 },
-              { icon: "🎨", label: "Feedback", count: 3 },
-              { icon: "💼", label: "Vagas", count: 4 },
-            ].map((s, i) => (
-              <div key={i} className="bg-surface border border-border rounded-xl p-1.5 text-center">
-                <span className="text-[10px]">{s.icon}</span>
-                <p className="text-[5px] text-text-secondary mt-0.5">{s.label}</p>
-                <p className="text-[7px] font-bold text-text-primary">{s.count}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-  ];
-
-  const active = modules.find((m) => m.id === activeTab) || modules[0];
+  const handleSelect = (id: string) => {
+    setImageError(false);
+    setActiveId(id);
+  };
 
   return (
     <section id="produto" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
@@ -416,69 +155,120 @@ export default function ProductShowcase() {
 
       <div className="text-center mb-16 space-y-4">
         <span className="text-xs font-bold uppercase tracking-widest text-brand">Decisões de Design na Tela</span>
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Decisões de Design Orientadas a Telas</h2>
+        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Do Problema ao Produto</h2>
         <p className="text-text-secondary max-w-2xl mx-auto text-sm">
-          Como convertemos as dores e oportunidades comportamentais identificadas na fase de pesquisa em funcionalidades do produto digital.
+          Cada tela do UNIEDU responde a uma dor real identificada na pesquisa. Veja como cada decisão de design foi tomada e qual funcionalidade nasceu dela.
         </p>
       </div>
 
       <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
 
-        {/* Left Side: Module Tabs Navigation */}
-        <div className="lg:col-span-4 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2.5 pb-4 lg:pb-0 scrollbar-none">
-          {modules.map((mod) => (
-            <button
-              key={mod.id}
-              onClick={() => setActiveTab(mod.id)}
-              className={`flex-1 text-left p-5 rounded-2xl border transition-all duration-300 flex-shrink-0 min-w-[200px] lg:min-w-0 cursor-pointer ${
-                activeTab === mod.id
-                  ? "bg-surface-elevated border-brand/40 shadow-lg"
-                  : "bg-surface/50 border-border/50 opacity-60 hover:opacity-100"
-              }`}
-            >
-              <p className={`text-xs font-bold ${activeTab === mod.id ? "text-brand-strong" : "text-text-primary"}`}>
-                {mod.label}
-              </p>
-              <p className="text-[10px] text-text-secondary mt-1">{mod.subtitle}</p>
-            </button>
-          ))}
+        {/* Left: decision list — horizontal scroll on mobile, vertical scroll on desktop */}
+        <div className="lg:col-span-3">
+          <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2 pb-3 lg:pb-0 lg:max-h-[620px] lg:overflow-y-auto scrollbar-none">
+            {decisions.map((d, i) => (
+              <button
+                key={d.id}
+                onClick={() => handleSelect(d.id)}
+                className={`text-left p-3.5 rounded-2xl border transition-all duration-300 flex-shrink-0 min-w-[180px] lg:min-w-0 lg:w-full cursor-pointer ${
+                  activeId === d.id
+                    ? "bg-surface-elevated border-brand/40 shadow-md"
+                    : "bg-surface/50 border-border/50 opacity-60 hover:opacity-100"
+                }`}
+              >
+                <div className="flex items-start gap-2">
+                  <span className={`text-[9px] font-black flex-shrink-0 mt-0.5 ${activeId === d.id ? "text-brand" : "text-text-secondary"}`}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="min-w-0">
+                    <p className={`text-[11px] font-bold leading-tight ${activeId === d.id ? "text-brand-strong" : "text-text-primary"}`}>
+                      {d.label}
+                    </p>
+                    <p className="text-[9px] text-text-secondary mt-0.5 leading-tight line-clamp-2">{d.subtitle}</p>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Center: Device Mockup */}
-        <div className="lg:col-span-4 flex justify-center">
+        {/* Center: phone frame with real screenshot */}
+        <div className="lg:col-span-5 flex justify-center">
           <MockupReveal3D>
-            <div className="w-[300px] h-[550px] bg-black rounded-[48px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-all duration-300">
+            <div className="w-[280px] h-[560px] bg-[#111] rounded-[44px] border-[5px] border-[#2a2a2a] shadow-2xl relative overflow-hidden flex-shrink-0 transition-all duration-300">
+
               {/* Dynamic Island */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
-                <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#111] rounded-full z-20 flex items-center justify-center border border-[#1a1a1a]">
+                <div className="w-1.5 h-1.5 bg-[#222] rounded-full" />
               </div>
 
-              {/* Mobile Screen Container */}
-              <div className="absolute inset-0 bg-page p-4 pt-12 flex flex-col justify-between text-xs selection:bg-transparent transition-colors duration-300 overflow-hidden">
-                {/* Inner Mockup Content */}
-                <div className="flex-1 overflow-hidden">
-                  {active.mockContent}
-                </div>
+              {/* Side buttons — decorative */}
+              <div className="absolute left-[-7px] top-[90px] w-1 h-8 bg-[#2a2a2a] rounded-l-sm" />
+              <div className="absolute left-[-7px] top-[130px] w-1 h-12 bg-[#2a2a2a] rounded-l-sm" />
+              <div className="absolute left-[-7px] top-[154px] w-1 h-12 bg-[#2a2a2a] rounded-l-sm" />
+              <div className="absolute right-[-7px] top-[120px] w-1 h-16 bg-[#2a2a2a] rounded-r-sm" />
 
-                {/* Bottom Navigation */}
-                <div className="border-t border-border pt-2.5 flex justify-between items-center text-text-secondary text-[8px] flex-shrink-0">
-                  <span className={activeTab === "home" ? "text-brand-strong font-bold" : ""}>🏠 Home</span>
-                  <span className={activeTab === "estatisticas" ? "text-brand-strong font-bold" : ""}>📅 Plano</span>
-                  <span className={activeTab === "player" ? "text-brand-strong font-bold" : ""}>▶ Aulas</span>
-                  <span className={activeTab === "loja" ? "text-brand-strong font-bold" : ""}>🛒 Loja</span>
-                  <span className={activeTab === "comunidade" ? "text-brand-strong font-bold" : ""}>💬 Turma</span>
+              {/* Screenshot area */}
+              {imageError ? (
+                /* Elegant placeholder — shown when image is absent or fails to load */
+                <div className="absolute inset-0 bg-page flex flex-col items-center justify-center p-5 text-center gap-3.5">
+                  <div className="w-14 h-14 rounded-2xl bg-surface border border-border flex items-center justify-center text-3xl shadow-sm">
+                    📱
+                  </div>
+
+                  <div className="space-y-1 px-2">
+                    <p className="text-[10px] font-bold text-text-primary leading-tight">
+                      {active.label}
+                    </p>
+                    <p className="text-[7px] text-text-secondary leading-relaxed">
+                      {active.subtitle}
+                    </p>
+                  </div>
+
+                  <div className="w-full bg-surface border border-border rounded-xl px-3 py-2.5 space-y-1 text-left">
+                    <p className="text-[7px] font-bold text-brand-strong uppercase tracking-wider">Imagem esperada</p>
+                    <p className="text-[7px] text-text-secondary font-mono break-all leading-relaxed">
+                      {active.image}
+                    </p>
+                  </div>
+
+                  <div className="w-full bg-brand/5 border border-brand/20 rounded-xl px-3 py-2.5 text-left">
+                    <p className="text-[8px] font-semibold text-brand-strong">Como adicionar</p>
+                    <p className="text-[7px] text-text-secondary leading-relaxed mt-0.5">
+                      Coloque o print em <span className="font-mono text-brand">public/case-screens/</span> com o nome exato acima.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                /* Real screenshot — object-contain preserves full screen without cortes */
+                <img
+                  key={active.image}
+                  src={active.image}
+                  alt={`Print do protótipo: ${active.label}`}
+                  className="absolute inset-0 w-full h-full object-contain bg-page"
+                  onError={() => setImageError(true)}
+                />
+              )}
             </div>
           </MockupReveal3D>
+
+          {/* Image path hint below phone — visible only for orientation */}
+          <div className="hidden lg:block absolute mt-2 text-center">
+            <p className="text-[9px] text-text-secondary font-mono opacity-50">{active.image}</p>
+          </div>
         </div>
 
-        {/* Right Side: Detailed strategic text breakdown */}
+        {/* Right: strategic analysis */}
         <div className="lg:col-span-4 bg-gradient-to-br from-surface to-surface-elevated border border-border rounded-3xl p-6 md:p-8 shadow-md relative transition-all duration-300">
           <div className="space-y-6">
+
             <div className="space-y-1">
-              <span className="text-[8px] font-bold text-brand uppercase tracking-widest">Análise de Fluxo</span>
-              <h3 className="text-xl font-bold text-text-primary">{active.label}</h3>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[8px] font-black text-brand uppercase tracking-widest">
+                  Tela {String(decisions.findIndex(d => d.id === activeId) + 1).padStart(2, "0")} / {String(decisions.length).padStart(2, "0")}
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-text-primary leading-tight">{active.label}</h3>
               <p className="text-[10px] text-text-secondary">{active.subtitle}</p>
             </div>
 
@@ -505,11 +295,12 @@ export default function ProductShowcase() {
                 <p className="text-text-secondary leading-relaxed italic">{active.telaDesc}</p>
               </div>
 
-              <div className="bg-brand/5 border border-brand/10 p-3 rounded-xl flex gap-2 items-center text-[10px] text-brand-strong font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-brand flex-shrink-0" />
-                <span>Valor para o aluno: {active.valor}</span>
+              <div className="bg-brand/5 border border-brand/10 p-3 rounded-xl flex gap-2 items-start text-[10px] text-brand-strong font-semibold">
+                <CheckCircle2 className="w-4 h-4 text-brand flex-shrink-0 mt-0.5" />
+                <span className="leading-relaxed">Valor para o aluno: {active.valor}</span>
               </div>
             </div>
+
           </div>
         </div>
 
