@@ -34,6 +34,7 @@ import PersonaCard from "./components/PersonaCard";
 import JourneyMap from "./components/JourneyMap";
 import ResearchTensions from "./components/ResearchTensions";
 import ProductShowcase from "./components/ProductShowcase";
+import MockupReveal3D from "./components/MockupReveal3D";
 
 export default function App() {
   // Theme State
@@ -138,7 +139,7 @@ export default function App() {
 
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.15] mb-6 transition-all duration-300">
             Gamificação do aprendizado para transformar{" "}
-            <span className="bg-gradient-to-r from-brand via-brand-soft to-brand-strong bg-clip-text text-transparent">
+            <span className="progress-text-fill">
               constância em progresso real
             </span>
           </h1>
@@ -246,7 +247,8 @@ export default function App() {
 
             {/* Mockup Mobile de iPhone 16 */}
             <div className="lg:col-span-7 flex justify-center">
-              <div className="w-[280px] h-[520px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
+              <MockupReveal3D>
+                <div className="w-[280px] h-[520px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
                 {/* Dynamic Island */}
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
                   <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
@@ -336,7 +338,8 @@ export default function App() {
                   </p>
                 </div>
               </div>
-            </div>
+            </MockupReveal3D>
+          </div>
 
           </div>
         </div>
@@ -930,7 +933,8 @@ export default function App() {
 
             {/* Mockup Mobile de iPhone 16 - Video Tour */}
             <div className="flex justify-center my-8">
-              <div className="w-[280px] h-[520px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
+              <MockupReveal3D>
+                <div className="w-[280px] h-[520px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
                 {/* Dynamic Island */}
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
                   <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
@@ -983,7 +987,8 @@ export default function App() {
                   </div>
                 </div>
               </div>
-            </div>
+            </MockupReveal3D>
+          </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
