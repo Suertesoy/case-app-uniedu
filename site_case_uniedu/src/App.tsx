@@ -153,7 +153,7 @@ export default function App() {
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.3] mb-6 pb-3 transition-all duration-300">
               <span className="hero-dark-line hero-dark-1">Gamificação do aprendizado para</span>
               <span className="hero-dark-line hero-dark-2">transformar</span>
-              <span className="hero-gradient-line">constância em progresso real<span className="hero-exclamation">!</span></span>
+              <span className="hero-gradient-line">constância em progresso real!<span className="progress-staircase" aria-hidden="true"><span className="stair stair-1" /><span className="stair stair-2" /><span className="stair stair-3" /><span className="stair stair-4" /><span className="stair stair-5" /><span className="stair-spark spark-1" /><span className="stair-spark spark-2" /><span className="stair-spark spark-3" /><span className="stair-spark spark-4" /></span></span>
             </h1>
           </RevealOnScroll>
 
