@@ -32,6 +32,7 @@ import CursorTrail from "./components/CursorTrail";
 import ToolMarquee from "./components/ToolMarquee";
 import PersonaCard from "./components/PersonaCard";
 import JourneyMap from "./components/JourneyMap";
+import ResearchTensions from "./components/ResearchTensions";
 import ProductShowcase from "./components/ProductShowcase";
 
 export default function App() {
@@ -611,6 +612,9 @@ export default function App() {
       {/* 9. JORNADA DO USUÁRIO */}
       <JourneyMap />
 
+      {/* 9b. TENSÕES DE PESQUISA */}
+      <ResearchTensions />
+
       {/* 10. ESTRATÉGIA DE PRODUTO */}
       <section id="estrategia" className="py-24 bg-surface/20 border-y border-border transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6">
@@ -924,17 +928,61 @@ export default function App() {
               Depois de entender o problema, a pesquisa e as decisões por trás da solução, explore o protótipo completo e veja como as funcionalidades se conectam em uma jornada única.
             </p>
 
-            {/* Video walkthrough placeholder */}
-            <div className="w-full aspect-video max-w-2xl mx-auto bg-surface-elevated border border-border rounded-2xl flex flex-col items-center justify-center p-6 relative overflow-hidden shadow-inner my-8">
-              <div className="w-14 h-14 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong animate-pulse mb-3">
-                <Play className="w-5 h-5 fill-current" />
+            {/* Mockup Mobile de iPhone 16 - Video Tour */}
+            <div className="flex justify-center my-8">
+              <div className="w-[280px] h-[520px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
+                {/* Dynamic Island */}
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
+                  <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
+                </div>
+
+                {/* Tela Interna - Adapta ao Light/Dark mode */}
+                <div className="absolute inset-0 bg-page p-4 pt-10 flex flex-col justify-between text-xs selection:bg-transparent transition-colors duration-300">
+                  {/* Top Row status */}
+                  <div className="flex justify-between items-center text-[8px] text-text-secondary">
+                    <span>9:41</span>
+                    <span>📶 🔋</span>
+                  </div>
+
+                  {/* Player Content area */}
+                  <div className="flex-1 flex flex-col items-center justify-center p-4 text-center space-y-4">
+                    <div className="w-14 h-14 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong animate-pulse cursor-pointer hover:scale-105 transition-all">
+                      <Play className="w-5 h-5 fill-current ml-0.5" />
+                    </div>
+                    
+                    <div className="space-y-1">
+                      <p className="text-[9px] font-bold text-brand uppercase tracking-wider">
+                        [Placeholder de vídeo / Tour completo]
+                      </p>
+                      <p className="text-[10px] font-bold text-text-primary leading-tight">
+                        Explore o Protótipo Mobile UNIEDU
+                      </p>
+                      <p className="text-[8px] text-text-secondary leading-relaxed">
+                        Tour interativo de 3 minutos demonstrando as transições de fluxos, streaks ativos e resgate de recompensas na loja.
+                      </p>
+                    </div>
+
+                    {/* App Mockup visual element */}
+                    <div className="w-full bg-surface border border-border rounded-xl p-2 text-left space-y-1.5 mt-2">
+                      <div className="flex justify-between items-center text-[7px] font-bold text-text-primary">
+                        <span>📖 Módulo: Gamificação de Retenção</span>
+                        <span className="text-brand">85%</span>
+                      </div>
+                      <div className="w-full bg-border h-1 rounded-full overflow-hidden">
+                        <div className="bg-brand h-full w-[85%] rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom bar inside phone */}
+                  <div className="border-t border-border pt-2 flex justify-between items-center text-text-secondary text-[7px] font-medium">
+                    <span>🏠 Home</span>
+                    <span>📅 Plano</span>
+                    <span className="text-brand-strong font-bold">▶ Aulas</span>
+                    <span>🛒 Loja</span>
+                  </div>
+                </div>
               </div>
-              <p className="text-xs font-bold text-text-primary">
-                [Placeholder de vídeo / Tour completo do protótipo]
-              </p>
-              <p className="text-[9px] text-text-secondary max-w-sm mt-1.5 leading-relaxed">
-                Tour interativo de 3 minutos demonstrando as transições de fluxos, animações de conquistas e resgate de pontos.
-              </p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
