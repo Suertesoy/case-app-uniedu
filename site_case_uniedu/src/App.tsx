@@ -141,9 +141,18 @@ export default function App() {
 
           <RevealOnScroll direction="up" delay={200} duration={900}>
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.3] mb-6 pb-3 transition-all duration-300">
-              <span className="hero-title-line hero-line-1">Gamificação do aprendizado para</span>
-              <span className="hero-title-line hero-line-2">transformar</span>
-              <span className="hero-title-line hero-line-3">constância em progresso real<span className="hero-exclamation">!</span></span>
+              <span className="hero-line-wrapper">
+                <span className="hero-base">Gamificação do aprendizado para</span>
+                <span className="hero-overlay hero-overlay-1" aria-hidden="true">Gamificação do aprendizado para</span>
+              </span>
+              <span className="hero-line-wrapper">
+                <span className="hero-base">transformar</span>
+                <span className="hero-overlay hero-overlay-2" aria-hidden="true">transformar</span>
+              </span>
+              <span className="hero-line-wrapper">
+                <span className="hero-base">constância em progresso real<span className="hero-exclamation">!</span></span>
+                <span className="hero-overlay hero-overlay-3" aria-hidden="true">constância em progresso real!</span>
+              </span>
             </h1>
           </RevealOnScroll>
 
