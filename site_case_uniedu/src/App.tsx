@@ -34,6 +34,7 @@ import PersonaCard from "./components/PersonaCard";
 import JourneyMap from "./components/JourneyMap";
 import ResearchTensions from "./components/ResearchTensions";
 import ProductShowcase from "./components/ProductShowcase";
+import ProcessEvolutionCarousel from "./components/ProcessEvolutionCarousel";
 import MockupReveal3D from "./components/MockupReveal3D";
 import RevealOnScroll from "./components/RevealOnScroll";
 import DesignSystemSection from "./components/DesignSystemSection";
@@ -859,6 +860,11 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* 10b. PROCESSO DE EVOLUÇÃO DO DESIGN */}
+      <RevealOnScroll direction="up" duration={1000}>
+        <ProcessEvolutionCarousel />
+      </RevealOnScroll>
 
       {/* 11. DOR -> INSIGHT -> SOLUÇÃO EM TELA */}
       <RevealOnScroll direction="up" duration={1000}>
