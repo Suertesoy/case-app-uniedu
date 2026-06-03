@@ -221,7 +221,7 @@ export function CaseDetalhePage() {
   const canSubmit = uploadMethod === "file" ? file : link.trim().length > 0;
 
   return (
-    <div className="h-full bg-gray-50 flex flex-col overflow-hidden">
+    <div className="h-full bg-gray-50 dark:bg-background flex flex-col overflow-hidden">
       <Header
         title={`CASES | ✅ ${caseInfo.title}`}
         actions={
@@ -233,15 +233,15 @@ export function CaseDetalhePage() {
       />
 
       {/* Tabs */}
-      <div className="flex-shrink-0 bg-white border-b border-gray-200 flex">
+      <div className="flex-shrink-0 bg-white dark:bg-card border-b border-gray-200 dark:border-border flex">
         {(["briefing", "entregas", "enviar"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`flex-1 py-3 text-sm font-medium border-b-2 transition-colors ${
               activeTab === tab
-                ? "border-[#A31545] text-[#A31545]"
-                : "border-transparent text-gray-600"
+                ? "border-[#A31545] dark:border-primary text-[#A31545] dark:text-primary"
+                : "border-transparent text-gray-600 dark:text-gray-400"
             }`}
           >
             {tab === "briefing" ? "Briefing" : tab === "entregas" ? "Entregas" : "Enviar"}
@@ -258,41 +258,43 @@ export function CaseDetalhePage() {
               {/* Badges */}
               <div className="flex items-center gap-2">
                 <div className={`px-3 py-1.5 rounded-full text-xs font-bold ${
-                  caseInfo.level === "Avançado" ? "bg-red-100 text-red-700" :
-                  caseInfo.level === "Intermediário" ? "bg-orange-100 text-orange-700" :
-                  "bg-green-100 text-green-700"
+                  caseInfo.level === "Avançado"
+                    ? "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+                    : caseInfo.level === "Intermediário"
+                    ? "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400"
+                    : "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
                 }`}>
                   {caseInfo.level}
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 rounded-full">
-                  <Clock className="w-3.5 h-3.5 text-gray-600" />
-                  <span className="text-xs font-medium text-gray-700">{caseInfo.duration}</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-accent rounded-full">
+                  <Clock className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{caseInfo.duration}</span>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 rounded-full">
-                  <Users className="w-3.5 h-3.5 text-gray-600" />
-                  <span className="text-xs font-medium text-gray-700">{caseInfo.students} alunos</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-accent rounded-full">
+                  <Users className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{caseInfo.students} alunos</span>
                 </div>
               </div>
 
               {/* Descrição */}
-              <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4">
-                <h3 className="text-sm font-bold text-gray-800 mb-2">📋 Descrição</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{caseInfo.description}</p>
+              <div className="bg-white dark:bg-card rounded-2xl shadow-md border border-gray-200 dark:border-border p-4">
+                <h3 className="text-sm font-bold text-gray-800 dark:text-gray-100 mb-2">📋 Descrição</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{caseInfo.description}</p>
               </div>
 
               {/* Objetivo */}
-              <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4">
-                <h3 className="text-sm font-bold text-gray-800 mb-2">🎯 Objetivo</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{caseInfo.objective}</p>
+              <div className="bg-white dark:bg-card rounded-2xl shadow-md border border-gray-200 dark:border-border p-4">
+                <h3 className="text-sm font-bold text-gray-800 dark:text-gray-100 mb-2">🎯 Objetivo</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{caseInfo.objective}</p>
               </div>
 
               {/* O que deve conter */}
-              <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4">
-                <h3 className="text-sm font-bold text-gray-800 mb-3">✅ O que deve conter</h3>
+              <div className="bg-white dark:bg-card rounded-2xl shadow-md border border-gray-200 dark:border-border p-4">
+                <h3 className="text-sm font-bold text-gray-800 dark:text-gray-100 mb-3">✅ O que deve conter</h3>
                 <ol className="space-y-2">
                   {caseInfo.requirements.map((req: string, idx: number) => (
-                    <li key={idx} className="flex gap-2 text-sm text-gray-700">
-                      <span className="text-[#A31545] font-bold flex-shrink-0">{idx + 1}</span>
+                    <li key={idx} className="flex gap-2 text-sm text-gray-700 dark:text-gray-300">
+                      <span className="text-[#A31545] dark:text-primary font-bold flex-shrink-0">{idx + 1}</span>
                       <span>{req}</span>
                     </li>
                   ))}
@@ -300,12 +302,12 @@ export function CaseDetalhePage() {
               </div>
 
               {/* Dicas dos mentores */}
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200 p-4">
-                <h3 className="text-sm font-bold text-gray-800 mb-3">💡 Dicas dos mentores</h3>
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl border border-yellow-200 dark:border-amber-800 p-4">
+                <h3 className="text-sm font-bold text-gray-800 dark:text-amber-300 mb-3">💡 Dicas dos mentores</h3>
                 <ul className="space-y-2">
                   {caseInfo.tips.map((tip: string, idx: number) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                      <span className="text-yellow-600 flex-shrink-0">•</span>
+                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-amber-200/80">
+                      <span className="text-yellow-600 dark:text-amber-400 flex-shrink-0">•</span>
                       <span>{tip}</span>
                     </li>
                   ))}
@@ -313,11 +315,11 @@ export function CaseDetalhePage() {
               </div>
 
               {/* Entregáveis */}
-              <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4">
-                <h3 className="text-sm font-bold text-gray-800 mb-3">📦 Entregáveis</h3>
+              <div className="bg-white dark:bg-card rounded-2xl shadow-md border border-gray-200 dark:border-border p-4">
+                <h3 className="text-sm font-bold text-gray-800 dark:text-gray-100 mb-3">📦 Entregáveis</h3>
                 <div className="space-y-2">
                   {caseInfo.deliverables.map((item: any, idx: number) => (
-                    <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                    <div key={idx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
                       <span className="text-lg flex-shrink-0">{item.icon}</span>
                       <span>{item.text}</span>
                     </div>
@@ -341,31 +343,31 @@ export function CaseDetalhePage() {
           {activeTab === "entregas" && (
             <>
               <div className="mb-3">
-                <p className="text-sm text-gray-600">{communitySubmissions.length} entregas enviadas pela comunidade</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{communitySubmissions.length} entregas enviadas pela comunidade</p>
               </div>
 
               {communitySubmissions.map((submission) => (
-                <div key={submission.id} className="bg-white rounded-2xl shadow-md border border-gray-200 p-4">
+                <div key={submission.id} className="bg-white dark:bg-card rounded-2xl shadow-md border border-gray-200 dark:border-border p-4">
                   <div className="flex items-start gap-3 mb-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-pink-100 to-purple-100 rounded-full flex items-center justify-center text-xl flex-shrink-0">
+                    <div className="w-10 h-10 bg-gradient-to-br from-pink-100 to-purple-100 dark:from-pink-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center text-xl flex-shrink-0">
                       {submission.avatar}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
-                        <p className="text-sm font-bold text-gray-800">{submission.name}</p>
+                        <p className="text-sm font-bold text-gray-800 dark:text-gray-100">{submission.name}</p>
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                          <span className="text-sm font-bold text-gray-800">{submission.rating}</span>
+                          <span className="text-sm font-bold text-gray-800 dark:text-gray-100">{submission.rating}</span>
                         </div>
                       </div>
-                      <p className="text-xs text-gray-500 mb-2">{submission.timeAgo}</p>
-                      <p className="text-sm text-gray-700 mb-3">{submission.description}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{submission.timeAgo}</p>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">{submission.description}</p>
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                           <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400" />
                           <span>{submission.likes} curtidas</span>
                         </div>
-                        <button className="flex items-center gap-1 text-xs font-bold text-[#A31545] active:opacity-70">
+                        <button className="flex items-center gap-1 text-xs font-bold text-[#A31545] dark:text-primary active:opacity-70">
                           <span>Ver entrega</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </button>
@@ -381,9 +383,9 @@ export function CaseDetalhePage() {
           {activeTab === "enviar" && (
             <>
               {/* Info message */}
-              <div className="bg-blue-50 rounded-2xl border border-blue-200 p-3 flex items-start gap-2">
-                <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-blue-700 leading-relaxed">
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-200 dark:border-blue-800 p-3 flex items-start gap-2">
+                <Info className="w-5 h-5 text-blue-500 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-blue-700 dark:text-blue-300 leading-relaxed">
                   Envie o arquivo do seu case ou cole um link para o Figma, Notion, Google Drive ou qualquer outra plataforma.
                 </p>
               </div>
@@ -394,8 +396,8 @@ export function CaseDetalhePage() {
                   onClick={() => setUploadMethod("file")}
                   className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium transition-all ${
                     uploadMethod === "file"
-                      ? "bg-gray-800 text-white"
-                      : "bg-gray-100 text-gray-600"
+                      ? "bg-gray-800 dark:bg-gray-700 text-white"
+                      : "bg-gray-100 dark:bg-accent text-gray-600 dark:text-gray-400"
                   }`}
                 >
                   <Upload className="w-4 h-4" />
@@ -405,8 +407,8 @@ export function CaseDetalhePage() {
                   onClick={() => setUploadMethod("link")}
                   className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium transition-all ${
                     uploadMethod === "link"
-                      ? "bg-gray-800 text-white"
-                      : "bg-gray-100 text-gray-600"
+                      ? "bg-gray-800 dark:bg-gray-700 text-white"
+                      : "bg-gray-100 dark:bg-accent text-gray-600 dark:text-gray-400"
                   }`}
                 >
                   <LinkIcon className="w-4 h-4" />
@@ -416,7 +418,7 @@ export function CaseDetalhePage() {
 
               {/* Upload de arquivo */}
               {uploadMethod === "file" && (
-                <div className="bg-white rounded-2xl border-2 border-dashed border-gray-300 p-8 text-center">
+                <div className="bg-white dark:bg-card rounded-2xl border-2 border-dashed border-gray-300 dark:border-border p-8 text-center">
                   <input
                     type="file"
                     accept=".pdf,.fig,.pptx,.docx,.zip"
@@ -427,18 +429,18 @@ export function CaseDetalhePage() {
                   <label htmlFor="file-upload" className="cursor-pointer">
                     {file ? (
                       <div>
-                        <CheckCircle className="w-12 h-12 text-[#A31545] mx-auto mb-2" />
-                        <p className="text-sm font-medium text-gray-800 mb-1">{file.name}</p>
-                        <p className="text-xs text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                        <CheckCircle className="w-12 h-12 text-[#A31545] dark:text-primary mx-auto mb-2" />
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-100 mb-1">{file.name}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                       </div>
                     ) : (
                       <div>
-                        <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                          <Upload className="w-8 h-8 text-[#A31545]" />
+                        <div className="w-16 h-16 bg-pink-100 dark:bg-pink-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                          <Upload className="w-8 h-8 text-[#A31545] dark:text-primary" />
                         </div>
-                        <p className="text-sm font-medium text-gray-800 mb-1">Toque para selecionar</p>
-                        <p className="text-xs text-gray-500 mb-1">PDF, Figma, PPTX, Word, ZIP</p>
-                        <p className="text-xs text-gray-400">Tamanho máximo: 50 MB</p>
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-100 mb-1">Toque para selecionar</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">PDF, Figma, PPTX, Word, ZIP</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500">Tamanho máximo: 50 MB</p>
                       </div>
                     )}
                   </label>
@@ -447,9 +449,9 @@ export function CaseDetalhePage() {
 
               {/* Colar link */}
               {uploadMethod === "link" && (
-                <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4">
+                <div className="bg-white dark:bg-card rounded-2xl shadow-md border border-gray-200 dark:border-border p-4">
                   <label className="block mb-2">
-                    <span className="text-sm font-medium text-gray-700">Link do projeto</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Link do projeto</span>
                   </label>
                   <div className="relative">
                     <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -458,38 +460,38 @@ export function CaseDetalhePage() {
                       value={link}
                       onChange={(e) => setLink(e.target.value)}
                       placeholder="https://www.figma.com/..."
-                      className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A31545]"
+                      className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-background border border-gray-200 dark:border-border rounded-lg text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#A31545] dark:focus:ring-primary"
                     />
                   </div>
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                     Suportado: Figma, Notion, Google Drive, Behance, etc.
                   </p>
                 </div>
               )}
 
               {/* Contexto adicional */}
-              <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4">
+              <div className="bg-white dark:bg-card rounded-2xl shadow-md border border-gray-200 dark:border-border p-4">
                 <label className="block mb-2">
-                  <span className="text-sm font-medium text-gray-700">Contexto adicional <span className="text-gray-400 font-normal">(opcional)</span></span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Contexto adicional <span className="text-gray-400 dark:text-gray-500 font-normal">(opcional)</span></span>
                 </label>
                 <textarea
                   value={context}
                   onChange={(e) => setContext(e.target.value)}
                   placeholder="Descreva brevemente o seu case, as escolhas que você fez e qualquer contexto relevante para os avaliadores..."
                   rows={4}
-                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A31545] resize-none"
+                  className="w-full px-4 py-2.5 bg-gray-50 dark:bg-background border border-gray-200 dark:border-border rounded-lg text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#A31545] dark:focus:ring-primary resize-none"
                 />
               </div>
 
               {/* Card de pontos */}
-              <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl border-2 border-pink-200 p-4">
+              <div className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-2xl border-2 border-pink-200 dark:border-pink-800 p-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                    <Coins className="w-6 h-6 text-[#A31545]" />
+                  <div className="w-12 h-12 bg-white dark:bg-card rounded-full flex items-center justify-center flex-shrink-0">
+                    <Coins className="w-6 h-6 text-[#A31545] dark:text-primary" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-bold text-gray-800 mb-1">Ganhe +{caseInfo.points} pontos</p>
-                    <p className="text-xs text-gray-600 leading-relaxed">
+                    <p className="text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">Ganhe +{caseInfo.points} pontos</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
                       Ao enviar seu case você acumula pontos para a loja!
                     </p>
                   </div>
@@ -503,7 +505,7 @@ export function CaseDetalhePage() {
                 className={`w-full py-3.5 rounded-2xl font-bold tracking-wide flex items-center justify-center gap-2 transition-all ${
                   canSubmit && !uploading
                     ? "bg-[#A31545] text-white active:bg-[#7D1133] shadow-lg"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-gray-200 dark:bg-accent text-gray-400 dark:text-gray-500 cursor-not-allowed"
                 }`}
               >
                 <Upload className="w-5 h-5" />
