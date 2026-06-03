@@ -327,9 +327,7 @@ export function AulaDetalhePage() {
         style={{ aspectRatio: "16/10" }}
       >
         {!isPlaying ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-pink-300 via-purple-400 to-indigo-500">
-            {/* Decorative background hint */}
-            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 30% 40%, white 1px, transparent 1px), radial-gradient(circle at 70% 60%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#F48FB1] via-[#EC407A] to-[#A31545]">
             <button
               onClick={handlePlayVideo}
               className="relative w-18 h-18 w-[72px] h-[72px] bg-white/95 rounded-full flex items-center justify-center shadow-xl active:scale-95 transition-transform ring-4 ring-white/30"
@@ -339,7 +337,7 @@ export function AulaDetalhePage() {
           </div>
         ) : lessonComplete && xpClaimed && !showLevelUp ? (
           /* ── Compact "próxima aula" banner ── */
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#F48FB1] via-[#EC407A] to-[#A31545]">
             <div className="absolute inset-0 flex items-center justify-center opacity-30">
               <Check className="w-20 h-20 text-white" />
             </div>
@@ -358,7 +356,7 @@ export function AulaDetalhePage() {
           </div>
         ) : lessonComplete ? (
           /* ── Compact "claim XP" banner ── */
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#F48FB1] via-[#EC407A] to-[#A31545]">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-white text-center opacity-50">
                 <Check className="w-16 h-16 mx-auto" />
@@ -379,7 +377,7 @@ export function AulaDetalhePage() {
             </div>
           </div>
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#F48FB1] via-[#EC407A] to-[#A31545]">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-white text-center">
                 <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-3" />
