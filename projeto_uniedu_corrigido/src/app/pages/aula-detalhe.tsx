@@ -192,8 +192,8 @@ export function AulaDetalhePage() {
     setIsPlaying(true);
     setVideoProgress(0);
 
-    // Simulate 4-second video playback
-    const duration = 4000;
+    // Simulate 2-second video playback
+    const duration = 2000;
     const interval = 50;
     const steps = duration / interval;
     let currentStep = 0;
