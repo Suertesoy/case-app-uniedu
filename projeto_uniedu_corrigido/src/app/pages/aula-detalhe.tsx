@@ -332,7 +332,7 @@ export function AulaDetalhePage() {
               onClick={handlePlayVideo}
               className="relative w-18 h-18 w-[72px] h-[72px] bg-white/95 rounded-full flex items-center justify-center shadow-xl active:scale-95 transition-transform ring-4 ring-white/30"
             >
-              <Play className="w-9 h-9 text-[#A31545] ml-1" fill="currentColor" />
+              <Play className="w-9 h-9 text-[#A31545] dark:text-primary ml-1" fill="currentColor" />
             </button>
           </div>
         ) : lessonComplete && xpClaimed && !showLevelUp ? (
