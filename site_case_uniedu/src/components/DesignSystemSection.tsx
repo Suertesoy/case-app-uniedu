@@ -1,4 +1,4 @@
-import { Sun, Moon, Trophy, BookOpen, Lock, CheckCircle2, Clock, Zap, Play } from "lucide-react";
+import { Sun, Moon, Trophy, BookOpen, Lock, CheckCircle2, Clock, Zap, Play, Search } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
 
 interface ThemeToggleProps {
@@ -205,10 +205,25 @@ const jornadaItems = [
 ];
 
 const navTabs = [
-  { emoji: "🏠", label: "Home",  active: true  },
-  { emoji: "📅", label: "Plano", active: false },
-  { emoji: "▶",  label: "Aulas", active: false },
-  { emoji: "🛒", label: "Loja",  active: false },
+  { emoji: "🏠", label: "Home",       active: false },
+  { emoji: "▶",  label: "Aulas",      active: false },
+  { emoji: "🛒", label: "Loja",       active: true  },
+  { emoji: "👥", label: "Comunidade", active: false },
+  { emoji: "👤", label: "Perfil",     active: false },
+];
+
+const earnPointsStrip = [
+  { label: "Aula concluída", pts: "+50 pts" },
+  { label: "Comentar", pts: "+10 pts" },
+  { label: "Publicar", pts: "+50 pts" },
+];
+
+const storeCategories = ["Todos", "Digital", "Mentoria", "Curso", "Certificado"];
+
+const smallerRewards = [
+  { label: "E-book UX Research", pts: "800 pts" },
+  { label: "Template Figma DS", pts: "1.200 pts" },
+  { label: "Mentoria 1h", pts: "3.500 pts" },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -529,33 +544,86 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                 </div>
               </div>
 
-              {/* C3: Card de recompensa */}
+              {/* C3: Loja de recompensas */}
               <div>
-                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">C3 · Card de recompensa da loja</p>
+                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">C3 · Loja de recompensas</p>
                 <div className="rounded-2xl p-3 transition-all duration-500" style={{ background: pv.bg, border: `1px solid ${pv.border}` }}>
-                  <div style={{ background: pv.surface, border: `1px solid ${pv.border}`, borderRadius: 14, overflow: "hidden", maxWidth: 220 }}>
-                    <div style={{ height: 80, background: isDark ? "rgba(216,27,96,0.08)" : "rgba(216,27,96,0.05)", display: "flex", alignItems: "center", justifyContent: "center", borderBottom: `1px solid ${pv.border}` }}>
-                      <div style={{ width: 48, height: 48, borderRadius: 14, background: isDark ? "rgba(216,27,96,0.15)" : "rgba(216,27,96,0.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>🎓</div>
+                  <div style={{ background: pv.surface, border: `1px solid ${pv.border}`, borderRadius: 14, overflow: "hidden" }}>
+                    {/* Header da loja */}
+                    <div style={{ padding: "10px 12px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${pv.border}` }}>
+                      <p style={{ fontSize: 13, fontWeight: 700, color: pv.text }}>Loja</p>
+                      <div style={{ display: "flex", alignItems: "center", gap: 4, background: pv.elevated, border: `1px solid ${pv.border}`, borderRadius: 8, padding: "4px 8px" }}>
+                        <Search size={10} color={pv.muted} />
+                        <span style={{ fontSize: 8, color: pv.muted }}>Buscar produto</span>
+                      </div>
                     </div>
+
                     <div style={{ padding: "10px 12px 12px" }}>
-                      <p style={{ fontSize: 9, color: "#D81B60", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 2 }}>Mentoria</p>
-                      <p style={{ fontSize: 12, fontWeight: 700, color: pv.text, lineHeight: 1.3, marginBottom: 4 }}>Mentoria 1h com Especialista</p>
-                      <p style={{ fontSize: 9, color: pv.muted, marginBottom: 10, lineHeight: 1.4 }}>Sessão 1:1 com especialista sênior em UX Design</p>
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                          <span style={{ fontSize: 12 }}>🪙</span>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: pv.text }}>500 pts</span>
+                      {/* Saldo de pontos */}
+                      <div style={{ background: "linear-gradient(135deg,#F48FB1,#EC407A,#A31545)", borderRadius: 12, padding: "10px 12px", marginBottom: 10, color: "#fff" }}>
+                        <p style={{ fontSize: 8, opacity: 0.85, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700 }}>Saldo disponível</p>
+                        <p style={{ fontSize: 15, fontWeight: 800, marginTop: 2 }}>
+                          10.000 pts <span style={{ fontSize: 9, fontWeight: 500, opacity: 0.85 }}>para resgate</span>
+                        </p>
+                      </div>
+
+                      {/* Formas de ganhar pontos */}
+                      <div style={{ display: "flex", gap: 6, marginBottom: 10 }}>
+                        {earnPointsStrip.map((e) => (
+                          <div key={e.label} style={{ flex: 1, background: pv.elevated, border: `1px solid ${pv.border}`, borderRadius: 8, padding: "6px 4px", textAlign: "center" }}>
+                            <p style={{ fontSize: 7, color: pv.muted, lineHeight: 1.2 }}>{e.label}</p>
+                            <p style={{ fontSize: 9, fontWeight: 700, color: "#D81B60", marginTop: 1 }}>{e.pts}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Categorias */}
+                      <div style={{ display: "flex", gap: 5, marginBottom: 10, flexWrap: "wrap" }}>
+                        {storeCategories.map((cat, i) => (
+                          <span
+                            key={cat}
+                            style={{
+                              fontSize: 8,
+                              fontWeight: 600,
+                              padding: "3px 8px",
+                              borderRadius: 99,
+                              background: i === 0 ? pv.brand : pv.elevated,
+                              color: i === 0 ? "#fff" : pv.muted,
+                              border: i === 0 ? "none" : `1px solid ${pv.border}`,
+                            }}
+                          >
+                            {cat}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Prêmio em destaque */}
+                      <div style={{ background: pv.elevated, border: `1px solid ${pv.border}`, borderRadius: 12, padding: 10, marginBottom: 8, display: "flex", alignItems: "center", gap: 10 }}>
+                        <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(216,27,96,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>💰</div>
+                        <div style={{ flex: 1 }}>
+                          <p style={{ fontSize: 10, fontWeight: 700, color: pv.text }}>Prêmio em dinheiro — R$100</p>
+                          <p style={{ fontSize: 8, color: pv.muted, marginTop: 1 }}>Destaque da loja</p>
                         </div>
-                        <button style={{ background: pv.brand, color: "#fff", border: "none", borderRadius: 8, padding: "5px 12px", fontSize: 10, fontWeight: 700, cursor: "pointer" }}>RESGATAR</button>
+                        <span style={{ fontSize: 9, fontWeight: 700, color: "#D81B60", flexShrink: 0 }}>8.000 pts</span>
+                      </div>
+
+                      {/* Recompensas menores */}
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
+                        {smallerRewards.map((r) => (
+                          <div key={r.label} style={{ background: pv.surface, border: `1px solid ${pv.border}`, borderRadius: 8, padding: 6, textAlign: "center" }}>
+                            <p style={{ fontSize: 7, color: pv.text, fontWeight: 600, lineHeight: 1.25, minHeight: 18 }}>{r.label}</p>
+                            <p style={{ fontSize: 8, fontWeight: 700, color: "#D81B60", marginTop: 2 }}>{r.pts}</p>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* C4: Bottom Navigation */}
+              {/* C4: Navegação inferior */}
               <div>
-                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">C4 · Bottom Navigation</p>
+                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">C4 · Navegação inferior</p>
                 <div className="rounded-2xl p-3 transition-all duration-500" style={{ background: pv.bg, border: `1px solid ${pv.border}` }}>
                   <div style={{ background: pv.surface, border: `1px solid ${pv.border}`, borderRadius: 14, overflow: "hidden" }}>
                     <div style={{ height: 72, background: pv.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>

@@ -663,7 +663,7 @@ export default function App() {
                       </div>
                     </div>
                     <span className="text-[9px] text-text-secondary uppercase font-bold tracking-wider bg-surface px-2.5 py-1 rounded border border-border">
-                      Registros internos da equipe
+                      [Placeholder de gravação]
                     </span>
                   </div>
                 </div>
@@ -707,10 +707,10 @@ export default function App() {
       {/* 10. ESTRATÉGIA DE PRODUTO */}
       <section id="estrategia" className="py-24 bg-surface/20 border-y border-border transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16 space-y-4">
+          <div className="text-center mb-16">
             <RevealOnScroll direction="up" duration={800}>
               <span className="text-xs font-bold uppercase tracking-widest text-brand">Alinhamento e Objetivos</span>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Estratégia de Produto Conectada a Negócio</h2>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-5">Estratégia de Produto Conectada a Negócio</h2>
               <p className="text-text-secondary max-w-2xl mx-auto text-sm">
                 Não se trata apenas de frameworks teóricos. Usamos o HEART do Google e o funil AARRR para ligar a experiência de estudos (UX) aos resultados institucionais de engajamento e retenção.
               </p>
