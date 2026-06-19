@@ -330,17 +330,6 @@ export default function ProcessEvolutionCarousel() {
         </p>
       </div>
 
-      {/* Etapa 04 · App atual — chamada discreta, sem nova galeria */}
-      <div className="max-w-2xl mx-auto px-6 text-center pt-12 mt-12 border-t border-border">
-        <span className="text-[10px] font-bold text-brand uppercase tracking-wider">
-          Etapa 04 · App atual
-        </span>
-        <p className="text-xs text-text-secondary leading-relaxed mt-2">
-          A versão atual do aplicativo aparece nas próximas seções, já aplicada em vídeo e nos
-          mockups navegáveis do case.
-        </p>
-      </div>
-
     </section>
   );
 }
