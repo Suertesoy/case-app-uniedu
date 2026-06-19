@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Sun, Moon, Trophy, BookOpen, Lock, CheckCircle2, Clock, Zap, Play, Search } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
 
@@ -254,9 +253,8 @@ interface DesignSystemSectionProps {
 export default function DesignSystemSection({ theme, setTheme }: DesignSystemSectionProps) {
   const isDark = theme === "dark";
 
-  // Estado local — controla somente a prévia de tokens da subseção 02, sem afetar o tema global
-  const [tokenTheme, setTokenTheme] = useState<"light" | "dark">("light");
-  const colorTokens = tokenTheme === "dark" ? colorTokensDark : colorTokensLight;
+  // Mesmo estado global de tema dos demais toggles — alternar aqui também muda o site inteiro
+  const colorTokens = isDark ? colorTokensDark : colorTokensLight;
 
   const pv = {
     bg:      isDark ? "#120E10" : "#FFFBFD",
@@ -354,8 +352,8 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
               <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand">
                 02 · Cores e Tokens
               </h3>
-              {/* Toggle local — alterna apenas os tokens exibidos aqui, sem afetar o tema global */}
-              <ThemeToggle theme={tokenTheme} setTheme={setTokenTheme} />
+              {/* Toggle global — mesmo estado de tema do header, da seção 03 e da seção 04 */}
+              <ThemeToggle theme={theme} setTheme={setTheme} />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {colorTokens.map((c) => (

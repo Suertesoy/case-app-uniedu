@@ -416,13 +416,54 @@ export default function App() {
         </RevealOnScroll>
       </section>
 
-      {/* 4b. NOTA METODOLÓGICA — COMO CONDUZIMOS O PROCESSO */}
-      <section id="processo" className="py-12 max-w-3xl mx-auto px-6 text-center transition-all duration-300">
+      {/* 4b. NOTA METODOLÓGICA — COMO CONDUZIMOS O PROCESSO (DOUBLE DIAMOND VISUAL) */}
+      <section id="processo" className="py-16 max-w-4xl mx-auto px-6 text-center transition-all duration-300">
         <RevealOnScroll direction="up" duration={800}>
           <span className="text-[10px] font-bold uppercase tracking-widest text-brand">Como conduzimos o processo</span>
-          <p className="text-text-secondary text-sm leading-relaxed mt-3">
-            O processo foi guiado pela lógica do Double Diamond, alternando momentos de investigação, síntese, exploração e refinamento. Primeiro, ampliamos o entendimento sobre dores de estudantes em cursos online por meio de survey, entrevistas e análise de contexto. Depois, sintetizamos esses achados em personas, jornadas e oportunidades de produto. Na etapa seguinte, exploramos soluções por meio de wireframes e protótipos. Por fim, os testes de usabilidade revelaram novos pontos de atrito e ajudaram a refinar a interface até a versão final em alta fidelidade.
+          <p className="text-text-secondary text-sm leading-relaxed mt-3 max-w-xl mx-auto">
+            O processo foi guiado pela lógica do Double Diamond, alternando investigação, síntese, exploração e refinamento até chegar à versão final em alta fidelidade.
           </p>
+
+          {/* Double Diamond — representação visual em SVG inline */}
+          <svg
+            viewBox="0 0 800 160"
+            className="w-full max-w-2xl mx-auto mt-8 text-brand"
+            aria-hidden="true"
+          >
+            <polygon points="20,80 210,20 400,80 210,140" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7" />
+            <polygon points="400,80 590,20 780,80 590,140" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.7" />
+            <circle cx="20" cy="80" r="5" fill="currentColor" />
+            <circle cx="400" cy="80" r="5" fill="currentColor" />
+            <circle cx="780" cy="80" r="5" fill="currentColor" />
+          </svg>
+
+          {/* Etapas curtas do Double Diamond */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 max-w-3xl mx-auto text-left sm:text-center">
+            <div>
+              <p className="text-xs font-bold text-text-primary">Descobrir</p>
+              <p className="text-[11px] text-text-secondary mt-1 leading-relaxed">
+                Survey, entrevistas e análise de contexto sobre dores em cursos online.
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-text-primary">Definir</p>
+              <p className="text-[11px] text-text-secondary mt-1 leading-relaxed">
+                Síntese dos achados em personas, jornadas e oportunidades de produto.
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-text-primary">Desenvolver</p>
+              <p className="text-[11px] text-text-secondary mt-1 leading-relaxed">
+                Wireframes, exploração de fluxos e primeira versão em alta fidelidade.
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-text-primary">Entregar e refinar</p>
+              <p className="text-[11px] text-text-secondary mt-1 leading-relaxed">
+                Testes de usabilidade, ajustes de interface e versão final consolidada.
+              </p>
+            </div>
+          </div>
         </RevealOnScroll>
       </section>
 
