@@ -81,16 +81,18 @@ export default function App() {
           </div>
 
           {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-5">
             <a href="#solucao-rapida" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Solução</a>
             <a href="#problema" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Desafio</a>
+            <a href="#processo" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Processo</a>
             <a href="#pesquisa" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Pesquisa</a>
-            <a href="#estrategia" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Estratégia</a>
-            <a href="#produto" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Produto</a>
-            <a href="#design-system" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Design System</a>
             <a href="#validacao" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Validação</a>
-            <a href="#valor" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Valor Institucional</a>
-            <a href="#aprendizados" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Aprendizados</a>
+            <a href="#produto" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Produto</a>
+            <a href="#estrategia" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Métricas</a>
+            <a href="#design-system" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Design System</a>
+            <a href="#implementacao" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Implementação</a>
+            <a href="#valor" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Valor</a>
+            <a href="#escopo" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Maturidade</a>
           </nav>
 
           {/* CTAs and Toggle */}
@@ -411,6 +413,16 @@ export default function App() {
               </h3>
             </div>
           </div>
+        </RevealOnScroll>
+      </section>
+
+      {/* 4b. NOTA METODOLÓGICA — COMO CONDUZIMOS O PROCESSO */}
+      <section id="processo" className="py-12 max-w-3xl mx-auto px-6 text-center transition-all duration-300">
+        <RevealOnScroll direction="up" duration={800}>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-brand">Como conduzimos o processo</span>
+          <p className="text-text-secondary text-sm leading-relaxed mt-3">
+            O processo foi guiado pela lógica do Double Diamond, alternando momentos de investigação, síntese, exploração e refinamento. Primeiro, ampliamos o entendimento sobre dores de estudantes em cursos online por meio de survey, entrevistas e análise de contexto. Depois, sintetizamos esses achados em personas, jornadas e oportunidades de produto. Na etapa seguinte, exploramos soluções por meio de wireframes e protótipos. Por fim, os testes de usabilidade revelaram novos pontos de atrito e ajudaram a refinar a interface até a versão final em alta fidelidade.
+          </p>
         </RevealOnScroll>
       </section>
 
