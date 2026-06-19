@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Sun, Moon, Trophy, BookOpen, Lock, CheckCircle2, Clock, Zap, Play, Search } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
 
@@ -34,77 +35,94 @@ function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
   );
 }
 
-// ─── Color tokens ─────────────────────────────────────────────────────────────
-const colorTokens = [
+// ─── Color tokens — separados por contexto Light/Dark ────────────────────────
+const colorTokensLight = [
   {
     label: "Primary Pink",
     hex: "#D81B60",
     bg: "#D81B60",
-    lightText: true,
     usage: "Barra de progresso, badge de XP, estado ativo e ícone de gamificação",
   },
   {
     label: "Accent Pink",
     hex: "#F06292",
     bg: "#F06292",
-    lightText: true,
     usage: "Hover, gradientes de suporte e microinterações — camada secundária do brand",
-  },
-  {
-    label: "Soft Pink",
-    hex: "#F48FB1",
-    bg: "#F48FB1",
-    lightText: false,
-    usage: "Botão primário e CTA acessível no Dark Mode; acento de texto sobre fundos escuros",
   },
   {
     label: "Strong Pink",
     hex: "#A31545",
     bg: "#A31545",
-    lightText: true,
     usage: "Botão primário no Light Mode; header real do app (#A31545 na barra superior)",
-  },
-  {
-    label: "BG Dark",
-    hex: "#120E10",
-    bg: "#120E10",
-    lightText: true,
-    usage: "Fundo profundo aquecido — preto com toque rosado, nunca preto puro",
-  },
-  {
-    label: "Surface Dark",
-    hex: "#1E1A1D",
-    bg: "#1E1A1D",
-    lightText: true,
-    usage: "Cards, bottom nav e superfícies elevadas no Dark Mode",
   },
   {
     label: "BG Light",
     hex: "#FFFBFD",
     bg: "#FFFBFD",
-    lightText: false,
     usage: "Fundo principal claro — off-white rosado; nunca branco puro",
   },
   {
     label: "Surface Light",
     hex: "#FDF2F5",
     bg: "#FDF2F5",
-    lightText: false,
     usage: "Cards e superfícies no Light Mode — cria hierarquia sem sombra",
+  },
+  {
+    label: "Text on Light",
+    hex: "#1D1518",
+    bg: "#1D1518",
+    usage: "Texto primário no Light Mode — marrom-rosado quase preto",
+  },
+  {
+    label: "Muted Light",
+    hex: "#6E5E64",
+    bg: "#6E5E64",
+    usage: "Captions, metadados e labels secundários no Light Mode — verificar contraste WCAG AA no contexto",
+  },
+];
+
+const colorTokensDark = [
+  {
+    label: "Primary Pink",
+    hex: "#D81B60",
+    bg: "#D81B60",
+    usage: "Barra de progresso, badge de XP, estado ativo e ícone de gamificação",
+  },
+  {
+    label: "Accent Pink",
+    hex: "#F06292",
+    bg: "#F06292",
+    usage: "Hover, gradientes de suporte e microinterações — camada secundária do brand",
+  },
+  {
+    label: "Soft Pink",
+    hex: "#F48FB1",
+    bg: "#F48FB1",
+    usage: "Botão primário e CTA acessível no Dark Mode; acento de texto sobre fundos escuros",
+  },
+  {
+    label: "BG Dark",
+    hex: "#120E10",
+    bg: "#120E10",
+    usage: "Fundo profundo aquecido — preto com toque rosado, nunca preto puro",
+  },
+  {
+    label: "Surface Dark",
+    hex: "#1E1A1D",
+    bg: "#1E1A1D",
+    usage: "Cards, bottom nav e superfícies elevadas no Dark Mode",
   },
   {
     label: "Text on Dark",
     hex: "#FCE4EC",
     bg: "#FCE4EC",
-    lightText: false,
     usage: "Texto primário no Dark Mode — rose claro, harmônico com o brand",
   },
   {
-    label: "Muted",
+    label: "Muted Dark",
     hex: "#9E9EAE",
     bg: "#9E9EAE",
-    lightText: true,
-    usage: "Captions, metadados e labels secundários — verificar contraste WCAG AA no contexto",
+    usage: "Captions, metadados e labels secundários no Dark Mode — verificar contraste WCAG AA no contexto",
   },
 ];
 
@@ -236,6 +254,10 @@ interface DesignSystemSectionProps {
 export default function DesignSystemSection({ theme, setTheme }: DesignSystemSectionProps) {
   const isDark = theme === "dark";
 
+  // Estado local — controla somente a prévia de tokens da subseção 02, sem afetar o tema global
+  const [tokenTheme, setTokenTheme] = useState<"light" | "dark">("light");
+  const colorTokens = tokenTheme === "dark" ? colorTokensDark : colorTokensLight;
+
   const pv = {
     bg:      isDark ? "#120E10" : "#FFFBFD",
     surface: isDark ? "#1E1A1D" : "#FDF2F5",
@@ -325,12 +347,16 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
           </div>
         </RevealOnScroll>
 
-        {/* ── 02 · Cores e Tokens ── */}
+        {/* ── 02 · Cores e Tokens — preview separada por Light/Dark ── */}
         <RevealOnScroll direction="up" delay={100}>
           <div className="mb-16">
-            <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand mb-5">
-              02 · Cores e Tokens
-            </h3>
+            <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
+              <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand">
+                02 · Cores e Tokens
+              </h3>
+              {/* Toggle local — alterna apenas os tokens exibidos aqui, sem afetar o tema global */}
+              <ThemeToggle theme={tokenTheme} setTheme={setTokenTheme} />
+            </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {colorTokens.map((c) => (
                 <div key={c.label} className="rounded-xl border border-border overflow-hidden bg-surface-elevated">
