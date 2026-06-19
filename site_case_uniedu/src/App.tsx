@@ -28,6 +28,8 @@ import {
   Sun,
   Moon
 } from "lucide-react";
+import prototypeLightVideo from "../../NAVEGACAO_UNIEDU_LIGHTMODE.mp4";
+import prototypeDarkVideo from "../../NAVEGACAO_UNIEDU_DARKMODE.mp4";
 import CursorTrail from "./components/CursorTrail";
 import ToolMarquee from "./components/ToolMarquee";
 import PersonaCard from "./components/PersonaCard";
@@ -318,88 +320,19 @@ export default function App() {
                   <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
                 </div>
 
-                {/* Tela Interna - Adapta ao Light/Dark mode */}
-                <div className="absolute inset-0 bg-page p-4 pt-10 flex flex-col justify-between text-xs selection:bg-transparent transition-colors duration-300">
-                  
-                  {/* Conteúdo Provisório */}
-                  <div className="space-y-4 flex-1">
-                    {/* Top row */}
-                    <div className="flex justify-between items-center text-[8px] text-text-secondary">
-                      <span>9:41</span>
-                      <span>📶 🔋</span>
-                    </div>
-
-                    {/* Header do Mockup */}
-                    <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                      <div>
-                        <p className="text-[7px] text-text-secondary uppercase tracking-wider">ESTUDOS</p>
-                        <p className="font-bold text-text-primary text-[10px]">UNIEDU App</p>
-                      </div>
-                      <div className="bg-brand/10 border border-brand/20 rounded-full px-2 py-0.5 text-brand-strong text-[8px] font-bold">
-                        ⚡ 5 Dias
-                      </div>
-                    </div>
-
-                    {/* Card de Progresso (Rosa) */}
-                    <div className="bg-gradient-to-r from-brand to-rose-600 rounded-2xl p-3 text-white shadow-md relative overflow-hidden">
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-xl" />
-                      <div className="relative z-10">
-                        <p className="text-[7px] text-white/80 font-bold uppercase tracking-wider">Seu Progresso Semanal</p>
-                        <p className="font-bold text-[11px] mt-0.5">Módulo 2: UX Strategy</p>
-                        <div className="mt-2 flex justify-between text-[7px] text-white/90">
-                          <span>3 / 5 aulas concluídas</span>
-                          <span>60%</span>
-                        </div>
-                        <div className="w-full bg-white/20 h-1 rounded-full overflow-hidden mt-1">
-                          <div className="bg-white h-full w-3/5 rounded-full" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Pequenos blocos de pontos/conquistas */}
-                    <div className="grid grid-cols-2 gap-2 text-center text-[8px]">
-                      <div className="bg-surface border border-border rounded-xl p-2.5">
-                        <p className="text-text-secondary font-medium">SALDO ACUMULADO</p>
-                        <p className="text-[11px] font-extrabold text-brand-strong mt-0.5">450 pts</p>
-                      </div>
-                      <div className="bg-surface border border-border rounded-xl p-2.5">
-                        <p className="text-text-secondary font-medium">CONQUISTAS</p>
-                        <p className="text-[11px] font-extrabold text-text-primary mt-0.5">12 salvas</p>
-                      </div>
-                    </div>
-
-                    {/* Bloco de notas rápido ou IA */}
-                    <div className="bg-surface-elevated border border-border rounded-xl p-2.5 space-y-1.5">
-                      <div className="flex justify-between items-center text-[7px]">
-                        <span className="font-bold text-text-primary">Anotação Inteligente</span>
-                        <span className="text-[6px] text-brand font-semibold">Salvo ✔</span>
-                      </div>
-                      <p className="text-[8px] text-text-secondary leading-relaxed bg-surface/50 p-1.5 rounded border border-border/40">
-                        "Foco na retenção do aluno no onboarding..."
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Barra inferior simplificada */}
-                  <div className="border-t border-border pt-2 flex justify-between items-center text-text-secondary text-[7px] font-medium">
-                    <span className="text-brand-strong font-bold">🏠 Home</span>
-                    <span>📅 Plano</span>
-                    <span>▶ Aulas</span>
-                    <span>🛒 Loja</span>
-                  </div>
-
-                </div>
-
-                {/* Overlay Premium Provisório Placeholder */}
-                <div className="absolute inset-0 bg-black/70 backdrop-blur-[1px] opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center text-white z-30 select-none pointer-events-none">
-                  <Smartphone className="w-8 h-8 text-brand mb-2 animate-bounce" />
-                  <p className="text-[10px] font-bold tracking-wider uppercase text-brand-soft">Placeholder de Mockup</p>
-                  <p className="text-xs font-semibold mt-1">
-                    [Placeholder de print do protótipo]
-                  </p>
-                  <p className="text-[8px] text-gray-300 mt-2 leading-relaxed">
-                    Visual e proporção mobile representando o layout real do aplicativo. Será substituído por print/vídeo definitivo.
-                  </p>
+                {/* Tela Interna - Vídeo de navegação do protótipo, troca conforme o tema */}
+                <div className="absolute inset-0">
+                  <video
+                    key={theme}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  >
+                    <source src={theme === "dark" ? prototypeDarkVideo : prototypeLightVideo} type="video/mp4" />
+                  </video>
                 </div>
               </div>
             </MockupReveal3D>
