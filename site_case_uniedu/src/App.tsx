@@ -7,7 +7,9 @@ import {
   AlertCircle,
   UserCheck,
   Sun,
-  Moon
+  Moon,
+  Code2,
+  Rocket
 } from "lucide-react";
 import prototypeLightVideo from "../../NAVEGACAO_UNIEDU_LIGHTMODE.mp4";
 import prototypeDarkVideo from "../../NAVEGACAO_UNIEDU_DARKMODE.mp4";
@@ -387,6 +389,16 @@ export default function App() {
           </div>
         </div>
 
+        {/* Referência discreta de apoio às fricções */}
+        <p className="mt-6 text-[10px] text-text-secondary leading-relaxed">
+          <span className="font-semibold text-text-primary/70">Base de apoio:</span> estudos sobre evasão em EAD, presença social em ambientes online e gamificação aplicada ao aprendizado —{" "}
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9197481/" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-2 hover:text-brand-strong transition-colors">Shaikh &amp; Asif, 2022</a>,{" "}
+          <a href="https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-024-00450-9" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-2 hover:text-brand-strong transition-colors">Rahmani et al., 2024</a>,{" "}
+          <a href="https://www.irrodl.org/index.php/irrodl/article/view/2123/3349" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-2 hover:text-brand-strong transition-colors">Richardson et al., 2015</a>{" "}
+          e{" "}
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10448467/" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-2 hover:text-brand-strong transition-colors">Ratinho &amp; Martins, 2023</a>.
+        </p>
+
         {/* Pergunta de Oportunidade (How Might We) */}
         <RevealOnScroll direction="up" delay={200} duration={1000}>
           <div className="mt-16 bg-gradient-to-r from-surface to-surface-elevated border border-brand/20 rounded-3xl p-8 md:p-14 relative overflow-hidden transition-all duration-300 shadow-md flex justify-center">
@@ -399,40 +411,6 @@ export default function App() {
                 "Como poderíamos criar uma experiência de aprendizagem que recompense o esforço real do aluno e transforme constância em hábito?"
               </h3>
             </div>
-          </div>
-        </RevealOnScroll>
-
-        {/* Referências de apoio */}
-        <RevealOnScroll direction="up" delay={250} duration={1000}>
-          <div className="mt-8 max-w-3xl mx-auto text-center">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-text-secondary mb-2">
-              Referências de apoio
-            </p>
-            <p className="text-[11px] text-text-secondary leading-relaxed mb-3">
-              As fricções levantadas dialogam com estudos sobre evasão em educação online, motivação, presença social e gamificação aplicada ao aprendizado.
-            </p>
-            <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px] text-text-secondary">
-              <li>
-                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9197481/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors">
-                  Shaikh &amp; Asif, 2022 · Persistence and Dropout in Higher Online Education
-                </a>
-              </li>
-              <li>
-                <a href="https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-024-00450-9" target="_blank" rel="noopener noreferrer" className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors">
-                  Rahmani et al., 2024 · Dropout in online higher education
-                </a>
-              </li>
-              <li>
-                <a href="https://www.irrodl.org/index.php/irrodl/article/view/2123/3349" target="_blank" rel="noopener noreferrer" className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors">
-                  Richardson et al., 2015 · Social presence and satisfaction in online learning
-                </a>
-              </li>
-              <li>
-                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10448467/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors">
-                  Ratinho &amp; Martins, 2023 · Gamified learning strategies and student motivation
-                </a>
-              </li>
-            </ul>
           </div>
         </RevealOnScroll>
       </section>
@@ -930,13 +908,73 @@ export default function App() {
         </div>
       </section>
 
+      {/* 12b. DO FIGMA AO PRODUTO NAVEGÁVEL */}
+      <section id="implementacao" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
+        <RevealOnScroll direction="up" duration={800}>
+          <div className="text-center mb-16">
+            <span className="text-xs font-bold uppercase tracking-widest text-brand">Implementação e Handoff Vivo</span>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-5">Do Figma ao produto navegável</h2>
+            <p className="text-text-secondary max-w-2xl mx-auto text-sm">
+              Depois da validação, o projeto não ficou restrito a telas estáticas ou a um handoff tradicional. A solução foi levada para uma versão navegável em ambiente web, aproximando o protótipo de um produto real e permitindo testar fluxos, tema, componentes e narrativa com mais fidelidade.
+            </p>
+          </div>
+        </RevealOnScroll>
+
+        <RevealOnScroll direction="up" delay={100} duration={1000}>
+          <div className="grid sm:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl bg-surface border border-border hover:border-brand/25 transition-all duration-300">
+              <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong mb-4">
+                <Smartphone className="w-5 h-5" />
+              </div>
+              <h4 className="font-bold text-sm text-text-primary mb-2">Protótipo além do Figma</h4>
+              <p className="text-xs text-text-secondary leading-relaxed">
+                As telas deixaram de ser apenas uma representação visual e passaram a funcionar em uma experiência navegável, com interações, estados e tema claro/escuro.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-surface border border-border hover:border-brand/25 transition-all duration-300">
+              <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong mb-4">
+                <Code2 className="w-5 h-5" />
+              </div>
+              <h4 className="font-bold text-sm text-text-primary mb-2">Design com viabilidade técnica</h4>
+              <p className="text-xs text-text-secondary leading-relaxed">
+                A implementação ajudou a validar decisões de layout, responsividade, componentes e comportamento antes de um handoff definitivo para desenvolvimento.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-surface border border-border hover:border-brand/25 transition-all duration-300">
+              <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong mb-4">
+                <Rocket className="w-5 h-5" />
+              </div>
+              <h4 className="font-bold text-sm text-text-primary mb-2">Deploy como parte da entrega</h4>
+              <p className="text-xs text-text-secondary leading-relaxed">
+                A publicação em ambiente web tornou o case mais fácil de apresentar, testar e compartilhar, aproximando a entrega de uma experiência real de produto.
+              </p>
+            </div>
+          </div>
+        </RevealOnScroll>
+
+        <RevealOnScroll direction="fade" delay={200} duration={1000}>
+          <div className="flex flex-wrap justify-center gap-2 mt-10">
+            {["React", "Vite", "Tailwind CSS", "Vercel", "Claude Code", "Antigravity"].map((tech) => (
+              <span
+                key={tech}
+                className="text-[10px] font-medium text-text-secondary bg-surface border border-border px-3 py-1.5 rounded-full"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </RevealOnScroll>
+      </section>
+
       {/* 13. VALOR ESTRATÉGICO PARA A INSTITUIÇÃO */}
       <section id="valor" className="py-24 bg-surface/30 border-y border-border transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16 space-y-4">
+          <div className="text-center mb-16">
             <RevealOnScroll direction="up" duration={800}>
               <span className="text-xs font-bold uppercase tracking-widest text-brand">Visão Comercial</span>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Valor Estratégico para a Instituição</h2>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-5">Valor Estratégico para a Instituição</h2>
               <p className="text-text-secondary max-w-2xl mx-auto text-sm">
                 Mais do que uma experiência agradável ao aluno, a solução foi desenhada para impactar as métricas institucionais e operacionais de instituições de ensino.
               </p>
