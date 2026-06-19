@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Target, ShieldAlert, Sparkles, User, Briefcase, HelpCircle } from "lucide-react";
+import { Target, ShieldAlert, Sparkles, Briefcase } from "lucide-react";
 
 export default function PersonaCard() {
   const [activePersona, setActivePersona] = useState<"sofia" | "marcos">("sofia");
@@ -13,7 +13,7 @@ export default function PersonaCard() {
       avatarInitials: "S",
       tags: ["Estudante EAD Noturna", "Transição de Carreira"],
       quote: "“Quero entender o básico de UX/UI sem perder tempo e conciliar com meu trabalho CLT.”",
-      rotina: "Sofia trabalha em regime CLT como designer gráfica durante o dia. Seu tempo útil de estudos é à noite ou em pequenos intervalos de 15 minutos ao longo do dia. Busca migrar de carreira sem perder a segurança financeira.",
+      rotina: "Sofia trabalha em regime CLT como designer gráfica durante o dia. Seu tempo útil de estudo é à noite ou em pequenos intervalos ao longo da rotina. Busca migrar de carreira sem perder a segurança financeira.",
       habitos: null,
       motivacoes: [
         "Migrar de carreira com estabilidade técnica",
@@ -115,22 +115,16 @@ export default function PersonaCard() {
         <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center relative z-10">
           {/* Avatar Area */}
           <div className="md:col-span-4 flex flex-col items-center text-center">
-            <div className="w-40 h-40 rounded-full bg-gradient-to-tr from-brand/20 via-brand-soft/10 to-brand-strong/20 p-2 border border-brand/25 relative flex items-center justify-center mb-6 shadow-inner">
-              <div className="w-full h-full rounded-full bg-surface-elevated flex flex-col items-center justify-center relative overflow-hidden border border-border">
+            <div className="w-40 h-40 rounded-full bg-gradient-to-tr from-brand/20 via-brand-soft/10 to-brand-strong/20 p-2 border border-brand/25 flex items-center justify-center mb-6 shadow-inner">
+              <div className="w-full h-full rounded-full bg-surface-elevated flex items-center justify-center border border-border">
                 <span className="text-3xl font-extrabold text-brand bg-gradient-to-r from-brand to-brand-strong bg-clip-text text-transparent">
                   {current.avatarInitials}
                 </span>
-                <span className="text-[7px] text-text-secondary uppercase font-bold tracking-wider absolute bottom-3">
-                  [Placeholder de Persona]
-                </span>
-              </div>
-              <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-brand flex items-center justify-center text-white text-[10px] font-bold shadow-md">
-                {current.idade}
               </div>
             </div>
-            
+
             <h3 className="text-2xl font-bold text-text-primary">{current.nome}</h3>
-            <p className="text-xs text-text-secondary mt-1">{current.perfil}</p>
+            <p className="text-xs text-text-secondary mt-1">{current.idade} anos · {current.perfil}</p>
             
             {/* Tags as Chips */}
             <div className="flex flex-wrap gap-1.5 mt-4 justify-center">

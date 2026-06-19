@@ -1,29 +1,10 @@
 import { useState, useEffect } from "react";
 import {
-  BookOpen,
-  Target,
-  Award,
-  Users,
   MessageSquare,
-  Sparkles,
-  Clock,
   ArrowRight,
   CheckCircle2,
-  TrendingUp,
-  Activity,
-  Compass,
   Smartphone,
-  ChevronRight,
-  Zap,
-  Lock,
-  Layers,
-  Search,
-  Wrench,
-  ThumbsUp,
   AlertCircle,
-  Play,
-  Share2,
-  FileText,
   UserCheck,
   Sun,
   Moon
@@ -150,7 +131,7 @@ export default function App() {
               <span className="text-xs font-bold text-text-primary">Autores:</span>
               <span className="text-xs font-extrabold text-brand-strong">Lucas Cabral</span>
               <span className="text-text-secondary text-xs">•</span>
-              <span className="text-xs font-extrabold text-brand-strong">Najme Simón Alé</span>
+              <span className="text-xs font-extrabold text-brand-strong">Najme Simon Alé</span>
             </div>
           </RevealOnScroll>
 
@@ -202,7 +183,7 @@ export default function App() {
 
           <RevealOnScroll direction="up" delay={300} duration={1000}>
             <p className="text-base md:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed mb-10 transition-all duration-300">
-              Uma solução de UX/UI e Product Strategy para tornar a jornada de estudos mais clara, motivadora e acompanhável, combatendo a dispersão comportamental do ensino a distância.
+              Uma solução de UX/UI e Product Strategy para tornar a jornada de estudos mais clara, motivadora e fácil de acompanhar, ajudando estudantes a manter ritmo, visualizar progresso e transformar esforço em continuidade.
             </p>
           </RevealOnScroll>
 
@@ -266,32 +247,32 @@ export default function App() {
                     <div className="flex gap-2.5 items-start">
                       <CheckCircle2 className="w-4 h-4 text-brand flex-shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-xs font-bold text-text-primary">Progresso desde a Home</h4>
-                        <p className="text-[10px] text-text-secondary mt-0.5">Visibilidade constante das metas diárias.</p>
+                        <h4 className="text-xs font-bold text-text-primary">Progresso visível desde a home</h4>
+                        <p className="text-[10px] text-text-secondary mt-0.5">O estudante entende rapidamente o que já avançou e o que ainda precisa fazer.</p>
                       </div>
                     </div>
 
                     <div className="flex gap-2.5 items-start">
                       <CheckCircle2 className="w-4 h-4 text-brand flex-shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-xs font-bold text-text-primary">Estudos Customizáveis</h4>
-                        <p className="text-[10px] text-text-secondary mt-0.5">Metas flexíveis ajustadas à rotina real.</p>
+                        <h4 className="text-xs font-bold text-text-primary">Plano de estudos ajustável</h4>
+                        <p className="text-[10px] text-text-secondary mt-0.5">A rotina de estudos pode ser adaptada ao tempo disponível de cada pessoa.</p>
                       </div>
                     </div>
 
                     <div className="flex gap-2.5 items-start">
                       <CheckCircle2 className="w-4 h-4 text-brand flex-shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-xs font-bold text-text-primary">Recompensas Reais</h4>
-                        <p className="text-[10px] text-text-secondary mt-0.5">Esforço revertido em vantagens tangíveis.</p>
+                        <h4 className="text-xs font-bold text-text-primary">Recompensas com valor percebido</h4>
+                        <p className="text-[10px] text-text-secondary mt-0.5">O progresso deixa de ser apenas uma medalha visual e passa a gerar uma sensação mais concreta de recompensa.</p>
                       </div>
                     </div>
 
                     <div className="flex gap-2.5 items-start">
                       <CheckCircle2 className="w-4 h-4 text-brand flex-shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-xs font-bold text-text-primary">Suporte com IA</h4>
-                        <p className="text-[10px] text-text-secondary mt-0.5">Atendimento inteligente integrado no player.</p>
+                        <h4 className="text-xs font-bold text-text-primary">Suporte inteligente durante o estudo</h4>
+                        <p className="text-[10px] text-text-secondary mt-0.5">O aluno consegue pedir ajuda sem sair do contexto da aula.</p>
                       </div>
                     </div>
                   </div>
@@ -357,7 +338,7 @@ export default function App() {
                 </h2>
                 <div className="w-12 h-1 bg-brand rounded" />
                 <p className="text-text-secondary leading-relaxed text-sm">
-                  Evitando o rótulo de um simples "redesign" estético, o UNIEDU foi concebido a partir das fricções reais encontradas no ensino a distância, abordando o engajamento através do prisma comportamental.
+                  O UNIEDU não foi pensado como um redesenho visual isolado. A proposta nasceu da análise de dificuldades comuns no ensino a distância, como perda de ritmo, baixa percepção de evolução, isolamento e recompensas pouco significativas.
                 </p>
               </div>
             </RevealOnScroll>
@@ -365,41 +346,41 @@ export default function App() {
 
           <div className="lg:col-span-7 grid sm:grid-cols-2 gap-4">
             <RevealOnScroll direction="up" delay={0} duration={800}>
-              <div className="p-5 rounded-2xl bg-surface border border-border/80 hover:border-brand/20 transition-all duration-300">
+              <div className="p-5 rounded-2xl bg-surface border border-border/80 hover:border-brand/25 hover:shadow-lg hover:shadow-brand/10 hover:-translate-y-1 transition-all duration-300 motion-reduce:hover:translate-y-0">
                 <span className="text-xs font-bold text-brand">Fricção 01</span>
-                <h4 className="font-bold text-sm text-text-primary mt-2">Perda de Ritmo Semanal</h4>
+                <h4 className="font-bold text-sm text-text-primary mt-2">Perda de ritmo semanal</h4>
                 <p className="text-xs text-text-secondary mt-1 leading-relaxed">
-                  Estudantes desistem quando imprevistos quebram sua rotina e as plataformas exigem metas inalcançáveis.
+                  Quando a rotina quebra, muitos estudantes têm dificuldade para retomar o estudo. Metas rígidas e pouco adaptáveis aumentam a sensação de atraso.
                 </p>
               </div>
             </RevealOnScroll>
 
             <RevealOnScroll direction="up" delay={150} duration={800}>
-              <div className="p-5 rounded-2xl bg-surface border border-border/80 hover:border-brand/20 transition-all duration-300">
+              <div className="p-5 rounded-2xl bg-surface border border-border/80 hover:border-brand/25 hover:shadow-lg hover:shadow-brand/10 hover:-translate-y-1 transition-all duration-300 motion-reduce:hover:translate-y-0">
                 <span className="text-xs font-bold text-brand">Fricção 02</span>
-                <h4 className="font-bold text-sm text-text-primary mt-2">Baixa Percepção de Evolução</h4>
+                <h4 className="font-bold text-sm text-text-primary mt-2">Baixa percepção de evolução</h4>
                 <p className="text-xs text-text-secondary mt-1 leading-relaxed">
-                  Progresso invisível em sessões curtas de estudo gera cansaço mental e sensação de estagnação.
+                  Em sessões curtas de estudo, o progresso pode parecer invisível. Isso reduz a sensação de avanço e enfraquece a motivação para continuar.
                 </p>
               </div>
             </RevealOnScroll>
 
             <RevealOnScroll direction="up" delay={300} duration={800}>
-              <div className="p-5 rounded-2xl bg-surface border border-border/80 hover:border-brand/20 transition-all duration-300">
+              <div className="p-5 rounded-2xl bg-surface border border-border/80 hover:border-brand/25 hover:shadow-lg hover:shadow-brand/10 hover:-translate-y-1 transition-all duration-300 motion-reduce:hover:translate-y-0">
                 <span className="text-xs font-bold text-brand">Fricção 03</span>
-                <h4 className="font-bold text-sm text-text-primary mt-2">Sentimento de Isolamento</h4>
+                <h4 className="font-bold text-sm text-text-primary mt-2">Sentimento de isolamento</h4>
                 <p className="text-xs text-text-secondary mt-1 leading-relaxed">
-                  Fóruns estáticos desestimulam a interatividade e paralisam o aluno ao travar em exercícios práticos.
+                  No ensino online, a falta de interação e suporte no momento certo pode fazer o aluno travar, adiar dúvidas ou abandonar a atividade.
                 </p>
               </div>
             </RevealOnScroll>
 
             <RevealOnScroll direction="up" delay={450} duration={800}>
-              <div className="p-5 rounded-2xl bg-surface border border-border/80 hover:border-brand/20 transition-all duration-300">
+              <div className="p-5 rounded-2xl bg-surface border border-border/80 hover:border-brand/25 hover:shadow-lg hover:shadow-brand/10 hover:-translate-y-1 transition-all duration-300 motion-reduce:hover:translate-y-0">
                 <span className="text-xs font-bold text-brand">Fricção 04</span>
-                <h4 className="font-bold text-sm text-text-primary mt-2">Recompensas Sem Valor Real</h4>
+                <h4 className="font-bold text-sm text-text-primary mt-2">Recompensas sem valor percebido</h4>
                 <p className="text-xs text-text-secondary mt-1 leading-relaxed">
-                  Medalhas digitais vazias deixam de engajar rapidamente por não conversarem com a carreira do aluno.
+                  Pontos e medalhas ajudam no início, mas perdem força quando não se conectam a benefícios claros ou ao objetivo real do estudante.
                 </p>
               </div>
             </RevealOnScroll>
@@ -408,53 +389,87 @@ export default function App() {
 
         {/* Pergunta de Oportunidade (How Might We) */}
         <RevealOnScroll direction="up" delay={200} duration={1000}>
-          <div className="mt-16 bg-gradient-to-r from-surface to-surface-elevated border border-brand/20 rounded-3xl p-8 md:p-12 relative overflow-hidden transition-all duration-300 shadow-md">
+          <div className="mt-16 bg-gradient-to-r from-surface to-surface-elevated border border-brand/20 rounded-3xl p-8 md:p-14 relative overflow-hidden transition-all duration-300 shadow-md flex justify-center">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand/5 dark:bg-brand/10 rounded-full blur-[80px] pointer-events-none" />
-            <div className="relative z-10 max-w-3xl">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-brand-strong px-2.5 py-1 rounded-full bg-brand/10 border border-brand/20 mb-4 inline-block">
+            <div className="relative z-10 max-w-[780px] md:max-w-[860px] text-center py-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-brand-strong px-2.5 py-1 rounded-full bg-brand/10 border border-brand/20 mb-5 inline-block">
                 Pergunta de Oportunidade (How Might We)
               </span>
               <h3 className="text-xl md:text-2xl font-bold tracking-tight text-text-primary leading-snug">
-                "Como poderíamos criar uma experiência de aprendizagem que recompense o esforço real do aluno e transforme consistência em hábito?"
+                "Como poderíamos criar uma experiência de aprendizagem que recompense o esforço real do aluno e transforme constância em hábito?"
               </h3>
             </div>
+          </div>
+        </RevealOnScroll>
+
+        {/* Referências de apoio */}
+        <RevealOnScroll direction="up" delay={250} duration={1000}>
+          <div className="mt-8 max-w-3xl mx-auto text-center">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-text-secondary mb-2">
+              Referências de apoio
+            </p>
+            <p className="text-[11px] text-text-secondary leading-relaxed mb-3">
+              As fricções levantadas dialogam com estudos sobre evasão em educação online, motivação, presença social e gamificação aplicada ao aprendizado.
+            </p>
+            <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px] text-text-secondary">
+              <li>
+                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9197481/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors">
+                  Shaikh &amp; Asif, 2022 · Persistence and Dropout in Higher Online Education
+                </a>
+              </li>
+              <li>
+                <a href="https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-024-00450-9" target="_blank" rel="noopener noreferrer" className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors">
+                  Rahmani et al., 2024 · Dropout in online higher education
+                </a>
+              </li>
+              <li>
+                <a href="https://www.irrodl.org/index.php/irrodl/article/view/2123/3349" target="_blank" rel="noopener noreferrer" className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors">
+                  Richardson et al., 2015 · Social presence and satisfaction in online learning
+                </a>
+              </li>
+              <li>
+                <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10448467/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors">
+                  Ratinho &amp; Martins, 2023 · Gamified learning strategies and student motivation
+                </a>
+              </li>
+            </ul>
           </div>
         </RevealOnScroll>
       </section>
 
       {/* 5. ESCOPO, AUTORIA E PAPÉIS DO TIME */}
-      <section id="escopo" className="py-24 bg-surface/20 border-t border-border relative transition-all duration-300">
+      <section id="escopo" className="py-16 bg-surface/20 border-t border-border relative transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-12 gap-12 items-start">
-            
+          <div className="grid lg:grid-cols-12 gap-8 items-center">
+
             {/* Left side: Project metadata details */}
             <div className="lg:col-span-5">
               <RevealOnScroll direction="left" duration={1000}>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <span className="text-xs font-bold uppercase tracking-widest text-brand">Maturidade & Execução</span>
                   <h2 className="text-3xl font-bold tracking-tight text-text-primary">Ficha de Entrega do Projeto</h2>
                   <div className="w-12 h-1 bg-brand rounded" />
 
-                  <div className="space-y-4">
-                    <div className="border-b border-border/40 pb-3 flex justify-between items-center text-xs">
+                  <div className="space-y-2.5">
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
                       <span className="text-text-secondary font-bold uppercase tracking-wider">Tipo de Produto</span>
                       <span className="text-text-primary font-semibold">Mobile Application (iOS/Android)</span>
                     </div>
-                    <div className="border-b border-border/40 pb-3 flex justify-between items-center text-xs">
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
                       <span className="text-text-secondary font-bold uppercase tracking-wider">Área do Case</span>
                       <span className="text-text-primary font-semibold">EdTech / Ensino a Distância</span>
                     </div>
-                    <div className="border-b border-border/40 pb-3 flex justify-between items-center text-xs">
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
                       <span className="text-text-secondary font-bold uppercase tracking-wider">Duração</span>
-                      <span className="text-text-primary font-semibold">6 Meses (UX Research a Validação)</span>
+                      <span className="text-text-primary font-semibold">6 meses (UX Research a Validação)</span>
                     </div>
-                    <div className="border-b border-border/40 pb-3 flex justify-between items-center text-xs">
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
                       <span className="text-text-secondary font-bold uppercase tracking-wider">Entrega Técnica</span>
-                      <span className="text-text-primary font-semibold">Protótipo navegável + Validação de Testes</span>
+                      <span className="text-text-primary font-semibold">Protótipo navegável + Validação de testes</span>
                     </div>
-                    <div className="border-b border-border/40 pb-3 flex justify-between items-center text-xs">
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
                       <span className="text-text-secondary font-bold uppercase tracking-wider">Autoria e Execução</span>
-                      <span className="text-brand-strong font-bold">Lucas Cabral & Najme Simón Alé</span>
+                      <span className="text-brand-strong font-bold">Lucas Cabral e Najme Simon Alé</span>
                     </div>
                   </div>
                 </div>
@@ -464,10 +479,10 @@ export default function App() {
             {/* Right side: Specialized Team Roles */}
             <div className="lg:col-span-7">
               <RevealOnScroll direction="right" duration={1000}>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <h3 className="text-xl font-bold text-text-primary">Atuação e Competências de Design</h3>
                   <p className="text-xs text-text-secondary leading-relaxed">
-                    Nossa atuação cobriu do entendimento qualitativo à arquitetura técnica, dividindo o time nas seguintes competências estratégicas:
+                    Nossa atuação foi do entendimento qualitativo à arquitetura técnica, organizando o trabalho nas seguintes competências estratégicas.
                   </p>
 
                   <div className="flex flex-wrap gap-2.5 pt-2">
@@ -505,10 +520,10 @@ export default function App() {
       <section id="pesquisa" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
         <div className="absolute top-1/3 right-0 w-80 h-80 bg-brand/3 dark:bg-brand/5 rounded-full blur-[100px] pointer-events-none" />
 
-        <div className="text-center mb-16 space-y-4">
+        <div className="text-center mb-16">
           <RevealOnScroll direction="up" duration={800}>
             <span className="text-xs font-bold uppercase tracking-widest text-brand">Fase de Descoberta</span>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Pesquisa e Evidências Comportamentais</h2>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-4">Pesquisa e Evidências Comportamentais</h2>
             <p className="text-text-secondary max-w-2xl mx-auto text-sm">
               Decisões de design baseadas em dados qualitativos, benchmarking analítico e escuta real das dores de estudantes.
             </p>
@@ -535,14 +550,17 @@ export default function App() {
               <RevealOnScroll direction="right" duration={1000}>
                 <div className="bg-surface border border-border p-6 rounded-2xl space-y-4">
                   <p className="text-xs text-text-secondary leading-relaxed">
-                    Investigações iniciais apontaram que a maior taxa de evasão em cursos online não decorre da complexidade das disciplinas, mas da dificuldade de manter hábitos de foco e da sensação de progresso estático.
+                    A pesquisa de apoio indicou que a evasão em cursos online costuma estar relacionada a uma combinação de fatores, como motivação, satisfação, suporte, carga de estudos, sensação de isolamento e dificuldade de manter uma rotina consistente.
                   </p>
                   <div className="bg-brand/5 border border-brand/10 p-4 rounded-xl flex gap-3 text-xs text-brand-strong font-semibold">
                     <AlertCircle className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" />
                     <span>
-                      <strong>Indicador Chave:</strong> Dificuldades associadas à conciliação da rotina diária e à ausência de loops imediatos de recompensa são os principais fatores que levam estudantes a abandonar a plataforma nas primeiras 4 semanas.
+                      <strong>Indicador chave:</strong> fatores como motivação, suporte, rotina, presença social e carga de estudos aparecem de forma recorrente em pesquisas sobre permanência e evasão no ensino online.
                     </span>
                   </div>
+                  <p className="text-[10px] text-text-secondary italic">
+                    Fonte de apoio: Shaikh &amp; Asif, 2022; Rahmani et al., 2024.
+                  </p>
                 </div>
               </RevealOnScroll>
             </div>
@@ -566,11 +584,11 @@ export default function App() {
                 <div className="space-y-6">
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {[
-                      { name: "Duolingo", obs: "Streaks visuais e punição branda.", learn: "Cria urgência saudável na rotina.", impact: "Influenciou os dias ativos de foco no App." },
-                      { name: "SoloLearn", obs: "Módulos de códigos interativos.", learn: "Estudos curtos aumentam ativação.", impact: "Guiou a estruturação de microaulas." },
-                      { name: "Kahoot", obs: "Competitividade imediata em tempo real.", learn: "Rankings diretos podem afastar tímidos.", impact: "Influenciou o toggle de ranking opcional." },
-                      { name: "Udemy", obs: "Apenas barras de progresso linear.", learn: "Ausência de incentivo a cada marco.", impact: "Reforçou a criação da Loja de Prêmios." },
-                      { name: "Alura", obs: "Fórum de comunidade em separado.", learn: "Interrupção de foco para tirar dúvida.", impact: "Gerou o player de anotações unificadas." }
+                      { name: "Duolingo", obs: "Streaks visuais e lembretes de continuidade.", learn: "A recorrência fica mais clara quando o progresso é visível no dia a dia.", impact: "Inspirou a visualização de dias ativos e metas de foco." },
+                      { name: "SoloLearn", obs: "Conteúdos curtos e exercícios práticos.", learn: "Sessões menores reduzem a barreira de retomada.", impact: "Ajudou a orientar a ideia de microaulas e avanço incremental." },
+                      { name: "Kahoot", obs: "Dinâmica competitiva e feedback imediato.", learn: "Competição pode engajar, mas também pode pressionar perfis mais reservados.", impact: "Reforçou a decisão de tornar rankings opcionais." },
+                      { name: "Udemy", obs: "Barras de progresso e conclusão por curso.", learn: "O progresso linear ajuda, mas pode não ser suficiente para manter o hábito.", impact: "Reforçou a busca por recompensas mais conectadas ao esforço." },
+                      { name: "Alura", obs: "Comunidade e fórum como apoio ao aprendizado.", learn: "A dúvida precisa ser acolhida sem quebrar o fluxo de estudo.", impact: "Inspirou suporte e anotações no contexto do player." }
                     ].map((item, idx) => (
                       <div key={idx} className="bg-surface border border-border p-5 rounded-2xl space-y-2 hover:border-brand-soft/30 transition-all duration-300">
                         <h4 className="font-bold text-sm text-text-primary flex items-center gap-1.5">
@@ -645,13 +663,28 @@ export default function App() {
                       </div>
                     </div>
                     <span className="text-[9px] text-text-secondary uppercase font-bold tracking-wider bg-surface px-2.5 py-1 rounded border border-border">
-                      [Placeholder de gravação]
+                      Registros internos da equipe
                     </span>
                   </div>
                 </div>
               </RevealOnScroll>
             </div>
           </div>
+
+          {/* Leitura complementar sobre microaprendizagem */}
+          <RevealOnScroll direction="up" duration={800}>
+            <p className="text-[10px] text-text-secondary italic text-center pt-2">
+              Leitura de apoio sobre microaulas:{" "}
+              <a
+                href="https://journal.alt.ac.uk/index.php/rlt/article/view/3110"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors"
+              >
+                Al-Zahrani, 2024 · Flipped Mobile-Based Microlearning
+              </a>
+            </p>
+          </RevealOnScroll>
 
         </div>
       </section>
@@ -805,7 +838,7 @@ export default function App() {
       </RevealOnScroll>
 
       {/* 12. DESIGN SYSTEM */}
-      <DesignSystemSection />
+      <DesignSystemSection theme={theme} setTheme={setTheme} />
 
       {/* 13. VALIDAÇÃO COM USUÁRIOS */}
       <section id="validacao" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
@@ -847,10 +880,10 @@ export default function App() {
             </RevealOnScroll>
           </div>
 
-          {/* Metrics grid and video placeholder */}
+          {/* Metrics grid and validation records */}
           <div className="lg:col-span-7">
             <RevealOnScroll direction="right" duration={1000}>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="bg-surface border border-border p-5 rounded-2xl space-y-2 hover:border-brand-soft/30 transition-all duration-300">
                     <div className="flex justify-between items-center text-[10px]">
@@ -868,29 +901,34 @@ export default function App() {
                       <span className="font-bold text-brand bg-brand/10 px-2 py-0.5 rounded border border-brand/25">Player</span>
                       <span className="text-green-600 dark:text-green-400 font-semibold">90% Sucesso</span>
                     </div>
-                  {/* Test validation media placeholder */}
-                  <div className="bg-surface border border-border rounded-2xl p-4 flex items-center justify-between transition-all duration-300">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong">
-                        <UserCheck className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-text-primary">Registros de Usabilidade do Protótipo</p>
-                        <p className="text-[9px] text-text-secondary mt-0.5">Gravações de tela mostrando as interações dos usuários.</p>
-                      </div>
-                    </div>
-                    <span className="text-[9px] text-text-secondary uppercase font-bold tracking-wider bg-surface px-2.5 py-1 rounded border border-border">
-                      [Placeholder de evidência de teste]
-                    </span>
+                    <h4 className="font-bold text-sm text-text-primary">Estudo e Anotações</h4>
+                    <p className="text-xs text-text-secondary leading-relaxed">
+                      O resgate na loja gerou pequenas dúvidas de interface, ajustadas com microcopy e CTAs mais claros.
+                    </p>
                   </div>
                 </div>
+
+                {/* Registros de validação */}
+                <div className="bg-surface-elevated border border-border rounded-2xl p-4 flex items-center justify-between gap-3 flex-wrap transition-all duration-300">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong">
+                      <UserCheck className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-text-primary">Registros de validação</p>
+                      <p className="text-[9px] text-text-secondary mt-0.5">Gravações de tela das sessões de teste, usadas internamente para priorizar ajustes de interface.</p>
+                    </div>
+                  </div>
+                  <span className="text-[9px] text-text-secondary uppercase font-bold tracking-wider bg-surface px-2.5 py-1 rounded border border-border">
+                    Ponto de acompanhamento institucional
+                  </span>
                 </div>
               </div>
-              </RevealOnScroll>
-            </div>
-
+            </RevealOnScroll>
           </div>
-        </section>
+
+        </div>
+      </section>
 
       {/* 13. VALOR ESTRATÉGICO PARA A INSTITUIÇÃO */}
       <section id="valor" className="py-24 bg-surface/30 border-y border-border transition-all duration-300">
@@ -917,7 +955,7 @@ export default function App() {
                   </p>
                 </div>
                 <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
-                  [Dado de retenção a inserir]
+                  Indicador a validar em nova rodada
                 </span>
               </div>
 
@@ -930,7 +968,7 @@ export default function App() {
                   </p>
                 </div>
                 <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
-                  [Dado de engajamento a inserir]
+                  Métrica sugerida para acompanhamento
                 </span>
               </div>
 
@@ -943,7 +981,7 @@ export default function App() {
                   </p>
                 </div>
                 <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
-                  [Dado de conclusão de módulos a inserir]
+                  Hipótese de impacto
                 </span>
               </div>
 
@@ -956,7 +994,7 @@ export default function App() {
                   </p>
                 </div>
                 <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
-                  [Dado de percepção a inserir]
+                  Ponto de acompanhamento institucional
                 </span>
               </div>
 
@@ -969,7 +1007,7 @@ export default function App() {
                   </p>
                 </div>
                 <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
-                  [Dado de recomendação a inserir]
+                  Indicador a validar em nova rodada
                 </span>
               </div>
 
@@ -982,7 +1020,7 @@ export default function App() {
                   </p>
                 </div>
                 <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
-                  [Dado de suporte a inserir]
+                  Métrica sugerida para acompanhamento
                 </span>
               </div>
 
@@ -1018,51 +1056,19 @@ export default function App() {
                   <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
                 </div>
 
-                {/* Tela Interna - Adapta ao Light/Dark mode */}
-                <div className="absolute inset-0 bg-page p-4 pt-10 flex flex-col justify-between text-xs selection:bg-transparent transition-colors duration-300">
-                  {/* Top Row status */}
-                  <div className="flex justify-between items-center text-[8px] text-text-secondary">
-                    <span>9:41</span>
-                    <span>📶 🔋</span>
-                  </div>
-
-                  {/* Player Content area */}
-                  <div className="flex-1 flex flex-col items-center justify-center p-4 text-center space-y-4">
-                    <div className="w-14 h-14 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong animate-pulse cursor-pointer hover:scale-105 transition-all">
-                      <Play className="w-5 h-5 fill-current ml-0.5" />
-                    </div>
-                    
-                    <div className="space-y-1">
-                      <p className="text-[9px] font-bold text-brand uppercase tracking-wider">
-                        [Placeholder de vídeo / Tour completo]
-                      </p>
-                      <p className="text-[10px] font-bold text-text-primary leading-tight">
-                        Explore o Protótipo Mobile UNIEDU
-                      </p>
-                      <p className="text-[8px] text-text-secondary leading-relaxed">
-                        Tour interativo de 3 minutos demonstrando as transições de fluxos, streaks ativos e resgate de recompensas na loja.
-                      </p>
-                    </div>
-
-                    {/* App Mockup visual element */}
-                    <div className="w-full bg-surface border border-border rounded-xl p-2 text-left space-y-1.5 mt-2">
-                      <div className="flex justify-between items-center text-[7px] font-bold text-text-primary">
-                        <span>📖 Módulo: Gamificação de Retenção</span>
-                        <span className="text-brand">85%</span>
-                      </div>
-                      <div className="w-full bg-border h-1 rounded-full overflow-hidden">
-                        <div className="bg-brand h-full w-[85%] rounded-full" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom bar inside phone */}
-                  <div className="border-t border-border pt-2 flex justify-between items-center text-text-secondary text-[7px] font-medium">
-                    <span>🏠 Home</span>
-                    <span>📅 Plano</span>
-                    <span className="text-brand-strong font-bold">▶ Aulas</span>
-                    <span>🛒 Loja</span>
-                  </div>
+                {/* Tela Interna - Vídeo de navegação do protótipo, troca conforme o tema */}
+                <div className="absolute inset-0">
+                  <video
+                    key={theme}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  >
+                    <source src={theme === "dark" ? prototypeDarkVideo : prototypeLightVideo} type="video/mp4" />
+                  </video>
                 </div>
               </div>
             </MockupReveal3D>
@@ -1163,7 +1169,7 @@ export default function App() {
             
             <div className="w-16 h-0.5 bg-brand mx-auto mb-6 rounded-full" />
             <p className="text-[10px] text-text-secondary uppercase tracking-widest font-bold">
-              UX/UI Case Study · Lucas Cabral & Najme Simón Alé
+              UX/UI Case Study · Lucas Cabral e Najme Simon Alé
             </p>
           </div>
         </RevealOnScroll>

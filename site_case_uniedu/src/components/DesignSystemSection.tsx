@@ -1,6 +1,38 @@
-import { useState } from "react";
 import { Sun, Moon, Trophy, BookOpen, Lock, CheckCircle2, Clock, Zap, Play } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
+
+interface ThemeToggleProps {
+  theme: "light" | "dark";
+  setTheme: (theme: "light" | "dark") => void;
+}
+
+function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
+  const isDark = theme === "dark";
+  return (
+    <div className="flex items-center gap-1 p-1 rounded-full border border-border bg-surface text-[11px]">
+      <button
+        onClick={() => setTheme("light")}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
+          !isDark
+            ? "bg-surface-elevated text-text-primary shadow-sm"
+            : "text-text-secondary hover:text-text-primary"
+        }`}
+      >
+        <Sun size={11} />Light
+      </button>
+      <button
+        onClick={() => setTheme("dark")}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
+          isDark
+            ? "bg-[#1E1A1D] text-[#FCE4EC] shadow-sm"
+            : "text-text-secondary hover:text-text-primary"
+        }`}
+      >
+        <Moon size={11} />Dark
+      </button>
+    </div>
+  );
+}
 
 // ─── Color tokens ─────────────────────────────────────────────────────────────
 const colorTokens = [
@@ -181,9 +213,13 @@ const navTabs = [
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-export default function DesignSystemSection() {
-  const [previewTheme, setPreviewTheme] = useState<"light" | "dark">("dark");
-  const isDark = previewTheme === "dark";
+interface DesignSystemSectionProps {
+  theme: "light" | "dark";
+  setTheme: (theme: "light" | "dark") => void;
+}
+
+export default function DesignSystemSection({ theme, setTheme }: DesignSystemSectionProps) {
+  const isDark = theme === "dark";
 
   const pv = {
     bg:      isDark ? "#120E10" : "#FFFBFD",
@@ -302,29 +338,8 @@ export default function DesignSystemSection() {
               <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand">
                 03 · Componentes
               </h3>
-              {/* Single toggle — controls sections 03 and 04 */}
-              <div className="flex items-center gap-1 p-1 rounded-full border border-border bg-surface text-[11px]">
-                <button
-                  onClick={() => setPreviewTheme("light")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
-                    !isDark
-                      ? "bg-surface-elevated text-text-primary shadow-sm"
-                      : "text-text-secondary hover:text-text-primary"
-                  }`}
-                >
-                  <Sun size={11} />Light
-                </button>
-                <button
-                  onClick={() => setPreviewTheme("dark")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
-                    isDark
-                      ? "bg-[#1E1A1D] text-[#FCE4EC] shadow-sm"
-                      : "text-text-secondary hover:text-text-primary"
-                  }`}
-                >
-                  <Moon size={11} />Dark
-                </button>
-              </div>
+              {/* Toggle global — controla o tema do site inteiro (header, seção 03 e seção 04) */}
+              <ThemeToggle theme={theme} setTheme={setTheme} />
             </div>
 
             {/* Preview canvas */}
@@ -436,12 +451,13 @@ export default function DesignSystemSection() {
         {/* ── 04 · Sistema aplicado ao APP UNIEDU ── */}
         <RevealOnScroll direction="up" delay={100}>
           <div className="mb-16">
-            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-3">
               <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand">
                 04 · Sistema aplicado ao APP UNIEDU
               </h3>
-              <span className="text-[9px] text-text-secondary italic">Responde ao seletor Light / Dark da seção 03</span>
+              <ThemeToggle theme={theme} setTheme={setTheme} />
             </div>
+            <p className="text-[9px] text-text-secondary italic mb-2">Os componentes acompanham o tema global do site.</p>
             <p className="text-[11px] text-text-secondary mb-6 leading-relaxed max-w-2xl">
               Componentes extraídos do produto real — codados em JSX, sem imagens. Documentação viva de como o sistema visual se aplica em contexto.
             </p>
