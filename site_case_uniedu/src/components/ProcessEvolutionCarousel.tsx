@@ -1,42 +1,46 @@
 import { useState, useRef, useCallback } from "react";
-import { ChevronLeft, ChevronRight, PenLine, Layers, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+import prototipo1 from "../../../PROTOTIPO 1.png";
+import prototipo2 from "../../../PROTOTIPO 2.png";
+import prototipo3 from "../../../PROTOTIPO 3.png";
+import prototipo4 from "../../../PROTOTIPO 4.png";
+import prototipo5 from "../../../PROTOTIPO 5.png";
+import prototipo6 from "../../../PROTOTIPO 6.png";
+import prototipo7 from "../../../PROTOTIPO 7.png";
+import prototipo8 from "../../../PROTOTIPO 8.png";
+import prototipo9 from "../../../PROTOTIPO 9.png";
+import prototipo10 from "../../../PROTOTIPO 10.png";
+import prototipo11 from "../../../PROTOTIPO 11.png";
 
 interface Step {
   id: string;
   num: string;
   label: string;
   image: string;
-  text: string;
-  Icon: React.ComponentType<{ className?: string }>;
 }
 
-const sketchLabel = "Primeiras ideias no papel";
-const sketchText = "Antes da interface, o foco foi organizar a lógica da jornada: início, estudo, progresso, comunidade e navegação principal.";
-
-const wireframeLabel = "Wireframes de baixa fidelidade";
-const wireframeText = "Os primeiros fluxos foram estruturados em cinza para validar hierarquia, navegação e organização das telas antes da camada visual.";
-
-const figmaMakeLabel = "Primeira versão visual em alta fidelidade";
-const figmaMakeText = "A partir da estrutura validada, a interface ganhou linguagem visual, cores, componentes e telas navegáveis para aproximar a solução do produto final.";
+const phase1Label = "Sketches no papel";
+const phase2Label = "Wireframes";
+const phase3Label = "Alta fidelidade";
 
 const steps: Step[] = [
-  // Etapa 01 — Sketches à mão (3 imagens)
-  { id: "sketch-01", num: "01", label: sketchLabel, image: "/process-evolution/sketches/sketch-01.png", text: sketchText, Icon: PenLine },
-  { id: "sketch-02", num: "01", label: sketchLabel, image: "/process-evolution/sketches/sketch-02.png", text: sketchText, Icon: PenLine },
-  { id: "sketch-03", num: "01", label: sketchLabel, image: "/process-evolution/sketches/sketch-03.png", text: sketchText, Icon: PenLine },
+  // Fase 01 — Primeiras ideias no papel
+  { id: "prototipo-1", num: "01", label: phase1Label, image: prototipo1 },
+  { id: "prototipo-2", num: "01", label: phase1Label, image: prototipo2 },
+  { id: "prototipo-3", num: "01", label: phase1Label, image: prototipo3 },
 
-  // Etapa 02 — Wireframes no Figma (5 imagens)
-  { id: "wireframe-01", num: "02", label: wireframeLabel, image: "/process-evolution/wireframes/wireframe-01.png", text: wireframeText, Icon: Layers },
-  { id: "wireframe-02", num: "02", label: wireframeLabel, image: "/process-evolution/wireframes/wireframe-02.png", text: wireframeText, Icon: Layers },
-  { id: "wireframe-03", num: "02", label: wireframeLabel, image: "/process-evolution/wireframes/wireframe-03.png", text: wireframeText, Icon: Layers },
-  { id: "wireframe-04", num: "02", label: wireframeLabel, image: "/process-evolution/wireframes/wireframe-04.png", text: wireframeText, Icon: Layers },
-  { id: "wireframe-05", num: "02", label: wireframeLabel, image: "/process-evolution/wireframes/wireframe-05.png", text: wireframeText, Icon: Layers },
+  // Fase 02 — Wireframes de baixa fidelidade
+  { id: "prototipo-4", num: "02", label: phase2Label, image: prototipo4 },
+  { id: "prototipo-5", num: "02", label: phase2Label, image: prototipo5 },
+  { id: "prototipo-6", num: "02", label: phase2Label, image: prototipo6 },
+  { id: "prototipo-7", num: "02", label: phase2Label, image: prototipo7 },
+  { id: "prototipo-8", num: "02", label: phase2Label, image: prototipo8 },
 
-  // Etapa 03 — Protótipo visual no Figma Make (4 imagens)
-  { id: "figma-make-01", num: "03", label: figmaMakeLabel, image: "/process-evolution/figma-make/figma-make-01.png", text: figmaMakeText, Icon: Sparkles },
-  { id: "figma-make-02", num: "03", label: figmaMakeLabel, image: "/process-evolution/figma-make/figma-make-02.png", text: figmaMakeText, Icon: Sparkles },
-  { id: "figma-make-03", num: "03", label: figmaMakeLabel, image: "/process-evolution/figma-make/figma-make-03.png", text: figmaMakeText, Icon: Sparkles },
-  { id: "figma-make-04", num: "03", label: figmaMakeLabel, image: "/process-evolution/figma-make/figma-make-04.png", text: figmaMakeText, Icon: Sparkles },
+  // Fase 03 — Primeira versão em alta fidelidade
+  { id: "prototipo-9", num: "03", label: phase3Label, image: prototipo9 },
+  { id: "prototipo-10", num: "03", label: phase3Label, image: prototipo10 },
+  { id: "prototipo-11", num: "03", label: phase3Label, image: prototipo11 },
 ];
 
 const CARD_W = 256;
@@ -47,12 +51,7 @@ const doubleSteps = [...steps, ...steps];
 
 export default function ProcessEvolutionCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const handleImageError = useCallback((id: string) => {
-    setImageErrors((prev) => ({ ...prev, [id]: true }));
-  }, []);
 
   const scrollTo = useCallback((index: number) => {
     const clamped = Math.max(0, Math.min(index, steps.length - 1));
@@ -105,8 +104,9 @@ export default function ProcessEvolutionCarousel() {
             animation: marquee-process 38s linear infinite;
           }
 
+          /* Pausa exatamente no ponto atual — não altera duration, não reinicia a animação */
           .marquee-track:hover {
-            animation-duration: 110s;
+            animation-play-state: paused;
           }
 
           .carousel-card {
@@ -214,81 +214,31 @@ export default function ProcessEvolutionCarousel() {
         >
           {/* Inner track that scrolls on desktop */}
           <div className="marquee-track flex gap-5">
-            {doubleSteps.map((step, index) => {
-              const { Icon } = step;
-              const isError = imageErrors[step.id] ?? false;
-              return (
-                <article
-                  key={`${step.id}-${index}`}
-                  className={`carousel-card flex-shrink-0 w-[256px] lg:w-[290px] xl:w-[300px] bg-surface border border-border rounded-3xl overflow-hidden flex flex-col transition-all duration-300 ${
-                    index >= steps.length ? "hidden lg:flex" : "flex"
-                  }`}
-                  style={{ scrollSnapAlign: "start" }}
-                >
-                  {/* Image area — no device mockup, print cru em proporção vertical */}
-                  <div className="relative w-full h-[400px] lg:h-[390px] xl:h-[410px] bg-surface-elevated overflow-hidden flex-shrink-0">
-
-                    {/* Step number badge */}
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="inline-flex items-center bg-page/85 backdrop-blur-sm border border-border/60 rounded-full px-2.5 py-1 text-[9px] font-black text-brand tracking-wider">
-                        {step.num}
-                      </span>
-                    </div>
-
-                    {isError ? (
-                      /* Placeholder — shown when image is absent or fails */
-                      <div className="absolute inset-0 flex flex-col items-center justify-center p-5 gap-3 text-center">
-                        <div className="w-12 h-12 rounded-2xl bg-surface border border-border flex items-center justify-center shadow-sm">
-                          <Icon className="w-5 h-5 text-brand/50" />
-                        </div>
-
-                        <div className="space-y-1 px-1">
-                          <p className="text-[10px] font-bold text-text-primary leading-tight">
-                            {step.label}
-                          </p>
-                          <p className="text-[7px] font-mono text-text-secondary break-all leading-relaxed">
-                            {step.image}
-                          </p>
-                        </div>
-
-                        <div className="w-full bg-brand/5 border border-brand/15 rounded-xl px-3 py-2.5 text-left">
-                          <p className="text-[7px] font-bold text-brand-strong uppercase tracking-wider">
-                            Como adicionar
-                          </p>
-                          <p className="text-[7px] text-text-secondary leading-relaxed mt-0.5">
-                            Coloque a imagem em{" "}
-                            <span className="font-mono text-brand">public/process-evolution/</span>{" "}
-                            com o nome exato acima.
-                          </p>
-                        </div>
-                      </div>
-                    ) : (
-                      /* Real image — object-contain preserves aspect ratio, sem moldura de celular */
-                      <img
-                        key={step.image}
-                        src={step.image}
-                        alt={`Etapa ${step.num}: ${step.label}`}
-                        className="absolute inset-0 w-full h-full object-contain bg-surface-elevated"
-                        onError={() => handleImageError(step.id)}
-                      />
-                    )}
+            {doubleSteps.map((step, index) => (
+              <article
+                key={`${step.id}-${index}`}
+                className={`carousel-card flex-shrink-0 w-[256px] lg:w-[290px] xl:w-[300px] bg-surface border border-border rounded-3xl overflow-hidden transition-all duration-300 ${
+                  index >= steps.length ? "hidden lg:flex" : "flex"
+                }`}
+                style={{ scrollSnapAlign: "start" }}
+              >
+                {/* Image area — print cru, sem moldura de device, proporção vertical preservada */}
+                <div className="relative w-full h-[400px] lg:h-[390px] xl:h-[410px] bg-surface-elevated overflow-hidden flex-shrink-0">
+                  {/* Rótulo curto da fase */}
+                  <div className="absolute top-3 left-3 z-10">
+                    <span className="inline-flex items-center bg-page/85 backdrop-blur-sm border border-border/60 rounded-full px-2.5 py-1 text-[9px] font-black text-brand tracking-wider">
+                      {step.num} · {step.label}
+                    </span>
                   </div>
 
-                  {/* Text content */}
-                  <div className="p-4 flex flex-col gap-2 flex-1">
-                    <div className="flex items-center gap-2">
-                      <Icon className="w-3.5 h-3.5 text-brand flex-shrink-0" />
-                      <h3 className="text-xs font-bold text-text-primary leading-tight">
-                        {step.label}
-                      </h3>
-                    </div>
-                    <p className="text-[11px] text-text-secondary leading-relaxed">
-                      {step.text}
-                    </p>
-                  </div>
-                </article>
-              );
-            })}
+                  <img
+                    src={step.image}
+                    alt={`${step.label} — imagem ${step.id.replace("prototipo-", "")}`}
+                    className="absolute inset-0 w-full h-full object-contain bg-surface-elevated"
+                  />
+                </div>
+              </article>
+            ))}
           </div>
         </div>
 
@@ -311,7 +261,7 @@ export default function ProcessEvolutionCarousel() {
               key={`${step.id}-dot`}
               role="tab"
               aria-selected={activeIndex === i}
-              aria-label={`Ir para imagem ${i + 1} da etapa ${step.num}`}
+              aria-label={`Ir para imagem ${i + 1} da fase ${step.num}`}
               onClick={() => scrollTo(i)}
               className={`rounded-full transition-all duration-300 cursor-pointer ${
                 activeIndex === i
