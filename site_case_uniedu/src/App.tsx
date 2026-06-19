@@ -830,7 +830,7 @@ export default function App() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Validação e Testes com Usuários</h2>
                 <div className="w-12 h-1 bg-brand rounded" />
                 <p className="text-text-secondary leading-relaxed text-sm">
-                  Conduzimos testes monitorados com 5 usuários representativos da persona Sofia. Avaliamos a facilidade de navegação e o fluxo de raciocínio nas seguintes tarefas:
+                  Conduzimos testes monitorados com 5 participantes que já tinham familiaridade com cursos online na área de UX/UI. O objetivo foi observar a compreensão dos fluxos principais, identificar pontos de atrito e avaliar se a navegação sustentava a proposta do produto.
                 </p>
 
                 <div className="flex flex-wrap gap-2">
@@ -851,39 +851,71 @@ export default function App() {
                 <div className="bg-surface border border-border rounded-2xl p-4 flex gap-3">
                   <AlertCircle className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" />
                   <div className="text-xs text-text-secondary leading-relaxed">
-                    <strong>Principais Destaques:</strong> As tarefas básicas (onboarding e anotações) obtiveram 100% de sucesso. A mecânica de resgate na loja gerou pequenas dúvidas de interface, o que nos guiou a otimizar microcopys e o realce visual dos CTAs.
+                    <strong>Principais aprendizados:</strong> os fluxos de plano de estudos, aula, briefing e loja foram compreendidos com facilidade. As maiores dúvidas apareceram nas ações de comunidade e, principalmente, no resgate de pontos das conquistas. A análise mostrou que parte do atrito estava na formulação da missão, não apenas na interface, reforçando a importância de validar também a linguagem usada nos testes.
                   </div>
                 </div>
               </div>
             </RevealOnScroll>
           </div>
 
-          {/* Metrics grid and validation records */}
+          {/* Missions grid and validation records */}
           <div className="lg:col-span-7">
             <RevealOnScroll direction="right" duration={1000}>
               <div className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2 hover:border-brand-soft/30 transition-all duration-300">
-                    <div className="flex justify-between items-center text-[10px]">
-                      <span className="font-bold text-brand bg-brand/10 px-2 py-0.5 rounded border border-brand/25">Onboarding</span>
-                      <span className="text-green-600 dark:text-green-400 font-semibold">100% Sucesso</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    {
+                      label: "Missão 01",
+                      titulo: "Alterar plano de estudos",
+                      resultado: "100% de sucesso",
+                      cor: "text-green-600 dark:text-green-400",
+                      texto: "Fluxo compreendido pelos participantes, sem bloqueios relevantes durante a tarefa.",
+                    },
+                    {
+                      label: "Missão 02",
+                      titulo: "Assistir uma aula",
+                      resultado: "100% de sucesso",
+                      cor: "text-green-600 dark:text-green-400",
+                      texto: "A entrada na aula e a continuidade do estudo foram compreendidas com facilidade.",
+                    },
+                    {
+                      label: "Missão 03",
+                      titulo: "Visualizar briefing do case",
+                      resultado: "100% de sucesso",
+                      cor: "text-green-600 dark:text-green-400",
+                      texto: "Os participantes localizaram o briefing e entenderam sua relação com a jornada de estudos.",
+                    },
+                    {
+                      label: "Missão 04",
+                      titulo: "Realizar compra na loja",
+                      resultado: "100% de sucesso",
+                      cor: "text-green-600 dark:text-green-400",
+                      texto: "A lógica de compra/resgate na loja foi concluída sem bloqueios críticos.",
+                    },
+                    {
+                      label: "Missão 05",
+                      titulo: "Fazer publicação na comunidade",
+                      resultado: "Sucesso com atritos",
+                      cor: "text-amber-600 dark:text-amber-400",
+                      texto: "Parte dos participantes precisou de mais orientação para concluir a ação, indicando oportunidade de melhorar rótulos e hierarquia do fluxo.",
+                    },
+                    {
+                      label: "Missão 06",
+                      titulo: "Resgatar pontos das conquistas",
+                      resultado: "Maior ponto de atenção",
+                      cor: "text-red-600 dark:text-red-400",
+                      texto: "Foi a tarefa com mais dificuldade. Na análise posterior, identificamos que a própria formulação da missão influenciou o desempenho, tornando a intenção menos clara para os participantes.",
+                    },
+                  ].map((card) => (
+                    <div key={card.label} className="bg-surface border border-border p-4 rounded-2xl space-y-1.5 hover:border-brand-soft/30 transition-all duration-300">
+                      <div className="flex justify-between items-center text-[10px] gap-2">
+                        <span className="font-bold text-brand bg-brand/10 px-2 py-0.5 rounded border border-brand/25 shrink-0">{card.label}</span>
+                        <span className={`font-semibold text-right ${card.cor}`}>{card.resultado}</span>
+                      </div>
+                      <h4 className="font-bold text-xs text-text-primary leading-snug">{card.titulo}</h4>
+                      <p className="text-[11px] text-text-secondary leading-relaxed">{card.texto}</p>
                     </div>
-                    <h4 className="font-bold text-sm text-text-primary">Login e Configuração</h4>
-                    <p className="text-xs text-text-secondary leading-relaxed">
-                      Conclusão rápida do fluxo de setup do plano semanal sob tempo médio de 45 segundos.
-                    </p>
-                  </div>
-
-                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2 hover:border-brand-soft/30 transition-all duration-300">
-                    <div className="flex justify-between items-center text-[10px]">
-                      <span className="font-bold text-brand bg-brand/10 px-2 py-0.5 rounded border border-brand/25">Player</span>
-                      <span className="text-green-600 dark:text-green-400 font-semibold">90% Sucesso</span>
-                    </div>
-                    <h4 className="font-bold text-sm text-text-primary">Estudo e Anotações</h4>
-                    <p className="text-xs text-text-secondary leading-relaxed">
-                      O resgate na loja gerou pequenas dúvidas de interface, ajustadas com microcopy e CTAs mais claros.
-                    </p>
-                  </div>
+                  ))}
                 </div>
 
                 {/* Registros de validação */}
@@ -894,11 +926,11 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-text-primary">Registros de validação</p>
-                      <p className="text-[9px] text-text-secondary mt-0.5">Gravações de tela das sessões de teste, usadas internamente para priorizar ajustes de interface.</p>
+                      <p className="text-[9px] text-text-secondary mt-0.5">Anotações e tempos de execução foram usados para identificar padrões de compreensão, dúvidas recorrentes e oportunidades de ajuste na interface e na formulação das tarefas.</p>
                     </div>
                   </div>
                   <span className="text-[9px] text-text-secondary uppercase font-bold tracking-wider bg-surface px-2.5 py-1 rounded border border-border">
-                    Ponto de acompanhamento institucional
+                    Evidência de teste
                   </span>
                 </div>
               </div>
