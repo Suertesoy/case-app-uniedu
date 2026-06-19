@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ChevronDown, ImageOff } from "lucide-react";
 import MockupReveal3D from "./MockupReveal3D";
 
 interface Decision {
@@ -149,6 +149,18 @@ export default function ProductShowcase() {
     setActiveId(id);
   };
 
+  // Mobile accordion — estado independente do preview desktop
+  const [expandedMobileId, setExpandedMobileId] = useState<string | null>(null);
+  const [mobileImageErrors, setMobileImageErrors] = useState<Record<string, boolean>>({});
+
+  const toggleMobileExpand = (id: string) => {
+    setExpandedMobileId((prev) => (prev === id ? null : id));
+  };
+
+  const handleMobileImageError = (id: string) => {
+    setMobileImageErrors((prev) => ({ ...prev, [id]: true }));
+  };
+
   return (
     <section id="produto" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand/3 dark:bg-brand/5 rounded-full blur-[120px] pointer-events-none" />
@@ -161,9 +173,10 @@ export default function ProductShowcase() {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
+      {/* Desktop layout — tabs + preview central + painel de análise */}
+      <div className="hidden lg:grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
 
-        {/* Left: decision list — horizontal scroll on mobile, vertical scroll on desktop */}
+        {/* Left: decision list — vertical scroll on desktop */}
         <div className="lg:col-span-3">
           <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2 pb-3 lg:pb-0 lg:max-h-[620px] lg:overflow-y-auto scrollbar-none">
             {decisions.map((d, i) => (
@@ -293,6 +306,86 @@ export default function ProductShowcase() {
           </div>
         </div>
 
+      </div>
+
+      {/* Mobile layout — cards empilhados com expansão inline, sem autoplay */}
+      <div className="lg:hidden space-y-4">
+        {decisions.map((d, i) => {
+          const isExpanded = expandedMobileId === d.id;
+          const hasImageError = mobileImageErrors[d.id] ?? false;
+
+          return (
+            <div
+              key={d.id}
+              className="bg-surface border border-border rounded-2xl overflow-hidden transition-all duration-300"
+            >
+              <div className="p-4 space-y-3">
+                {/* Header da tela */}
+                <div className="flex items-start gap-2">
+                  <span className="text-[10px] font-black text-brand flex-shrink-0 mt-0.5">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-text-primary leading-tight">{d.label}</p>
+                    <p className="text-[11px] text-text-secondary mt-0.5 leading-tight">{d.subtitle}</p>
+                  </div>
+                </div>
+
+                {/* Imagem/placeholder — altura controlada, sem cortes */}
+                <div className="w-full h-56 rounded-xl border border-border/60 bg-page relative overflow-hidden">
+                  {hasImageError ? (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
+                      <ImageOff className="w-5 h-5 text-text-secondary/50" />
+                      <p className="text-[10px] text-text-secondary leading-relaxed">Print do protótipo: {d.label}</p>
+                    </div>
+                  ) : (
+                    <img
+                      src={d.image}
+                      alt={`Print do protótipo: ${d.label}`}
+                      className="absolute inset-0 w-full h-full object-contain bg-page"
+                      onError={() => handleMobileImageError(d.id)}
+                    />
+                  )}
+                </div>
+
+                {/* Botão para expandir a decisão de design */}
+                <button
+                  onClick={() => toggleMobileExpand(d.id)}
+                  aria-expanded={isExpanded}
+                  className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-surface-elevated border border-border text-xs font-bold text-brand-strong cursor-pointer transition-all duration-300"
+                >
+                  {isExpanded ? "Ocultar decisão de design" : "Ver decisão de design"}
+                  <ChevronDown className={`w-4 h-4 flex-shrink-0 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`} />
+                </button>
+
+                {/* Explicação inline — abre dentro do fluxo da página, sem modal */}
+                {isExpanded && (
+                  <div className="space-y-3 text-xs pt-2 border-t border-border">
+                    <div className="space-y-1">
+                      <span className="text-[8px] font-bold text-red-500 uppercase tracking-wider block">Dor Identificada</span>
+                      <p className="text-text-secondary leading-relaxed">{d.dor}</p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-[8px] font-bold text-brand uppercase tracking-wider block">Insight de Pesquisa</span>
+                      <p className="text-text-secondary leading-relaxed">{d.insight}</p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-[8px] font-bold text-brand-strong uppercase tracking-wider block">Decisão de Produto</span>
+                      <p className="text-text-primary font-medium leading-relaxed">{d.decisao}</p>
+                    </div>
+
+                    <div className="bg-brand/5 border border-brand/10 p-3 rounded-xl flex gap-2 items-start text-[10px] text-brand-strong font-semibold">
+                      <CheckCircle2 className="w-4 h-4 text-brand flex-shrink-0 mt-0.5" />
+                      <span className="leading-relaxed">Valor para o aluno: {d.valor}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
