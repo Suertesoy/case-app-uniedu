@@ -22,7 +22,7 @@ interface Step {
 
 const phase1Label = "Sketches no papel";
 const phase2Label = "Wireframes";
-const phase3Label = "Alta fidelidade";
+const phase3Label = "Alta fidelidade: 1ª versão";
 
 const steps: Step[] = [
   // Fase 01 — Primeiras ideias no papel
@@ -223,7 +223,7 @@ export default function ProcessEvolutionCarousel() {
                 style={{ scrollSnapAlign: "start" }}
               >
                 {/* Image area — print cru, sem moldura de device, proporção vertical preservada */}
-                <div className="relative w-full h-[400px] lg:h-[390px] xl:h-[410px] bg-surface-elevated overflow-hidden flex-shrink-0">
+                <div className="relative w-full h-[400px] lg:h-[390px] xl:h-[410px] bg-surface-elevated overflow-hidden rounded-[1.5rem] flex-shrink-0">
                   {/* Rótulo curto da fase */}
                   <div className="absolute top-3 left-3 z-10">
                     <span className="inline-flex items-center bg-page/85 backdrop-blur-sm border border-border/60 rounded-full px-2.5 py-1 text-[9px] font-black text-brand tracking-wider">
@@ -234,7 +234,7 @@ export default function ProcessEvolutionCarousel() {
                   <img
                     src={step.image}
                     alt={`${step.label} — imagem ${step.id.replace("prototipo-", "")}`}
-                    className="absolute inset-0 w-full h-full object-contain bg-surface-elevated"
+                    className="absolute inset-0 w-full h-full object-contain bg-surface-elevated rounded-[1.5rem]"
                   />
                 </div>
               </article>
