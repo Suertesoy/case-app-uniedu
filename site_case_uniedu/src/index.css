@@ -63,6 +63,15 @@
 }
 
 @layer base {
+  html,
+  body {
+    /* Proteção complementar: a página só deve rolar na vertical.
+     * Não substitui a correção estrutural dos elementos que causavam o overflow,
+     * mas evita que qualquer resíduo de poucos pixels deixe a página arrastável. */
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     background-color: var(--page);
     color: var(--text-primary);

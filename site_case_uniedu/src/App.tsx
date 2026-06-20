@@ -298,7 +298,7 @@ export default function App() {
             {/* Mockup Mobile de iPhone 16 */}
             <div className="lg:col-span-7 flex justify-center">
               <MockupReveal3D>
-                <div className="w-[280px] h-[520px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
+                <div className="w-[280px] max-w-full aspect-[7/13] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
                 {/* Dynamic Island */}
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
                   <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
@@ -327,7 +327,7 @@ export default function App() {
       </section>
 
       {/* 4. CONTEXTO DO DESAFIO */}
-      <section id="problema" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
+      <section id="problema" className="py-24 max-w-7xl mx-auto px-6 relative overflow-hidden transition-all duration-300">
         <div className="absolute top-1/2 left-0 w-80 h-80 bg-brand/3 dark:bg-brand/5 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="grid lg:grid-cols-12 gap-12 items-center">
@@ -468,7 +468,7 @@ export default function App() {
       </section>
 
       {/* 5. PESQUISA E DESCOBERTA */}
-      <section id="pesquisa" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
+      <section id="pesquisa" className="py-24 max-w-7xl mx-auto px-6 relative overflow-hidden transition-all duration-300">
         <div className="absolute top-1/3 right-0 w-80 h-80 bg-brand/3 dark:bg-brand/5 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="text-center mb-16">
@@ -1083,7 +1083,7 @@ export default function App() {
             {/* Mockup Mobile de iPhone 16 - Video Tour */}
             <div className="flex justify-center my-8">
               <MockupReveal3D>
-                <div className="w-[280px] h-[520px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
+                <div className="w-[280px] max-w-full aspect-[7/13] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
                 {/* Dynamic Island */}
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
                   <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
