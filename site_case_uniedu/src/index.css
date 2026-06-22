@@ -182,7 +182,7 @@ html {
 .hero-mob-grad-1    { animation: fillProgress 0.40s linear 2.05s forwards; }
 .hero-mob-grad-2    { animation: fillProgress 0.45s linear 2.45s forwards; }
 
-/* Progress staircase — appears after fill completes, then fades out */
+/* Progress staircase — appears after fill completes and stays as a permanent finish */
 .progress-staircase {
   position: relative;
   display: inline-block;
@@ -192,7 +192,6 @@ html {
   overflow: visible;
   pointer-events: none;
   margin-left: 8px;
-  animation: staircaseFadeOut 0.5s ease-in 4.4s forwards;
 }
 
 /* Each stair — horizontal capsule lit with brand gradient */
@@ -240,11 +239,6 @@ html {
 @keyframes stairLight {
   0%   { opacity: 0; transform: scaleX(0); }
   100% { opacity: 1; transform: scaleX(1); }
-}
-
-@keyframes staircaseFadeOut {
-  0%   { opacity: 1; }
-  100% { opacity: 0; }
 }
 
 @keyframes spark1 {

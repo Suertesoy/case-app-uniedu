@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   MessageSquare,
   ArrowRight,
@@ -58,6 +58,37 @@ export default function App() {
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
+
+  // Replay da animação do título do Hero ao sair e voltar para a primeira seção
+  const heroRef = useRef<HTMLElement>(null);
+  const [heroAnimKey, setHeroAnimKey] = useState(0);
+  const hasLeftHeroRef = useRef(false);
+
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const el = heroRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (hasLeftHeroRef.current) {
+            setHeroAnimKey((k) => k + 1);
+            hasLeftHeroRef.current = false;
+          }
+        } else {
+          hasLeftHeroRef.current = true;
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="min-h-screen bg-page text-text-primary selection:bg-brand selection:text-white font-sans transition-colors duration-300">
@@ -121,7 +152,7 @@ export default function App() {
       </header>
 
       {/* 2. HERO SECTION */}
-      <section className="relative overflow-hidden pt-16 pb-24 md:py-32 flex flex-col items-center justify-center transition-all duration-300">
+      <section ref={heroRef} className="relative overflow-hidden pt-16 pb-24 md:py-32 flex flex-col items-center justify-center transition-all duration-300">
         {/* Ambient Glows */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35rem] h-[35rem] bg-glow-1 rounded-full blur-[120px] pointer-events-none transition-colors duration-300" />
         <div className="absolute top-1/3 left-1/4 w-[25rem] h-[25rem] bg-glow-2 rounded-full blur-[100px] pointer-events-none transition-colors duration-300" />
@@ -139,7 +170,7 @@ export default function App() {
           </RevealOnScroll>
 
           <RevealOnScroll direction="up" delay={200} duration={900}>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.3] mb-6 pb-3 transition-all duration-300" aria-label="Gamificação do aprendizado para transformar constância em progresso real">
+            <h1 key={heroAnimKey} className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.3] mb-6 pb-3 transition-all duration-300" aria-label="Gamificação do aprendizado para transformar constância em progresso real">
               {/* Desktop/Tablet version */}
               <span className="hidden md:block" aria-hidden="true">
                 <span className="hero-dark-line hero-dark-1">Gamificação do aprendizado para</span>
