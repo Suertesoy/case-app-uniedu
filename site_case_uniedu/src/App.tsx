@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import {
-  MessageSquare,
   ArrowRight,
   CheckCircle2,
   Smartphone,
   AlertCircle,
-  UserCheck,
   Sun,
   Moon,
   Code2,
@@ -632,22 +630,6 @@ export default function App() {
                       </span>
                     </div>
                   </div>
-
-                  {/* Placeholder de evidência qualitativa / gravação */}
-                  <div className="bg-surface-elevated border border-border rounded-2xl p-4 flex items-center justify-between transition-all duration-300">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong">
-                        <MessageSquare className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-text-primary">Gravações de Áudio das Entrevistas</p>
-                        <p className="text-[9px] text-text-secondary mt-0.5">Sintetizado para validação de persona e jornada.</p>
-                      </div>
-                    </div>
-                    <span className="text-[9px] text-text-secondary uppercase font-bold tracking-wider bg-surface px-2.5 py-1 rounded border border-border">
-                      [Placeholder de gravação]
-                    </span>
-                  </div>
                 </div>
               </RevealOnScroll>
             </div>
@@ -759,22 +741,6 @@ export default function App() {
                       <p className="text-[11px] text-text-secondary leading-relaxed">{card.texto}</p>
                     </div>
                   ))}
-                </div>
-
-                {/* Registros de validação */}
-                <div className="bg-surface-elevated border border-border rounded-2xl p-4 flex items-center justify-between gap-3 flex-wrap transition-all duration-300">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-strong">
-                      <UserCheck className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-text-primary">Registros de validação</p>
-                      <p className="text-[9px] text-text-secondary mt-0.5">Anotações e tempos de execução foram usados para identificar padrões de compreensão, dúvidas recorrentes e oportunidades de ajuste na interface e na formulação das tarefas.</p>
-                    </div>
-                  </div>
-                  <span className="text-[9px] text-text-secondary uppercase font-bold tracking-wider bg-surface px-2.5 py-1 rounded border border-border">
-                    Evidência de teste
-                  </span>
                 </div>
               </div>
             </RevealOnScroll>
