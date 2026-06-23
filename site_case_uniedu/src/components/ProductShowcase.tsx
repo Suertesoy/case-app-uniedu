@@ -229,10 +229,14 @@ export default function ProductShowcase() {
           </div>
         </div>
 
-        {/* Center: clean frame — media is the final artwork, no duplicate phone hardware */}
+        {/* Center: real phone mockup — tela do app dentro de um celular, não card branco */}
         <div className="lg:col-span-5 flex justify-center">
           <MockupReveal3D>
-            <div className="w-[280px] h-[560px] rounded-3xl shadow-xl border border-border/40 relative overflow-hidden flex-shrink-0 transition-all duration-300">
+            <div className="w-[300px] h-[600px] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
+              {/* Dynamic Island */}
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
+                <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
+              </div>
 
               {/* Screen area */}
               {imageError ? (
@@ -247,7 +251,7 @@ export default function ProductShowcase() {
                   </p>
                 </div>
               ) : active.mediaType === "video" ? (
-                /* Real screen recording — object-contain preserves the full screen without cropping */
+                /* Real screen recording — object-cover fills the screen without white bars */
                 <video
                   key={active.media}
                   autoPlay
@@ -255,18 +259,18 @@ export default function ProductShowcase() {
                   loop
                   playsInline
                   preload="metadata"
-                  className="absolute inset-0 w-full h-full object-contain bg-page"
+                  className="absolute inset-0 w-full h-full object-cover"
                   onError={() => setImageError(true)}
                 >
                   <source src={active.media} type="video/mp4" />
                 </video>
               ) : (
-                /* Real screenshot — object-contain preserves full screen without cropping */
+                /* Real screenshot — object-cover fills the screen without white bars */
                 <img
                   key={active.media}
                   src={active.media}
                   alt={`Print do protótipo: ${active.label}`}
-                  className="absolute inset-0 w-full h-full object-contain bg-page"
+                  className="absolute inset-0 w-full h-full object-cover"
                   onError={() => setImageError(true)}
                 />
               )}
@@ -345,33 +349,40 @@ export default function ProductShowcase() {
                   </div>
                 </div>
 
-                {/* Mídia/placeholder — altura controlada, sem cortes */}
-                <div className="w-full h-56 rounded-xl border border-border/60 bg-page relative overflow-hidden">
-                  {hasImageError ? (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
-                      <ImageOff className="w-5 h-5 text-text-secondary/50" />
-                      <p className="text-[10px] text-text-secondary leading-relaxed">Mídia indisponível: {d.label}</p>
+                {/* Mockup de celular — proporcional, sem estourar a largura da tela */}
+                <div className="flex justify-center py-2">
+                  <div className="w-[200px] h-[400px] bg-black rounded-[36px] border-4 border-gray-800 shadow-xl relative overflow-hidden flex-shrink-0">
+                    {/* Dynamic Island */}
+                    <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
+                      <div className="w-1 h-1 bg-gray-800 rounded-full" />
                     </div>
-                  ) : d.mediaType === "video" ? (
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                      className="absolute inset-0 w-full h-full object-contain bg-page"
-                      onError={() => handleMobileImageError(d.id)}
-                    >
-                      <source src={d.media} type="video/mp4" />
-                    </video>
-                  ) : (
-                    <img
-                      src={d.media}
-                      alt={`Print do protótipo: ${d.label}`}
-                      className="absolute inset-0 w-full h-full object-contain bg-page"
-                      onError={() => handleMobileImageError(d.id)}
-                    />
-                  )}
+
+                    {hasImageError ? (
+                      <div className="absolute inset-0 bg-page flex flex-col items-center justify-center gap-2 p-4 text-center">
+                        <ImageOff className="w-5 h-5 text-text-secondary/50" />
+                        <p className="text-[10px] text-text-secondary leading-relaxed">Mídia indisponível: {d.label}</p>
+                      </div>
+                    ) : d.mediaType === "video" ? (
+                      <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="absolute inset-0 w-full h-full object-cover"
+                        onError={() => handleMobileImageError(d.id)}
+                      >
+                        <source src={d.media} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <img
+                        src={d.media}
+                        alt={`Print do protótipo: ${d.label}`}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        onError={() => handleMobileImageError(d.id)}
+                      />
+                    )}
+                  </div>
                 </div>
 
                 {/* Botão para expandir a decisão de design */}

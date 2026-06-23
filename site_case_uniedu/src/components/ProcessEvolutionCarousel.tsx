@@ -217,12 +217,12 @@ export default function ProcessEvolutionCarousel() {
             {doubleSteps.map((step, index) => (
               <article
                 key={`${step.id}-${index}`}
-                className={`carousel-card flex-shrink-0 w-[256px] lg:w-[290px] xl:w-[300px] bg-surface border border-border rounded-3xl overflow-hidden transition-all duration-300 ${
+                className={`carousel-card flex-shrink-0 w-[256px] lg:w-[290px] xl:w-[300px] rounded-[1.5rem] transition-all duration-300 ${
                   index >= steps.length ? "hidden lg:flex" : "flex"
                 }`}
                 style={{ scrollSnapAlign: "start" }}
               >
-                {/* Image area — print cru, sem moldura de device, proporção vertical preservada */}
+                {/* Image area — imagem solta, sem card branco externo, sem moldura de device */}
                 <div className="relative w-full h-[400px] lg:h-[390px] xl:h-[410px] bg-surface-elevated overflow-hidden rounded-[1.5rem] flex-shrink-0">
                   {/* Rótulo curto da fase */}
                   <div className="absolute top-3 left-3 z-10">
@@ -234,7 +234,7 @@ export default function ProcessEvolutionCarousel() {
                   <img
                     src={step.image}
                     alt={`${step.label} — imagem ${step.id.replace("prototipo-", "")}`}
-                    className="absolute inset-0 w-full h-full object-contain bg-surface-elevated rounded-[1.5rem]"
+                    className="absolute inset-0 w-full h-full object-cover rounded-[1.5rem]"
                   />
                 </div>
               </article>
