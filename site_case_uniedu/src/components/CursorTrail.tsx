@@ -21,17 +21,20 @@ export default function CursorTrail() {
     const container = containerRef.current;
     if (!container) return;
 
-    // Track active particle elements and their timeouts for complete cleanup
-    const activeParticles: { element: HTMLDivElement; timeoutId: number }[] = [];
-    const maxParticles = 45;
+    // Track active steps and their timeouts for complete cleanup
+    const activeSteps: { element: HTMLDivElement; timeoutIds: number[] }[] = [];
+    const maxSteps = 24;
 
-    // Track previous mouse position to calculate angle/direction
-    let prevX: number | null = null;
-    let prevY: number | null = null;
+    // Distance-based emission — a new step only appears after the cursor
+    // has actually traveled, so the trail reads as a path, not a smear.
+    const minDistance = 10; // px between steps
+    let lastX: number | null = null;
+    let lastY: number | null = null;
+    let stepIndex = 0;
 
-    // Limit particles density by throttling (e.g. 24ms)
+    // Light throttle on the raw mousemove handler to stay smooth on fast swipes
     let lastTime = 0;
-    const throttleMs = 24;
+    const throttleMs = 16;
 
     const handleMouseMove = (e: MouseEvent) => {
       const now = Date.now();
@@ -41,86 +44,101 @@ export default function CursorTrail() {
       const x = e.clientX;
       const y = e.clientY;
 
-      if (prevX !== null && prevY !== null) {
-        const dx = x - prevX;
-        const dy = y - prevY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        // Only draw if mouse has moved a threshold distance
-        if (distance > 3) {
-          const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-          createParticle(x, y, angle);
-        }
-      } else {
-        createParticle(x, y, 0);
+      if (lastX === null || lastY === null) {
+        lastX = x;
+        lastY = y;
+        return;
       }
 
-      prevX = x;
-      prevY = y;
+      const dx = x - lastX;
+      const dy = y - lastY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < minDistance) return;
+
+      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+      createStep(x, y, angle);
+
+      lastX = x;
+      lastY = y;
     };
 
-    const createParticle = (x: number, y: number, angle: number) => {
-      // Enforce maximum particle cap to avoid performance degradation
-      if (activeParticles.length >= maxParticles) {
-        const oldest = activeParticles.shift();
+    const createStep = (x: number, y: number, angle: number) => {
+      // Enforce maximum active steps to avoid performance degradation
+      if (activeSteps.length >= maxSteps) {
+        const oldest = activeSteps.shift();
         if (oldest) {
-          window.clearTimeout(oldest.timeoutId);
+          oldest.timeoutIds.forEach((id) => window.clearTimeout(id));
           if (container.contains(oldest.element)) {
             container.removeChild(oldest.element);
           }
         }
       }
 
-      const particle = document.createElement("div");
-      
-      // Capsule shape: width larger than height
-      const width = Math.floor(Math.random() * 9) + 16; // 16px to 24px
-      const height = Math.floor(Math.random() * 4) + 6; // 6px to 9px
-      
-      particle.style.position = "fixed";
-      particle.style.left = `${x - width / 2}px`;
-      particle.style.top = `${y - height / 2}px`;
-      particle.style.width = `${width}px`;
-      particle.style.height = `${height}px`;
-      particle.style.borderRadius = "9999px"; // capsule/feixe shape
-      particle.style.pointerEvents = "none";
-      particle.style.userSelect = "none";
-      particle.style.zIndex = "9999";
-      
-      // Use radial gradient for soft fade at the edges and intense center
-      particle.style.background = "radial-gradient(ellipse, var(--cursor-trail-color) 0%, transparent 85%)";
-      
-      // High presence double glow box shadow (wider spread)
-      particle.style.boxShadow = "0 0 12px var(--cursor-trail-glow), 0 0 28px var(--cursor-trail-glow)";
-      
-      // Set initial transform with rotation and scale(1)
-      particle.style.transform = `rotate(${angle}deg) scale(1)`;
-      particle.style.opacity = "1";
-      particle.style.transition = "transform 1.25s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.25s cubic-bezier(0.1, 0.8, 0.3, 1)";
+      // Alternate a small perpendicular offset so consecutive steps zig-zag
+      // along the path, like the rungs of a tiny staircase following the cursor.
+      stepIndex += 1;
+      const perpRad = ((angle + 90) * Math.PI) / 180;
+      const perpOffset = (stepIndex % 2 === 0 ? 1 : -1) * 4;
+      const offsetX = Math.cos(perpRad) * perpOffset;
+      const offsetY = Math.sin(perpRad) * perpOffset;
 
-      container.appendChild(particle);
+      const width = 10 + Math.random() * 6; // 10–16px, same family as the Hero's .stair
+      const height = 2 + Math.random() * 2; // 2–4px
 
-      // Start fade/scale transition in next frame
+      const step = document.createElement("div");
+      step.style.position = "fixed";
+      step.style.left = `${x + offsetX - width / 2}px`;
+      step.style.top = `${y + offsetY - height / 2}px`;
+      step.style.width = `${width}px`;
+      step.style.height = `${height}px`;
+      step.style.borderRadius = "2px";
+      step.style.pointerEvents = "none";
+      step.style.userSelect = "none";
+      step.style.zIndex = "9999";
+      step.style.transformOrigin = "left center";
+
+      // Same gradient + glow language as the Hero staircase (.stair)
+      step.style.background = "linear-gradient(to right, var(--brand), var(--brand-soft))";
+      step.style.boxShadow = "0 0 4px var(--brand-strong), 0 0 10px var(--cursor-trail-glow)";
+
+      step.style.opacity = "0";
+      step.style.transform = `rotate(${angle}deg) scaleX(0.3)`;
+      step.style.transition = "opacity 140ms ease-out, transform 140ms ease-out";
+
+      container.appendChild(step);
+
+      // Pop in — mirrors the Hero's stairLight keyframe (opacity 0→1, scaleX 0→1)
       requestAnimationFrame(() => {
-        particle.style.transform = `rotate(${angle}deg) scale(0.15)`;
-        particle.style.opacity = "0";
+        step.style.opacity = "1";
+        step.style.transform = `rotate(${angle}deg) scaleX(1)`;
       });
 
-      // Track particle and its timeout for removal
-      const timeoutId = window.setTimeout(() => {
-        removeParticle(particle, timeoutId);
-      }, 1250);
+      // Brief hold, then a soft fade-out — oldest steps always fade first
+      // simply because they were created (and scheduled) earlier.
+      const fadeDelay = 110;
+      const fadeDuration = 380 + Math.random() * 120; // ~380–500ms
+      const fadeTimeoutId = window.setTimeout(() => {
+        step.style.transition = `opacity ${fadeDuration}ms ease-in, transform ${fadeDuration}ms ease-in`;
+        step.style.opacity = "0";
+        step.style.transform = `rotate(${angle}deg) scaleX(0.5) translateY(-2px)`;
+      }, fadeDelay);
 
-      activeParticles.push({ element: particle, timeoutId });
+      const totalLifespan = fadeDelay + fadeDuration + 40;
+      const removeTimeoutId = window.setTimeout(() => {
+        removeStep(step, removeTimeoutId);
+      }, totalLifespan);
+
+      activeSteps.push({ element: step, timeoutIds: [fadeTimeoutId, removeTimeoutId] });
     };
 
-    const removeParticle = (particle: HTMLDivElement, timeoutId: number) => {
-      if (container.contains(particle)) {
-        container.removeChild(particle);
+    const removeStep = (step: HTMLDivElement, removeTimeoutId: number) => {
+      if (container.contains(step)) {
+        container.removeChild(step);
       }
-      const index = activeParticles.findIndex((p) => p.timeoutId === timeoutId);
+      const index = activeSteps.findIndex((s) => s.timeoutIds.includes(removeTimeoutId));
       if (index > -1) {
-        activeParticles.splice(index, 1);
+        activeSteps.splice(index, 1);
       }
     };
 
@@ -129,15 +147,15 @@ export default function CursorTrail() {
     // Cleanup on unmount
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      
+
       // Clear all pending timeouts and remove DOM nodes
-      activeParticles.forEach((p) => {
-        window.clearTimeout(p.timeoutId);
-        if (container.contains(p.element)) {
-          container.removeChild(p.element);
+      activeSteps.forEach((s) => {
+        s.timeoutIds.forEach((id) => window.clearTimeout(id));
+        if (container.contains(s.element)) {
+          container.removeChild(s.element);
         }
       });
-      activeParticles.length = 0;
+      activeSteps.length = 0;
     };
   }, []);
 
