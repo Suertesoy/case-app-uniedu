@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Target, ShieldAlert, Sparkles, Briefcase } from "lucide-react";
+import { Target, ShieldAlert, Sparkles, Briefcase, Repeat } from "lucide-react";
 
 export default function PersonaCard() {
   const [activePersona, setActivePersona] = useState<"sofia" | "marcos">("sofia");
@@ -14,7 +14,12 @@ export default function PersonaCard() {
       tags: ["Estudante EAD Noturna", "Transição de Carreira"],
       quote: "“Quero entender o básico de UX/UI sem perder tempo e conciliar com meu trabalho CLT.”",
       rotina: "Sofia trabalha em regime CLT como designer gráfica durante o dia. Seu tempo útil de estudo é à noite ou em pequenos intervalos ao longo da rotina. Busca migrar de carreira sem perder a segurança financeira.",
-      habitos: null,
+      habitos: [
+        "Alterna turnos de estudo entre trabalho e descanso.",
+        "Gosta de estudar com colegas.",
+        "Escreve para fixar melhor o conteúdo.",
+        "Acelera o vídeo e volta quando tem dúvida."
+      ],
       motivacoes: [
         "Migrar de carreira com estabilidade técnica",
         "Ganhar segurança para entrevistas e desafios reais",
@@ -155,17 +160,6 @@ export default function PersonaCard() {
               <p className="text-xs text-text-secondary leading-relaxed">
                 {current.rotina}
               </p>
-
-              {current.habitos && (
-                <div className="mt-4 space-y-2">
-                  <h5 className="text-[10px] font-bold text-text-primary uppercase tracking-wider">Comportamentos e hábitos:</h5>
-                  <ul className="space-y-1 text-[11px] text-text-secondary list-disc pl-4 leading-relaxed">
-                    {current.habitos.map((h, i) => (
-                      <li key={i}>{h}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
 
             {/* Motivações ou Objetivos */}
@@ -206,6 +200,21 @@ export default function PersonaCard() {
                 ))}
               </ul>
             </div>
+
+            {/* Comportamentos e hábitos */}
+            {current.habitos && (
+              <div className="space-y-3 sm:col-span-2">
+                <h4 className="text-sm font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
+                  <Repeat className="w-4 h-4 text-brand-strong" />
+                  Comportamentos e hábitos
+                </h4>
+                <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-4 leading-relaxed">
+                  {current.habitos.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
