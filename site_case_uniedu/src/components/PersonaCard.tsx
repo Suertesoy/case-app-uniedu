@@ -150,15 +150,15 @@ export default function PersonaCard() {
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
                 <Briefcase className="w-4 h-4 text-brand-strong" />
-                Rotina & Perfil
+                Rotina e perfil
               </h4>
               <p className="text-xs text-text-secondary leading-relaxed">
                 {current.rotina}
               </p>
-              
+
               {current.habitos && (
                 <div className="mt-4 space-y-2">
-                  <h5 className="text-[10px] font-bold text-text-primary uppercase tracking-wider">Comportamentos & Hábitos:</h5>
+                  <h5 className="text-[10px] font-bold text-text-primary uppercase tracking-wider">Comportamentos e hábitos:</h5>
                   <ul className="space-y-1 text-[11px] text-text-secondary list-disc pl-4 leading-relaxed">
                     {current.habitos.map((h, i) => (
                       <li key={i}>{h}</li>
@@ -172,7 +172,7 @@ export default function PersonaCard() {
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
                 <Target className="w-4 h-4 text-brand-strong" />
-                {current.id === "sofia" ? "Motivações" : "Objetivos"}
+                Objetivos e motivações
               </h4>
               <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-4 leading-relaxed">
                 {current.motivacoes.map((item, idx) => (
@@ -185,7 +185,7 @@ export default function PersonaCard() {
             <div className="space-y-3 bg-red-500/5 dark:bg-red-500/3 border border-red-500/10 rounded-2xl p-5">
               <h4 className="text-sm font-bold text-red-500 uppercase tracking-wider flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-red-500" />
-                {current.id === "sofia" ? "Dores & Desafios" : "Dores & Frustrações"}
+                Dores e desafios
               </h4>
               <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-4 leading-relaxed">
                 {current.dores.map((item, idx) => (
@@ -198,7 +198,7 @@ export default function PersonaCard() {
             <div className="space-y-3 bg-brand/5 border border-brand/10 rounded-2xl p-5">
               <h4 className="text-sm font-bold text-brand-strong uppercase tracking-wider flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-brand" />
-                Desejos & Necessidades
+                Desejos e necessidades
               </h4>
               <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-4 leading-relaxed">
                 {current.desejos.map((item, idx) => (

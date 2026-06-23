@@ -33,7 +33,7 @@ const decisions: Decision[] = [
     image: "/case-screens/02-plano-estudos.png",
     dor: "Cronogramas rígidos e metas inalcançáveis fazem o aluno desistir na primeira semana em que a vida real não coopera com a grade do curso.",
     insight: "Flexibilidade é a principal variável de retenção em cursos online — quem ajusta o ritmo sem sentir falha continua estudando; quem não consegue, abandona.",
-    decisao: "Criar um configurador com planos pré-definidos (Intensivo, Dedicado, Equilibrado, Noturno, Consistente) que o aluno escolhe no onboarding e pode revisar a qualquer momento sem penalidade.",
+    decisao: "Criar um plano de estudos de acordo com as preferências do aluno, com opções de ritmo (Intensivo, Dedicado, Equilibrado, Noturno, Consistente) que podem ser revisadas a qualquer momento sem penalidade.",
     telaDesc: "Cards de seleção de plano com ritmo semanal, horas por dia e tag de perfil comportamental. Estado selecionado com checkmark rosa e CTA para salvar.",
     valor: "O aluno entra com expectativa realista sobre seu próprio ritmo, reduzindo a sensação de fracasso e aumentando a adesão no médio prazo.",
   },

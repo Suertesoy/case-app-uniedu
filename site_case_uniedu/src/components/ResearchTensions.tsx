@@ -50,7 +50,7 @@ export default function ResearchTensions() {
         
         <div className="text-center mb-16 space-y-4">
           <span className="text-xs font-bold uppercase tracking-widest text-brand">Pontes de Decisão</span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Tensões da pesquisa que viraram decisões de produto</h2>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Tensões da Pesquisa que Viraram Decisões de Produto</h2>
           <p className="text-text-secondary max-w-3xl mx-auto text-sm leading-relaxed">
             As personas ajudaram a sintetizar os perfis principais, mas outros achados da pesquisa revelaram comportamentos complementares. Em vez de forçar uma única resposta para todos os alunos, a solução foi desenhada para acomodar diferentes estilos de motivação, estudo e continuidade.
           </p>
@@ -111,9 +111,11 @@ export default function ResearchTensions() {
                   </div>
                 </div>
 
-                {/* Bottom Badge Destaque */}
-                <div className="text-[9px] font-extrabold text-brand-strong bg-brand/10 border border-brand/20 px-3 py-2 rounded-full w-full text-center mt-6 select-none relative z-10">
-                  {t.badge}
+                {/* Síntese da tensão — nota de destaque, não é um botão */}
+                <div className="pt-4 mt-6 border-t border-border/60 relative z-10">
+                  <p className="text-[10px] font-semibold text-brand-strong italic leading-relaxed">
+                    {t.badge}
+                  </p>
                 </div>
               </div>
             );

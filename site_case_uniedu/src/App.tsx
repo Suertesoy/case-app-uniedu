@@ -653,21 +653,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Leitura complementar sobre microaprendizagem */}
-          <RevealOnScroll direction="up" duration={800}>
-            <p className="text-[10px] text-text-secondary italic text-center pt-2">
-              Leitura de apoio sobre microaulas:{" "}
-              <a
-                href="https://journal.alt.ac.uk/index.php/rlt/article/view/3110"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-brand-strong underline decoration-border underline-offset-2 transition-colors"
-              >
-                Al-Zahrani, 2024 · Flipped Mobile-Based Microlearning
-              </a>
-            </p>
-          </RevealOnScroll>
-
         </div>
       </section>
 
@@ -706,25 +691,10 @@ export default function App() {
                   Conduzimos testes monitorados com 5 participantes que já tinham familiaridade com cursos online na área de UX/UI. O objetivo foi observar a compreensão dos fluxos principais, identificar pontos de atrito e avaliar se a navegação sustentava a proposta do produto.
                 </p>
 
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    "Alterar plano de estudos",
-                    "Assistir uma aula",
-                    "Visualizar briefing do case",
-                    "Realizar compra na loja",
-                    "Fazer publicação na comunidade",
-                    "Resgatar pontos das conquistas"
-                  ].map((task, idx) => (
-                    <span key={idx} className="bg-surface border border-border px-3 py-1.5 rounded-lg text-[10px] text-text-primary font-medium">
-                      {task}
-                    </span>
-                  ))}
-                </div>
-
                 <div className="bg-surface border border-border rounded-2xl p-4 flex gap-3">
                   <AlertCircle className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" />
                   <div className="text-xs text-text-secondary leading-relaxed">
-                    <strong>Principais aprendizados:</strong> os fluxos de plano de estudos, aula, briefing e loja foram compreendidos com facilidade. As maiores dúvidas apareceram nas ações de comunidade e, principalmente, no resgate de pontos das conquistas. A análise mostrou que parte do atrito estava na formulação da missão, não apenas na interface, reforçando a importância de validar também a linguagem usada nos testes.
+                    <strong>Principais aprendizados:</strong> os fluxos de plano de estudos, aula, briefing e loja foram compreendidos com facilidade. As maiores dúvidas apareceram nas ações de comunidade e, principalmente, no resgate de pontos das conquistas. A análise mostrou que parte do atrito estava na formulação da tarefa, não apenas na interface, reforçando a importância de validar também a linguagem usada nos testes.
                   </div>
                 </div>
               </div>
@@ -738,46 +708,46 @@ export default function App() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
                     {
-                      label: "Missão 01",
+                      label: "Tarefa 01",
                       titulo: "Alterar plano de estudos",
                       resultado: "100% de sucesso",
                       cor: "text-green-600 dark:text-green-400",
                       texto: "Fluxo compreendido pelos participantes, sem bloqueios relevantes durante a tarefa.",
                     },
                     {
-                      label: "Missão 02",
+                      label: "Tarefa 02",
                       titulo: "Assistir uma aula",
                       resultado: "100% de sucesso",
                       cor: "text-green-600 dark:text-green-400",
                       texto: "A entrada na aula e a continuidade do estudo foram compreendidas com facilidade.",
                     },
                     {
-                      label: "Missão 03",
+                      label: "Tarefa 03",
                       titulo: "Visualizar briefing do case",
                       resultado: "100% de sucesso",
                       cor: "text-green-600 dark:text-green-400",
                       texto: "Os participantes localizaram o briefing e entenderam sua relação com a jornada de estudos.",
                     },
                     {
-                      label: "Missão 04",
+                      label: "Tarefa 04",
                       titulo: "Realizar compra na loja",
                       resultado: "100% de sucesso",
                       cor: "text-green-600 dark:text-green-400",
                       texto: "A lógica de compra/resgate na loja foi concluída sem bloqueios críticos.",
                     },
                     {
-                      label: "Missão 05",
+                      label: "Tarefa 05",
                       titulo: "Fazer publicação na comunidade",
                       resultado: "Sucesso com atritos",
                       cor: "text-amber-600 dark:text-amber-400",
                       texto: "Parte dos participantes precisou de mais orientação para concluir a ação, indicando oportunidade de melhorar rótulos e hierarquia do fluxo.",
                     },
                     {
-                      label: "Missão 06",
+                      label: "Tarefa 06",
                       titulo: "Resgatar pontos das conquistas",
                       resultado: "Maior ponto de atenção",
                       cor: "text-red-600 dark:text-red-400",
-                      texto: "Foi a tarefa com mais dificuldade. Na análise posterior, identificamos que a própria formulação da missão influenciou o desempenho, tornando a intenção menos clara para os participantes.",
+                      texto: "Foi a tarefa com mais dificuldade. Na análise posterior, identificamos que a própria formulação da tarefa influenciou o desempenho, tornando a intenção menos clara para os participantes.",
                     },
                   ].map((card) => (
                     <div key={card.label} className="bg-surface border border-border p-4 rounded-2xl space-y-1.5 hover:border-brand-soft/30 transition-all duration-300">
@@ -824,7 +794,7 @@ export default function App() {
           <div className="text-center mb-16">
             <RevealOnScroll direction="up" duration={800}>
               <span className="text-xs font-bold uppercase tracking-widest text-brand">Métricas de Sucesso</span>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-5">Métricas de sucesso propostas</h2>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-5">Métricas de Sucesso Propostas</h2>
               <p className="text-text-secondary max-w-2xl mx-auto text-sm">
                 Para avaliar a efetividade da solução, as métricas foram pensadas a partir de dois eixos: impacto educacional e sustentabilidade institucional. A intenção não é medir apenas uso, mas entender se o produto ajuda estudantes a manter constância, avançar no curso e gerar sinais úteis para melhoria contínua da experiência.
               </p>
@@ -939,7 +909,7 @@ export default function App() {
         <RevealOnScroll direction="up" duration={800}>
           <div className="text-center mb-16">
             <span className="text-xs font-bold uppercase tracking-widest text-brand">Implementação e Handoff Vivo</span>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-5">Do Figma ao produto navegável</h2>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mt-3 mb-5">Do Figma ao Produto Navegável</h2>
             <p className="text-text-secondary max-w-2xl mx-auto text-sm">
               Depois da validação, o projeto não ficou restrito a telas estáticas ou a um handoff tradicional. A solução foi levada para uma versão navegável em ambiente web, aproximando o protótipo de um produto real e permitindo testar fluxos, tema, componentes e narrativa com mais fidelidade.
             </p>
@@ -1018,7 +988,7 @@ export default function App() {
                     A quebra sistemática das barreiras de desânimo por meio de metas flexíveis diminui drasticamente a taxa de evasão e trancamento de matrículas.
                   </p>
                 </div>
-                <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
+                <span className="text-[10px] text-brand-strong/80 italic mt-6 inline-block w-fit font-semibold">
                   Indicador a validar em nova rodada
                 </span>
               </div>
@@ -1031,7 +1001,7 @@ export default function App() {
                     As mecânicas de consistência (streaks) aumentam a recorrência de acessos e a minutagem ativa semanal de estudos no aplicativo.
                   </p>
                 </div>
-                <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
+                <span className="text-[10px] text-brand-strong/80 italic mt-6 inline-block w-fit font-semibold">
                   Métrica sugerida para acompanhamento
                 </span>
               </div>
@@ -1044,7 +1014,7 @@ export default function App() {
                     Videoaulas fracionadas e notas contextuais elevam o índice de término de disciplinas, aumentando o sucesso acadêmico geral.
                   </p>
                 </div>
-                <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
+                <span className="text-[10px] text-brand-strong/80 italic mt-6 inline-block w-fit font-semibold">
                   Hipótese de impacto
                 </span>
               </div>
@@ -1057,7 +1027,7 @@ export default function App() {
                     Os prêmios na loja tangibilizam o esforço diário do aluno em benefícios de carreira, gerando maior percepção do custo-benefício da faculdade.
                   </p>
                 </div>
-                <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
+                <span className="text-[10px] text-brand-strong/80 italic mt-6 inline-block w-fit font-semibold">
                   Ponto de acompanhamento institucional
                 </span>
               </div>
@@ -1070,7 +1040,7 @@ export default function App() {
                     Um aplicativo dinâmico e gamificado estimula recomendações espontâneas de alunos ativos em suas redes sociais e locais de trabalho.
                   </p>
                 </div>
-                <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
+                <span className="text-[10px] text-brand-strong/80 italic mt-6 inline-block w-fit font-semibold">
                   Indicador a validar em nova rodada
                 </span>
               </div>
@@ -1083,7 +1053,7 @@ export default function App() {
                     O ecossistema cooperativo estimula que alunos tirem dúvidas entre si, aliviando o fluxo de chamados operacionais e suporte pedagógico.
                   </p>
                 </div>
-                <span className="text-[10px] text-brand-strong bg-brand/10 px-2 py-1 rounded-md border border-brand/20 mt-6 inline-block w-fit font-bold">
+                <span className="text-[10px] text-brand-strong/80 italic mt-6 inline-block w-fit font-semibold">
                   Métrica sugerida para acompanhamento
                 </span>
               </div>
@@ -1170,7 +1140,7 @@ export default function App() {
             <div className="lg:col-span-5">
               <RevealOnScroll direction="left" duration={1000}>
                 <div className="space-y-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-brand">Maturidade & Execução</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-brand">Maturidade e Execução</span>
                   <h2 className="text-3xl font-bold tracking-tight text-text-primary">Ficha de Entrega do Projeto</h2>
                   <div className="w-12 h-1 bg-brand rounded" />
 
@@ -1185,7 +1155,7 @@ export default function App() {
                     </div>
                     <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
                       <span className="text-text-secondary font-bold uppercase tracking-wider">Duração</span>
-                      <span className="text-text-primary font-semibold">6 meses (UX Research a Validação)</span>
+                      <span className="text-text-primary font-semibold">Aproximadamente 8 meses (UX Research a Validação)</span>
                     </div>
                     <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
                       <span className="text-text-secondary font-bold uppercase tracking-wider">Entrega Técnica</span>
@@ -1302,7 +1272,7 @@ export default function App() {
         <RevealOnScroll direction="up" duration={1000}>
           <div className="bg-gradient-to-b from-surface to-page border border-border rounded-[2.5rem] p-10 md:p-16 relative z-10 transition-all duration-300">
             <h2 className="text-xl md:text-3xl font-extrabold tracking-tight mb-8 max-w-3xl mx-auto leading-tight transition-all duration-300 text-text-primary">
-              "UNIEDU não propõe apenas uma interface mais bonita. Propõe uma experiência de aprendizagem mais clara, motivadora e acompanhável, conectando progresso, recompensa, suporte, comunidade e estratégia de produto."
+              "UNIEDU propõe uma experiência de aprendizagem mais clara, motivadora e acompanhável, conectando progresso, recompensa, suporte, comunidade e estratégia de produto."
             </h2>
 
             <div className="w-16 h-0.5 bg-brand mx-auto mb-6 rounded-full" />
