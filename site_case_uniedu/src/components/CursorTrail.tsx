@@ -1,10 +1,7 @@
 import { useEffect, useRef } from "react";
 
-const GRADIENT_ID = "cursor-stair-trail-gradient";
-const SVG_NS = "http://www.w3.org/2000/svg";
-
 export default function CursorTrail() {
-  const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -16,16 +13,16 @@ export default function CursorTrail() {
       (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
     if (isTouchDevice) return;
 
-    const svg = svgRef.current;
-    if (!svg) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    type Unit = { h: SVGLineElement; v: SVGLineElement; timeoutIds: number[] };
+    type Unit = { h: HTMLDivElement; v: HTMLDivElement; timeoutIds: number[] };
     const activeUnits: Unit[] = [];
-    const maxUnits = 12; // ~24 line segments (2 per unit) active at once
+    const maxUnits = 20; // max active "stair" units (1 unit = 1 horizontal + 1 vertical segment)
 
     // A new stair unit is only drawn once the cursor has actually traveled —
     // this keeps the trail reading as a path, not a smear.
-    const minDistance = 12;
+    const minDistance = 11;
     const maxAnchorDrift = 80; // resync without drawing if the anchor falls too far behind a fast flick
 
     let anchorX: number | null = null;
@@ -38,19 +35,21 @@ export default function CursorTrail() {
 
     const removeUnit = (unit: Unit) => {
       unit.timeoutIds.forEach((id) => window.clearTimeout(id));
-      if (svg.contains(unit.h)) svg.removeChild(unit.h);
-      if (svg.contains(unit.v)) svg.removeChild(unit.v);
+      if (container.contains(unit.h)) container.removeChild(unit.h);
+      if (container.contains(unit.v)) container.removeChild(unit.v);
       const index = activeUnits.indexOf(unit);
       if (index > -1) activeUnits.splice(index, 1);
     };
 
-    const styleSegment = (line: SVGLineElement, strokeWidth: number) => {
-      line.setAttribute("stroke", `url(#${GRADIENT_ID})`);
-      line.setAttribute("stroke-width", String(strokeWidth));
-      line.setAttribute("stroke-linecap", "round");
-      line.style.opacity = "0";
-      line.style.transition = "opacity 120ms ease-out";
-      line.style.filter = "drop-shadow(0 0 3px var(--brand-strong)) drop-shadow(0 0 6px var(--cursor-trail-glow))";
+    const baseSegmentStyle = (segment: HTMLDivElement) => {
+      segment.style.position = "fixed";
+      segment.style.pointerEvents = "none";
+      segment.style.userSelect = "none";
+      segment.style.zIndex = "9999";
+      segment.style.borderRadius = "2px";
+      segment.style.boxShadow = "0 0 4px var(--brand-strong), 0 0 8px var(--cursor-trail-glow)";
+      segment.style.opacity = "0";
+      segment.style.transition = "opacity 150ms ease-out";
     };
 
     const createUnit = (x: number, y: number) => {
@@ -73,55 +72,58 @@ export default function CursorTrail() {
       // tread (matching the Hero's stair direction) then a vertical riser
       // connecting it to the next tread — so up, down and diagonal moves
       // all read as connected steps instead of loose marks.
-      const hLen = 10 + Math.random() * 6; // 10–16px
-      const vLen = 6 + Math.random() * 6; // 6–12px
+      const hLen = 12 + Math.random() * 4; // 12–16px
+      const vLen = 8 + Math.random() * 4; // 8–12px
+      const thickness = 2 + Math.random(); // 2–3px
 
-      const cornerX = anchorX + hLen * signX;
-      const cornerY = anchorY;
+      const startX = anchorX;
+      const startY = anchorY;
+      const cornerX = startX + hLen * signX;
+      const cornerY = startY;
       const endX = cornerX;
       const endY = cornerY + vLen * signY;
 
-      const strokeWidth = 2 + Math.random();
+      const hDiv = document.createElement("div");
+      baseSegmentStyle(hDiv);
+      hDiv.style.left = `${Math.min(startX, cornerX)}px`;
+      hDiv.style.top = `${startY - thickness / 2}px`;
+      hDiv.style.width = `${hLen}px`;
+      hDiv.style.height = `${thickness}px`;
+      hDiv.style.background = "linear-gradient(to right, var(--brand), var(--brand-soft))";
 
-      const hLine = document.createElementNS(SVG_NS, "line");
-      hLine.setAttribute("x1", String(anchorX));
-      hLine.setAttribute("y1", String(anchorY));
-      hLine.setAttribute("x2", String(cornerX));
-      hLine.setAttribute("y2", String(cornerY));
-      styleSegment(hLine, strokeWidth);
+      const vDiv = document.createElement("div");
+      baseSegmentStyle(vDiv);
+      vDiv.style.left = `${cornerX - thickness / 2}px`;
+      vDiv.style.top = `${Math.min(cornerY, endY)}px`;
+      vDiv.style.width = `${thickness}px`;
+      vDiv.style.height = `${vLen}px`;
+      vDiv.style.background = "linear-gradient(to bottom, var(--brand), var(--brand-soft))";
 
-      const vLine = document.createElementNS(SVG_NS, "line");
-      vLine.setAttribute("x1", String(cornerX));
-      vLine.setAttribute("y1", String(cornerY));
-      vLine.setAttribute("x2", String(endX));
-      vLine.setAttribute("y2", String(endY));
-      styleSegment(vLine, strokeWidth);
-
-      svg.appendChild(hLine);
-      svg.appendChild(vLine);
+      container.appendChild(hDiv);
+      container.appendChild(vDiv);
 
       requestAnimationFrame(() => {
-        hLine.style.opacity = "1";
-        vLine.style.opacity = "1";
+        hDiv.style.opacity = "1";
+        vDiv.style.opacity = "1";
       });
 
-      const unit: Unit = { h: hLine, v: vLine, timeoutIds: [] };
+      const unit: Unit = { h: hDiv, v: vDiv, timeoutIds: [] };
       activeUnits.push(unit);
 
-      // Brief hold, then a soft fade-out — oldest units always fade first
-      // simply because they were created (and scheduled) earlier.
-      const fadeDelay = 120;
-      const fadeDuration = 400 + Math.random() * 200; // total lifespan ≈ 560–760ms
+      // Brief hold (lets the fade-in finish), then a soft fade-out — oldest
+      // units always fade first simply because they were created earlier.
+      const fadeDelay = 150;
+      const fadeDuration = 550 + Math.random() * 250; // ~550–800ms
       const fadeTimeoutId = window.setTimeout(() => {
-        hLine.style.transition = `opacity ${fadeDuration}ms ease-in`;
-        vLine.style.transition = `opacity ${fadeDuration}ms ease-in`;
-        hLine.style.opacity = "0";
-        vLine.style.opacity = "0";
+        hDiv.style.transition = `opacity ${fadeDuration}ms ease-in`;
+        vDiv.style.transition = `opacity ${fadeDuration}ms ease-in`;
+        hDiv.style.opacity = "0";
+        vDiv.style.opacity = "0";
       }, fadeDelay);
 
       const removeTimeoutId = window.setTimeout(() => {
         removeUnit(unit);
-      }, fadeDelay + fadeDuration + 40);
+      }, fadeDelay + fadeDuration + 50);
 
       unit.timeoutIds.push(fadeTimeoutId, removeTimeoutId);
 
@@ -164,25 +166,18 @@ export default function CursorTrail() {
       window.removeEventListener("mousemove", handleMouseMove);
       activeUnits.forEach((unit) => {
         unit.timeoutIds.forEach((id) => window.clearTimeout(id));
-        if (svg.contains(unit.h)) svg.removeChild(unit.h);
-        if (svg.contains(unit.v)) svg.removeChild(unit.v);
+        if (container.contains(unit.h)) container.removeChild(unit.h);
+        if (container.contains(unit.v)) container.removeChild(unit.v);
       });
       activeUnits.length = 0;
     };
   }, []);
 
   return (
-    <svg
-      ref={svgRef}
-      className="pointer-events-none fixed inset-0 z-50 h-full w-full overflow-hidden select-none"
+    <div
+      ref={containerRef}
+      className="pointer-events-none fixed inset-0 z-50 overflow-hidden select-none"
       aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id={GRADIENT_ID} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="var(--brand)" />
-          <stop offset="100%" stopColor="var(--brand-soft)" />
-        </linearGradient>
-      </defs>
-    </svg>
+    />
   );
 }
