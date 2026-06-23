@@ -251,7 +251,7 @@ export default function ProductShowcase() {
                   </p>
                 </div>
               ) : active.mediaType === "video" ? (
-                /* Real screen recording — object-cover fills the screen without white bars */
+                /* Real screen recording — object-contain shows the full screen; any gap reveals the mockup's own black frame, not a white bar */
                 <video
                   key={active.media}
                   autoPlay
@@ -259,18 +259,18 @@ export default function ProductShowcase() {
                   loop
                   playsInline
                   preload="metadata"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-contain"
                   onError={() => setImageError(true)}
                 >
                   <source src={active.media} type="video/mp4" />
                 </video>
               ) : (
-                /* Real screenshot — object-cover fills the screen without white bars */
+                /* Real screenshot — object-contain shows the full screen; any gap reveals the mockup's own black frame, not a white bar */
                 <img
                   key={active.media}
                   src={active.media}
                   alt={`Print do protótipo: ${active.label}`}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-contain"
                   onError={() => setImageError(true)}
                 />
               )}
@@ -369,7 +369,7 @@ export default function ProductShowcase() {
                         loop
                         playsInline
                         preload="metadata"
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-contain"
                         onError={() => handleMobileImageError(d.id)}
                       >
                         <source src={d.media} type="video/mp4" />
@@ -378,7 +378,7 @@ export default function ProductShowcase() {
                       <img
                         src={d.media}
                         alt={`Print do protótipo: ${d.label}`}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-contain"
                         onError={() => handleMobileImageError(d.id)}
                       />
                     )}

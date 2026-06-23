@@ -222,8 +222,9 @@ export default function ProcessEvolutionCarousel() {
                 }`}
                 style={{ scrollSnapAlign: "start" }}
               >
-                {/* Image area — imagem solta, sem card branco externo, sem moldura de device */}
-                <div className="relative w-full h-[400px] lg:h-[390px] xl:h-[410px] bg-surface-elevated overflow-hidden rounded-[1.5rem] flex-shrink-0">
+                {/* Image area — imagem solta, sem card branco externo, sem moldura de device.
+                    Fundo escuro fixo (não-branco) preenche qualquer respiro deixado pelo object-contain. */}
+                <div className="relative w-full h-[400px] lg:h-[390px] xl:h-[410px] bg-[#1E1A1D] overflow-hidden rounded-[1.5rem] flex-shrink-0">
                   {/* Rótulo curto da fase */}
                   <div className="absolute top-3 left-3 z-10">
                     <span className="inline-flex items-center bg-page/85 backdrop-blur-sm border border-border/60 rounded-full px-2.5 py-1 text-[9px] font-black text-brand tracking-wider">
@@ -234,7 +235,7 @@ export default function ProcessEvolutionCarousel() {
                   <img
                     src={step.image}
                     alt={`${step.label} — imagem ${step.id.replace("prototipo-", "")}`}
-                    className="absolute inset-0 w-full h-full object-cover rounded-[1.5rem]"
+                    className="absolute inset-0 w-full h-full object-contain rounded-[1.5rem]"
                   />
                 </div>
               </article>
