@@ -1,4 +1,4 @@
-import { Sun, Moon, Trophy, BookOpen, Lock, CheckCircle2, Clock, Zap, Play, Search } from "lucide-react";
+import { Sun, Moon, Trophy, BookOpen, Lock, CheckCircle2, Clock, Zap, Play } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
 
 interface ThemeToggleProps {
@@ -173,74 +173,12 @@ const typeSamples = [
   },
 ];
 
-// ─── Usage rules ──────────────────────────────────────────────────────────────
-const usageRules = [
-  {
-    rule: "Rosa como acento, não ruído",
-    detail: "Use rosa/magenta apenas em CTAs, barras de progresso, badges ativos e estados de destaque. Evite como cor de fundo dominante ou ícone puramente decorativo.",
-  },
-  {
-    rule: "Gamificação adulta",
-    detail: "XP, streaks e pontos devem parecer conquistas profissionais. Recompensas reais (mentoria, certificados, templates) ancoram o valor percebido da consistência.",
-  },
-  {
-    rule: "Estados visuais distintos",
-    detail: "Concluído, Em andamento, Bloqueado e Novo devem ser distinguíveis por cor, ícone E texto. Nunca dependa de cor como único diferenciador.",
-  },
-  {
-    rule: "Dark mode aquecido",
-    detail: "Evite preto puro e cinzas frios. O fundo usa #120E10 — preto rosado que mantém o tom emocional do produto e afasta o visual genérico de apps comuns.",
-  },
-  {
-    rule: "Hierarquia por superfície",
-    detail: "Surface > Background em ambos os modos. Profundidade visual clara sem sombras pesadas — apenas diferença de valor de cor entre as camadas.",
-  },
-  {
-    rule: "Contraste e acessibilidade",
-    detail: "Texto primário sempre acima de 4.5:1 (WCAG AA). Muted (#9E9EAE) deve ser usado apenas em metadados onde o contexto visual complementa a leitura.",
-  },
-  {
-    rule: "Área de toque confortável",
-    detail: "Botões e itens de bottom nav respeitam 44×44px mínimo. Itens de checklist e aulas também devem ser confortáveis para toque sem erro.",
-  },
-  {
-    rule: "Progressive disclosure",
-    detail: "Onboarding e modal da jornada orientam sem poluir permanentemente. Usuários avançados ignoram overlays de introdução sem penalidade de UX.",
-  },
-  {
-    rule: "Recompensas com valor percebido",
-    detail: "Cada ação de estudo deve ter pontuação clara. Resgates na loja devem mostrar o benefício de carreira concreto, não apenas o nome do item.",
-  },
-];
-
 // ─── Static data for product components (outside component for clean renders) ──
 const jornadaItems = [
   { icon: "📚", label: "Assistir uma aula",    pts: "+50 pts", done: true  },
   { icon: "💬", label: "Fazer um comentário",  pts: "+10 pts", done: true  },
   { icon: "⭐", label: "Ganhar uma conquista", pts: "+XP",     done: true  },
   { icon: "🎁", label: "Resgatar recompensa",  pts: "🎉",      done: false },
-];
-
-const navTabs = [
-  { emoji: "🏠", label: "Home",       active: false },
-  { emoji: "▶",  label: "Aulas",      active: false },
-  { emoji: "🛒", label: "Loja",       active: true  },
-  { emoji: "👥", label: "Comunidade", active: false },
-  { emoji: "👤", label: "Perfil",     active: false },
-];
-
-const earnPointsStrip = [
-  { label: "Aula concluída", pts: "+50 pts" },
-  { label: "Comentar", pts: "+10 pts" },
-  { label: "Publicar", pts: "+50 pts" },
-];
-
-const storeCategories = ["Todos", "Digital", "Mentoria", "Curso", "Certificado"];
-
-const smallerRewards = [
-  { label: "E-book UX Research", pts: "800 pts" },
-  { label: "Template Figma DS", pts: "1.200 pts" },
-  { label: "Mentoria 1h", pts: "3.500 pts" },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -568,138 +506,6 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                 </div>
               </div>
 
-              {/* C3: Loja de recompensas */}
-              <div>
-                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">C3 · Loja de recompensas</p>
-                <div className="rounded-2xl p-3 transition-all duration-500" style={{ background: pv.bg, border: `1px solid ${pv.border}` }}>
-                  <div style={{ background: pv.surface, border: `1px solid ${pv.border}`, borderRadius: 14, overflow: "hidden" }}>
-                    {/* Header da loja */}
-                    <div style={{ padding: "10px 12px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${pv.border}` }}>
-                      <p style={{ fontSize: 13, fontWeight: 700, color: pv.text }}>Loja</p>
-                      <div style={{ display: "flex", alignItems: "center", gap: 4, background: pv.elevated, border: `1px solid ${pv.border}`, borderRadius: 8, padding: "4px 8px" }}>
-                        <Search size={10} color={pv.muted} />
-                        <span style={{ fontSize: 8, color: pv.muted }}>Buscar produto</span>
-                      </div>
-                    </div>
-
-                    <div style={{ padding: "10px 12px 12px" }}>
-                      {/* Saldo de pontos */}
-                      <div style={{ background: "linear-gradient(135deg,#F48FB1,#EC407A,#A31545)", borderRadius: 12, padding: "10px 12px", marginBottom: 10, color: "#fff" }}>
-                        <p style={{ fontSize: 8, opacity: 0.85, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700 }}>Saldo disponível</p>
-                        <p style={{ fontSize: 15, fontWeight: 800, marginTop: 2 }}>
-                          10.000 pts <span style={{ fontSize: 9, fontWeight: 500, opacity: 0.85 }}>para resgate</span>
-                        </p>
-                      </div>
-
-                      {/* Formas de ganhar pontos */}
-                      <div style={{ display: "flex", gap: 6, marginBottom: 10 }}>
-                        {earnPointsStrip.map((e) => (
-                          <div key={e.label} style={{ flex: 1, background: pv.elevated, border: `1px solid ${pv.border}`, borderRadius: 8, padding: "6px 4px", textAlign: "center" }}>
-                            <p style={{ fontSize: 7, color: pv.muted, lineHeight: 1.2 }}>{e.label}</p>
-                            <p style={{ fontSize: 9, fontWeight: 700, color: "#D81B60", marginTop: 1 }}>{e.pts}</p>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Categorias */}
-                      <div style={{ display: "flex", gap: 5, marginBottom: 10, flexWrap: "wrap" }}>
-                        {storeCategories.map((cat, i) => (
-                          <span
-                            key={cat}
-                            style={{
-                              fontSize: 8,
-                              fontWeight: 600,
-                              padding: "3px 8px",
-                              borderRadius: 99,
-                              background: i === 0 ? pv.brand : pv.elevated,
-                              color: i === 0 ? "#fff" : pv.muted,
-                              border: i === 0 ? "none" : `1px solid ${pv.border}`,
-                            }}
-                          >
-                            {cat}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Prêmio em destaque */}
-                      <div style={{ background: pv.elevated, border: `1px solid ${pv.border}`, borderRadius: 12, padding: 10, marginBottom: 8, display: "flex", alignItems: "center", gap: 10 }}>
-                        <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(216,27,96,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>💰</div>
-                        <div style={{ flex: 1 }}>
-                          <p style={{ fontSize: 10, fontWeight: 700, color: pv.text }}>Prêmio em dinheiro — R$100</p>
-                          <p style={{ fontSize: 8, color: pv.muted, marginTop: 1 }}>Destaque da loja</p>
-                        </div>
-                        <span style={{ fontSize: 9, fontWeight: 700, color: "#D81B60", flexShrink: 0 }}>8.000 pts</span>
-                      </div>
-
-                      {/* Recompensas menores */}
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
-                        {smallerRewards.map((r) => (
-                          <div key={r.label} style={{ background: pv.surface, border: `1px solid ${pv.border}`, borderRadius: 8, padding: 6, textAlign: "center" }}>
-                            <p style={{ fontSize: 7, color: pv.text, fontWeight: 600, lineHeight: 1.25, minHeight: 18 }}>{r.label}</p>
-                            <p style={{ fontSize: 8, fontWeight: 700, color: "#D81B60", marginTop: 2 }}>{r.pts}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* C4: Navegação inferior */}
-              <div>
-                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">C4 · Navegação inferior</p>
-                <div className="rounded-2xl p-3 transition-all duration-500" style={{ background: pv.bg, border: `1px solid ${pv.border}` }}>
-                  <div style={{ background: pv.surface, border: `1px solid ${pv.border}`, borderRadius: 14, overflow: "hidden" }}>
-                    <div style={{ height: 72, background: pv.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <p style={{ fontSize: 10, color: pv.muted, fontStyle: "italic" }}>conteúdo da tela</p>
-                    </div>
-                    <div style={{ background: pv.elevated, borderTop: `1px solid ${pv.border}`, display: "flex", padding: "10px 0 8px" }}>
-                      {navTabs.map((tab) => (
-                        <div key={tab.label} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
-                          <span style={{ fontSize: tab.active ? 18 : 16, opacity: tab.active ? 1 : 0.45 }}>{tab.emoji}</span>
-                          <p style={{ fontSize: 8, fontWeight: tab.active ? 700 : 400, color: tab.active ? pv.brand : pv.muted, margin: 0 }}>{tab.label}</p>
-                          {tab.active && <div style={{ width: 4, height: 4, borderRadius: 2, background: pv.brand }} />}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ marginTop: 10, display: "flex", gap: 16 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                      <div style={{ width: 6, height: 6, borderRadius: 3, background: pv.brand }} />
-                      <span style={{ fontSize: 9, color: pv.muted }}>Ativo — cor do brand</span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                      <div style={{ width: 6, height: 6, borderRadius: 3, background: pv.muted, opacity: 0.4 }} />
-                      <span style={{ fontSize: 9, color: pv.muted }}>Inativo — muted</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </RevealOnScroll>
-
-        {/* ── 05 · Regras de Uso ── */}
-        <RevealOnScroll direction="up" delay={100}>
-          <div>
-            <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand mb-5">
-              05 · Regras de Uso
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {usageRules.map((r, i) => (
-                <div key={r.rule} className="rounded-xl p-5 bg-surface-elevated border border-border">
-                  <div className="flex items-start gap-3">
-                    <span className="text-[10px] font-bold text-brand/40 font-mono shrink-0 mt-0.5 tabular-nums">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div>
-                      <p className="text-sm font-bold text-text-primary mb-1">{r.rule}</p>
-                      <p className="text-xs text-text-secondary leading-relaxed">{r.detail}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </RevealOnScroll>
