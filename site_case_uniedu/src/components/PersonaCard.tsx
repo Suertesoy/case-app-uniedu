@@ -3,6 +3,12 @@ import { Target, ShieldAlert, Sparkles, Briefcase, Repeat } from "lucide-react";
 
 export default function PersonaCard() {
   const [activePersona, setActivePersona] = useState<"sofia" | "marcos">("sofia");
+  const [imageError, setImageError] = useState(false);
+
+  const selectPersona = (id: "sofia" | "marcos") => {
+    setActivePersona(id);
+    setImageError(false);
+  };
 
   const personas = {
     sofia: {
@@ -11,6 +17,7 @@ export default function PersonaCard() {
       idade: 24,
       perfil: "Designer Gráfica em transição para UX/UI",
       avatarInitials: "S",
+      foto: "/personas/sofia.png",
       tags: ["Estudante EAD Noturna", "Transição de Carreira"],
       quote: "“Quero entender o básico de UX/UI sem perder tempo e conciliar com meu trabalho CLT.”",
       rotina: "Sofia trabalha em regime CLT como designer gráfica durante o dia. Seu tempo útil de estudo é à noite ou em pequenos intervalos ao longo da rotina. Busca migrar de carreira sem perder a segurança financeira.",
@@ -44,6 +51,7 @@ export default function PersonaCard() {
       idade: 29,
       perfil: "UX Designer",
       avatarInitials: "M",
+      foto: "/personas/marcos.png",
       tags: ["Engajado", "Veterano", "Familiarizado"],
       quote: "“Quando o conteúdo das aulas fica muito prolixo eu perco foco, gosto de mais praticidade e otimização”",
       rotina: "Marcos é UX Designer e busca aprimorar suas habilidades. Ele trabalha, mas tem flexibilidade de horários e encaixa o curso no dia a dia.",
@@ -93,7 +101,7 @@ export default function PersonaCard() {
       {/* Persona Toggle Buttons */}
       <div className="flex justify-center gap-3 mb-10">
         <button
-          onClick={() => setActivePersona("sofia")}
+          onClick={() => selectPersona("sofia")}
           className={`px-5 py-2.5 rounded-xl border text-xs font-bold transition-all duration-300 cursor-pointer ${
             activePersona === "sofia"
               ? "bg-surface-elevated border-brand/40 shadow-sm text-brand-strong scale-[1.01]"
@@ -103,7 +111,7 @@ export default function PersonaCard() {
           Sofia
         </button>
         <button
-          onClick={() => setActivePersona("marcos")}
+          onClick={() => selectPersona("marcos")}
           className={`px-5 py-2.5 rounded-xl border text-xs font-bold transition-all duration-300 cursor-pointer ${
             activePersona === "marcos"
               ? "bg-surface-elevated border-brand/40 shadow-md text-brand-strong scale-[1.01]"
@@ -121,10 +129,20 @@ export default function PersonaCard() {
           {/* Avatar Area */}
           <div className="md:col-span-4 flex flex-col items-center text-center">
             <div className="w-40 h-40 rounded-full bg-gradient-to-tr from-brand/20 via-brand-soft/10 to-brand-strong/20 p-2 border border-brand/25 flex items-center justify-center mb-6 shadow-inner">
-              <div className="w-full h-full rounded-full bg-surface-elevated flex items-center justify-center border border-border">
-                <span className="text-3xl font-extrabold text-brand bg-gradient-to-r from-brand to-brand-strong bg-clip-text text-transparent">
-                  {current.avatarInitials}
-                </span>
+              <div className="w-full h-full rounded-full bg-surface-elevated flex items-center justify-center border border-border overflow-hidden">
+                {imageError ? (
+                  <span className="text-3xl font-extrabold text-brand bg-gradient-to-r from-brand to-brand-strong bg-clip-text text-transparent">
+                    {current.avatarInitials}
+                  </span>
+                ) : (
+                  <img
+                    key={current.id}
+                    src={current.foto}
+                    alt={`Foto da persona ${current.nome}`}
+                    className="w-full h-full rounded-full object-cover object-center"
+                    onError={() => setImageError(true)}
+                  />
+                )}
               </div>
             </div>
 
