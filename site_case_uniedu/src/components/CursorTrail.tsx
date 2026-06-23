@@ -18,20 +18,28 @@ export default function CursorTrail() {
 
     type Unit = { h: HTMLDivElement; v: HTMLDivElement; timeoutIds: number[] };
     const activeUnits: Unit[] = [];
-    const maxUnits = 20; // max active "stair" units (1 unit = 1 horizontal + 1 vertical segment)
+    const maxUnits = 32; // max active "stair" units (1 unit = 1 horizontal + 1 vertical segment)
 
-    // A new stair unit is only drawn once the cursor has actually traveled —
-    // this keeps the trail reading as a path, not a smear.
-    const minDistance = 11;
-    const maxAnchorDrift = 80; // resync without drawing if the anchor falls too far behind a fast flick
+    // Spacing between stair units along a path — also used as the
+    // interpolation step so fast moves/scrolls don't leave gaps.
+    const spacing = 11;
+    const maxStepsPerCall = 14; // hard cap on units drawn from a single jump, so extreme moves can't flood the DOM
+    const teleportThreshold = 500; // jumps bigger than this resync silently instead of drawing one giant trail
+    const maxScrollDeltaPerFrame = 150; // caps how much a single fast-scroll frame can visually "puff" the trail
 
     let anchorX: number | null = null;
     let anchorY: number | null = null;
     let lastSignX = 1;
     let lastSignY = 1;
 
-    let lastTime = 0;
-    const throttleMs = 16;
+    // Raw, unthrottled input captured by the listeners; the rAF loop below
+    // batches it into trail generation at most once per frame.
+    let rawX = 0;
+    let rawY = 0;
+    let cursorKnown = false;
+    let lastProcessedX: number | null = null;
+    let lastProcessedY: number | null = null;
+    let lastProcessedScrollY = window.scrollY;
 
     const removeUnit = (unit: Unit) => {
       unit.timeoutIds.forEach((id) => window.clearTimeout(id));
@@ -131,39 +139,85 @@ export default function CursorTrail() {
       anchorY = endY;
     };
 
+    // Walks the straight line from (fromX, fromY) to (toX, toY) and drops a
+    // stair unit every `spacing` px, so fast swipes and big scroll jumps fill
+    // in with degraus instead of leaving gaps. Each unit still snaps to its
+    // own hLen/vLen size — only the waypoint (and therefore direction) comes
+    // from the interpolation.
+    const addTrailBetween = (fromX: number, fromY: number, toX: number, toY: number) => {
+      const dx = toX - fromX;
+      const dy = toY - fromY;
+      const distance = Math.hypot(dx, dy);
+
+      if (distance < spacing) return;
+
+      if (distance > teleportThreshold) {
+        anchorX = toX;
+        anchorY = toY;
+        return;
+      }
+
+      const steps = Math.min(maxStepsPerCall, Math.max(1, Math.round(distance / spacing)));
+
+      for (let i = 1; i <= steps; i++) {
+        const t = i / steps;
+        createUnit(fromX + dx * t, fromY + dy * t);
+      }
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
-      const now = Date.now();
-      if (now - lastTime < throttleMs) return;
-      lastTime = now;
+      rawX = e.clientX;
+      rawY = e.clientY;
+      cursorKnown = true;
+    };
 
-      const x = e.clientX;
-      const y = e.clientY;
+    let rafId: number;
 
-      if (anchorX === null || anchorY === null) {
-        anchorX = x;
-        anchorY = y;
-        return;
+    const tick = () => {
+      if (cursorKnown) {
+        if (anchorX === null || anchorY === null) {
+          // First sighting of the cursor — anchor here without drawing,
+          // and treat the page's current scroll position as the baseline
+          // so mounting mid-scroll doesn't fake a giant scroll jump.
+          anchorX = rawX;
+          anchorY = rawY;
+          lastProcessedX = rawX;
+          lastProcessedY = rawY;
+          lastProcessedScrollY = window.scrollY;
+        } else {
+          if (rawX !== lastProcessedX || rawY !== lastProcessedY) {
+            addTrailBetween(anchorX, anchorY, rawX, rawY);
+            lastProcessedX = rawX;
+            lastProcessedY = rawY;
+          }
+
+          // Scroll as relative cursor movement: the cursor's viewport
+          // position doesn't change while scrolling, but the content
+          // beneath it does — so a scroll delta gets the same stair
+          // treatment as a vertical mouse move, clamped so a fast fling
+          // can't dump dozens of units in a single frame.
+          const currentScrollY = window.scrollY;
+          const scrollDelta = currentScrollY - lastProcessedScrollY;
+          if (scrollDelta !== 0 && anchorX !== null && anchorY !== null) {
+            const clampedDelta = Math.max(
+              -maxScrollDeltaPerFrame,
+              Math.min(maxScrollDeltaPerFrame, scrollDelta)
+            );
+            addTrailBetween(anchorX, anchorY, anchorX, anchorY + clampedDelta);
+          }
+          lastProcessedScrollY = currentScrollY;
+        }
       }
 
-      const distanceFromAnchor = Math.hypot(x - anchorX, y - anchorY);
-
-      // Fast flicks can outrun the staircase — resync silently instead of
-      // drawing one giant connecting step across the gap.
-      if (distanceFromAnchor > maxAnchorDrift) {
-        anchorX = x;
-        anchorY = y;
-        return;
-      }
-
-      if (distanceFromAnchor < minDistance) return;
-
-      createUnit(x, y);
+      rafId = requestAnimationFrame(tick);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
+    rafId = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(rafId);
       activeUnits.forEach((unit) => {
         unit.timeoutIds.forEach((id) => window.clearTimeout(id));
         if (container.contains(unit.h)) container.removeChild(unit.h);
