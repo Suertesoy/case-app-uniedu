@@ -120,8 +120,8 @@ export default function App() {
             <a href="#estrategia" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Métricas</a>
             <a href="#design-system" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Design System</a>
             <a href="#implementacao" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Implementação</a>
-            <a href="#valor" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Valor</a>
             <a href="#escopo" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Maturidade</a>
+            <a href="#valor" className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">Valor</a>
           </nav>
 
           {/* CTAs and Toggle */}
@@ -930,7 +930,143 @@ export default function App() {
         </RevealOnScroll>
       </section>
 
-      {/* 14. VALOR ESTRATÉGICO PARA A INSTITUIÇÃO */}
+      {/* 14. ESCOPO, AUTORIA E PAPÉIS DO TIME (MATURIDADE E EXECUÇÃO) */}
+      <section id="escopo" className="py-16 bg-surface/20 border-t border-border relative transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-8 items-center">
+
+            {/* Left side: Project metadata details */}
+            <div className="lg:col-span-5">
+              <RevealOnScroll direction="left" duration={1000}>
+                <div className="space-y-4">
+                  <span className="text-xs font-bold uppercase tracking-widest text-brand">Maturidade e Execução</span>
+                  <h2 className="text-3xl font-bold tracking-tight text-text-primary">Ficha de Entrega do Projeto</h2>
+                  <div className="w-12 h-1 bg-brand rounded" />
+
+                  <div className="space-y-2.5">
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
+                      <span className="text-text-secondary font-bold uppercase tracking-wider">Tipo de Produto</span>
+                      <span className="text-text-primary font-semibold">Mobile Application (iOS/Android)</span>
+                    </div>
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
+                      <span className="text-text-secondary font-bold uppercase tracking-wider">Área do Case</span>
+                      <span className="text-text-primary font-semibold">EdTech / Ensino a Distância</span>
+                    </div>
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
+                      <span className="text-text-secondary font-bold uppercase tracking-wider">Duração</span>
+                      <span className="text-text-primary font-semibold">Aproximadamente 8 meses (UX Research a Validação)</span>
+                    </div>
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
+                      <span className="text-text-secondary font-bold uppercase tracking-wider">Entrega Técnica</span>
+                      <span className="text-text-primary font-semibold">Protótipo navegável + Validação de testes</span>
+                    </div>
+                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
+                      <span className="text-text-secondary font-bold uppercase tracking-wider">Autoria e Execução</span>
+                      <span className="text-brand-strong font-bold">Lucas Cabral e Najme Simon Alé</span>
+                    </div>
+                  </div>
+                </div>
+              </RevealOnScroll>
+            </div>
+
+            {/* Right side: Specialized Team Roles */}
+            <div className="lg:col-span-7">
+              <RevealOnScroll direction="right" duration={1000}>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-text-primary">Atuação e Competências de Design</h3>
+                  <p className="text-xs text-text-secondary leading-relaxed">
+                    Nossa atuação foi do entendimento qualitativo à arquitetura técnica, organizando o trabalho nas seguintes competências estratégicas.
+                  </p>
+
+                  <div className="flex flex-wrap gap-2.5 pt-2">
+                    {[
+                      "UX Research",
+                      "UX Strategy",
+                      "UX Writing",
+                      "UI Design",
+                      "Prototipação",
+                      "IA aplicada ao Design"
+                    ].map((role, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-border text-xs text-text-primary font-semibold hover:border-brand/40 transition-all select-none hover:shadow-sm"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand" />
+                        {role}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </RevealOnScroll>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 15. APRENDIZADOS, LIMITES E PRÓXIMOS PASSOS */}
+      <section id="aprendizados" className="py-24 bg-surface/10 border-t border-border transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="grid lg:grid-cols-12 gap-12 items-start">
+            {/* Left Column: Core learning text */}
+            <div className="lg:col-span-5">
+              <RevealOnScroll direction="left" duration={1000}>
+                <div className="space-y-6">
+                  <span className="text-xs font-bold uppercase tracking-widest text-brand">Reflexão Profissional</span>
+                  <h2 className="text-3xl font-bold tracking-tight text-text-primary">Maturidade do Processo</h2>
+                  <div className="w-12 h-1 bg-brand rounded" />
+                  <p className="text-xs text-text-secondary leading-relaxed">
+                    Em vez de encerrar o projeto em um handoff estático, usamos as ferramentas que dominávamos para aproximar a solução de um produto viável, navegável e mais fácil de comunicar para o time de desenvolvimento.
+                  </p>
+                </div>
+              </RevealOnScroll>
+            </div>
+
+            {/* Right Column: Key limits and next steps */}
+            <div className="lg:col-span-7">
+              <RevealOnScroll direction="right" duration={1000}>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2">
+                    <span className="text-[10px] font-bold text-brand uppercase tracking-wider">Amostragem</span>
+                    <h4 className="font-bold text-sm text-text-primary">Expansão de Pesquisa</h4>
+                    <p className="text-xs text-text-secondary leading-relaxed">
+                      Mais rodadas de entrevistas com estudantes de outras áreas fora de UX fortaleceria a validação comportamental.
+                    </p>
+                  </div>
+
+                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2">
+                    <span className="text-[10px] font-bold text-brand uppercase tracking-wider">UX Writing</span>
+                    <h4 className="font-bold text-sm text-text-primary">Refinamento de Microcopy</h4>
+                    <p className="text-xs text-text-secondary leading-relaxed">
+                      Refinar as notificações push e mensagens de streaks ativos para calibrar a taxa ideal de conversão de abertura do app.
+                    </p>
+                  </div>
+
+                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2">
+                    <span className="text-[10px] font-bold text-brand uppercase tracking-wider">Customização</span>
+                    <h4 className="font-bold text-sm text-text-primary">Loja de Recompensas</h4>
+                    <p className="text-xs text-text-secondary leading-relaxed">
+                      Integrar novos tipos de prêmios regionais e parcerias estudantis para personalizar o catálogo conforme o curso.
+                    </p>
+                  </div>
+
+                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2">
+                    <span className="text-[10px] font-bold text-brand uppercase tracking-wider">Handoff</span>
+                    <h4 className="font-bold text-sm text-text-primary">IA e Código Real</h4>
+                    <p className="text-xs text-text-secondary leading-relaxed">
+                      Aproximar o Design System do desenvolvimento real, implementando tokens CSS válidos para acelerar a engenharia.
+                    </p>
+                  </div>
+                </div>
+              </RevealOnScroll>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 16. VALOR ESTRATÉGICO PARA A INSTITUIÇÃO */}
       <section id="valor" className="py-24 bg-surface/30 border-y border-border transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -1029,7 +1165,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 15. PROTÓTIPO COMPLETO */}
+      {/* 17. PROTÓTIPO COMPLETO */}
       <section className="py-24 max-w-5xl mx-auto px-6 relative transition-all duration-300">
         <div className="bg-gradient-to-b from-surface to-page border border-border rounded-[2.5rem] p-8 md:p-12 text-center relative overflow-hidden shadow-xl">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand/5 rounded-full blur-[100px] pointer-events-none" />
@@ -1097,142 +1233,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* 16. ESCOPO, AUTORIA E PAPÉIS DO TIME (MATURIDADE E EXECUÇÃO) */}
-      <section id="escopo" className="py-16 bg-surface/20 border-t border-border relative transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-12 gap-8 items-center">
-
-            {/* Left side: Project metadata details */}
-            <div className="lg:col-span-5">
-              <RevealOnScroll direction="left" duration={1000}>
-                <div className="space-y-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-brand">Maturidade e Execução</span>
-                  <h2 className="text-3xl font-bold tracking-tight text-text-primary">Ficha de Entrega do Projeto</h2>
-                  <div className="w-12 h-1 bg-brand rounded" />
-
-                  <div className="space-y-2.5">
-                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
-                      <span className="text-text-secondary font-bold uppercase tracking-wider">Tipo de Produto</span>
-                      <span className="text-text-primary font-semibold">Mobile Application (iOS/Android)</span>
-                    </div>
-                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
-                      <span className="text-text-secondary font-bold uppercase tracking-wider">Área do Case</span>
-                      <span className="text-text-primary font-semibold">EdTech / Ensino a Distância</span>
-                    </div>
-                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
-                      <span className="text-text-secondary font-bold uppercase tracking-wider">Duração</span>
-                      <span className="text-text-primary font-semibold">Aproximadamente 8 meses (UX Research a Validação)</span>
-                    </div>
-                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
-                      <span className="text-text-secondary font-bold uppercase tracking-wider">Entrega Técnica</span>
-                      <span className="text-text-primary font-semibold">Protótipo navegável + Validação de testes</span>
-                    </div>
-                    <div className="border-b border-border/40 pb-2 flex justify-between items-center text-xs">
-                      <span className="text-text-secondary font-bold uppercase tracking-wider">Autoria e Execução</span>
-                      <span className="text-brand-strong font-bold">Lucas Cabral e Najme Simon Alé</span>
-                    </div>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            </div>
-
-            {/* Right side: Specialized Team Roles */}
-            <div className="lg:col-span-7">
-              <RevealOnScroll direction="right" duration={1000}>
-                <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-text-primary">Atuação e Competências de Design</h3>
-                  <p className="text-xs text-text-secondary leading-relaxed">
-                    Nossa atuação foi do entendimento qualitativo à arquitetura técnica, organizando o trabalho nas seguintes competências estratégicas.
-                  </p>
-
-                  <div className="flex flex-wrap gap-2.5 pt-2">
-                    {[
-                      "UX Research",
-                      "UX Strategy",
-                      "UX Writing",
-                      "UI Design",
-                      "Prototipação",
-                      "IA aplicada ao Design"
-                    ].map((role, idx) => (
-                      <span
-                        key={idx}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-border text-xs text-text-primary font-semibold hover:border-brand/40 transition-all select-none hover:shadow-sm"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-brand" />
-                        {role}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </RevealOnScroll>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 17. APRENDIZADOS, LIMITES E PRÓXIMOS PASSOS */}
-      <section id="aprendizados" className="py-24 bg-surface/10 border-t border-border transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-6">
-
-          <div className="grid lg:grid-cols-12 gap-12 items-start">
-            {/* Left Column: Core learning text */}
-            <div className="lg:col-span-5">
-              <RevealOnScroll direction="left" duration={1000}>
-                <div className="space-y-6">
-                  <span className="text-xs font-bold uppercase tracking-widest text-brand">Reflexão Profissional</span>
-                  <h2 className="text-3xl font-bold tracking-tight text-text-primary">Maturidade do Processo</h2>
-                  <div className="w-12 h-1 bg-brand rounded" />
-                  <p className="text-xs text-text-secondary leading-relaxed">
-                    Em vez de encerrar o projeto em um handoff estático, usamos as ferramentas que dominávamos para aproximar a solução de um produto viável, navegável e mais fácil de comunicar para o time de desenvolvimento.
-                  </p>
-                </div>
-              </RevealOnScroll>
-            </div>
-
-            {/* Right Column: Key limits and next steps */}
-            <div className="lg:col-span-7">
-              <RevealOnScroll direction="right" duration={1000}>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2">
-                    <span className="text-[10px] font-bold text-brand uppercase tracking-wider">Amostragem</span>
-                    <h4 className="font-bold text-sm text-text-primary">Expansão de Pesquisa</h4>
-                    <p className="text-xs text-text-secondary leading-relaxed">
-                      Mais rodadas de entrevistas com estudantes de outras áreas fora de UX fortaleceria a validação comportamental.
-                    </p>
-                  </div>
-
-                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2">
-                    <span className="text-[10px] font-bold text-brand uppercase tracking-wider">UX Writing</span>
-                    <h4 className="font-bold text-sm text-text-primary">Refinamento de Microcopy</h4>
-                    <p className="text-xs text-text-secondary leading-relaxed">
-                      Refinar as notificações push e mensagens de streaks ativos para calibrar a taxa ideal de conversão de abertura do app.
-                    </p>
-                  </div>
-
-                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2">
-                    <span className="text-[10px] font-bold text-brand uppercase tracking-wider">Customização</span>
-                    <h4 className="font-bold text-sm text-text-primary">Loja de Recompensas</h4>
-                    <p className="text-xs text-text-secondary leading-relaxed">
-                      Integrar novos tipos de prêmios regionais e parcerias estudantis para personalizar o catálogo conforme o curso.
-                    </p>
-                  </div>
-
-                  <div className="bg-surface border border-border p-5 rounded-2xl space-y-2">
-                    <span className="text-[10px] font-bold text-brand uppercase tracking-wider">Handoff</span>
-                    <h4 className="font-bold text-sm text-text-primary">IA e Código Real</h4>
-                    <p className="text-xs text-text-secondary leading-relaxed">
-                      Aproximar o Design System do desenvolvimento real, implementando tokens CSS válidos para acelerar a engenharia.
-                    </p>
-                  </div>
-                </div>
-              </RevealOnScroll>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
       {/* 18. FECHAMENTO & FOOTER */}
       <section className="py-24 max-w-5xl mx-auto px-6 text-center relative overflow-hidden">
         <RevealOnScroll direction="up" duration={1000}>
@@ -1251,11 +1251,13 @@ export default function App() {
 
       {/* FOOTER */}
       <footer className="border-t border-border bg-surface py-12 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-wrap justify-center items-center gap-2 text-xs text-text-secondary">
-            <span>•</span>
-            <span>EdTech 2026</span>
-          </div>
+        <div className="max-w-7xl mx-auto px-6 text-center space-y-1.5">
+          <p className="text-xs text-text-secondary leading-relaxed">
+            Case documental desenvolvido por <span className="font-semibold text-text-primary">Lucas Cabral</span> e <span className="font-semibold text-text-primary">Najme Simon Alé</span> como projeto de formação no programa <span className="font-semibold text-brand-strong">UX Unicórnio</span>, conduzido por <span className="font-semibold text-text-primary">Leandro Rezende</span>.
+          </p>
+          <p className="text-[10px] text-text-secondary/70">
+            Pesquisa, estratégia de produto, UX/UI e prototipação aplicadas a uma experiência educacional digital.
+          </p>
         </div>
       </footer>
 
