@@ -53,33 +53,33 @@ export default function PersonaCard() {
       avatarInitials: "M",
       foto: "/personas/marcos.png",
       tags: ["Engajado", "Veterano", "Familiarizado"],
-      quote: "“Quando o conteúdo das aulas fica muito prolixo eu perco foco, gosto de mais praticidade e otimização”",
-      rotina: "Marcos é UX Designer e busca aprimorar suas habilidades. Ele trabalha, mas tem flexibilidade de horários e encaixa o curso no dia a dia.",
+      quote: "“Quando a aula fica prolixa, eu perco o foco. Gosto de praticidade e otimização.”",
+      rotina: "Marcos é UX Designer e quer aprimorar suas habilidades. Tem horários flexíveis e encaixa o curso na rotina.",
       habitos: [
-        "Intercala suas atividades com momentos de estudo.",
-        "Estuda online pela praticidade de ir direto ao ponto, pausar e não precisar sair de casa.",
-        "Gosta de ver primeiro o que será criado para depois criar.",
-        "Utiliza Pomodoro e promete recompensas para si mesmo.",
-        "Usa agenda para se organizar e quadro de propósito para manter motivação."
+        "Intercala estudo com pausas planejadas.",
+        "Estuda online pela praticidade.",
+        "Gosta de ver o primeiro passo claro.",
+        "Usa Pomodoro e pequenas recompensas.",
+        "Organiza agenda e quadro de propósito."
       ],
       motivacoes: [
-        "Melhorar suas habilidades e conseguir aplicar o conhecimento.",
-        "Buscar ser promovido e conseguir novas oportunidades.",
-        "Buscar indicações, networking e conquistar experiência.",
-        "Conseguir certificado."
+        "Melhorar suas habilidades e aplicar o conhecimento.",
+        "Buscar promoção e novas oportunidades.",
+        "Ampliar networking e experiência prática.",
+        "Conseguir certificação."
       ],
       dores: [
-        "Formar grupos em cursos EAD e sincronizar agendas é muito difícil.",
-        "Fica frustrado quando o conteúdo é raso ou muito prolixo.",
-        "A plataforma é chapada e falta linearidade ou suporte.",
-        "Terminar os cursos dentro do prazo é um desafio.",
-        "Chatbots tornam a experiência muito fria e impessoal."
+        "Formar grupos em cursos EAD é difícil.",
+        "Fica frustrado com conteúdo raso ou prolixo.",
+        "A plataforma é chapada e pouco guiada.",
+        "Concluir cursos no prazo é um desafio.",
+        "Chatbots tornam a experiência fria."
       ],
       desejos: [
-        "Precisa de coisas direto ao ponto e valoriza aplicação prática.",
-        "Gosta de comemorações em cada nível/marco e avatares customizados.",
-        "Quer saber em qual porcentagem está, o que concluiu e o que falta.",
-        "Acha importante ter café online ou espaço de troca de ideias."
+        "Precisa de conteúdo direto e aplicável.",
+        "Gosta de comemorações por nível e marco.",
+        "Quer saber quanto concluiu e o que falta.",
+        "Valoriza espaço de troca e café online."
       ]
     }
   };
