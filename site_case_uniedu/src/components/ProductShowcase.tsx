@@ -6,7 +6,8 @@ interface Decision {
   id: string;
   label: string;
   subtitle: string;
-  image: string;
+  media: string;
+  mediaType: "video" | "image";
   dor: string;
   insight: string;
   decisao: string;
@@ -19,7 +20,8 @@ const decisions: Decision[] = [
     id: "primeiro-acesso",
     label: "Primeiro acesso",
     subtitle: "Login, loading e entrada guiada no produto",
-    image: "/case-screens/01-primeiro-acesso.png",
+    media: "/case-screens/01-primeiro-acesso.mp4",
+    mediaType: "video",
     dor: "Plataformas EAD perdem alunos nos primeiros minutos por interfaces confusas ou fluxos de entrada que não criam expectativa positiva sobre o que vem a seguir.",
     insight: "O primeiro acesso é o momento de maior expectativa e menor comprometimento — a interface deve gerar confiança imediata e curiosidade antes de qualquer conteúdo.",
     decisao: "Projetar um fluxo de login com identidade visual forte, seguido de uma loading experience com narrativa de marca que prepara o aluno para o ecossistema que vai encontrar.",
@@ -30,7 +32,8 @@ const decisions: Decision[] = [
     id: "plano-estudos",
     label: "Plano de estudos",
     subtitle: "Rotina adaptável ao tempo real do aluno",
-    image: "/case-screens/02-plano-estudos.png",
+    media: "/case-screens/02-plano-de-estudos.mp4",
+    mediaType: "video",
     dor: "Cronogramas rígidos e metas inalcançáveis fazem o aluno desistir na primeira semana em que a vida real não coopera com a grade do curso.",
     insight: "Flexibilidade é a principal variável de retenção em cursos online — quem ajusta o ritmo sem sentir falha continua estudando; quem não consegue, abandona.",
     decisao: "Criar um plano de estudos de acordo com as preferências do aluno, com opções de ritmo (Intensivo, Dedicado, Equilibrado, Noturno, Consistente) que podem ser revisadas a qualquer momento sem penalidade.",
@@ -41,7 +44,8 @@ const decisions: Decision[] = [
     id: "onboarding-jornada",
     label: "Onboarding da jornada",
     subtitle: "Ciclo aprender → interagir → evoluir → ganhar",
-    image: "/case-screens/03-onboarding-jornada.png",
+    media: "/case-screens/03-onboarding-da-jornada.jpeg",
+    mediaType: "image",
     dor: "Alunos não compreendem como o sistema de pontos e recompensas funciona, ignorando funcionalidades que os motivariam a continuar na plataforma.",
     insight: "Explicar o ciclo de valor logo no primeiro acesso transforma a plataforma de repositório de vídeos em uma experiência de progresso com recompensas reais e percebidas.",
     decisao: "Criar um modal de onboarding na Home que apresenta visualmente o ecossistema completo — os 4 pilares da jornada — com ícones temáticos e linguagem direta.",
@@ -52,7 +56,8 @@ const decisions: Decision[] = [
     id: "home-progresso",
     label: "Home de progresso",
     subtitle: "Continuidade, aula em destaque e streak visível",
-    image: "/case-screens/04-home-progresso.png",
+    media: "/case-screens/04-home-de-progresso.mp4",
+    mediaType: "video",
     dor: "Sofia estuda esporadicamente e sente que seu esforço diário é invisível, perdendo o incentivo ao ver apenas barras de progresso semestrais rígidas e impessoais.",
     insight: "Os alunos necessitam de feedback imediato de suas pequenas vitórias para estabelecer constância como hábito — a Home é o momento de maior abertura para essa mensagem.",
     decisao: "Criar uma Home centrada em continuidade: saldo de pontos visível, streak ativo, card de última aula com CTA imediato e acesso rápido ao plano de estudos e dúvidas.",
@@ -63,7 +68,8 @@ const decisions: Decision[] = [
     id: "jornada-aprendizado",
     label: "Jornada de aprendizado",
     subtitle: "Checklist gamificado que ativa o ecossistema",
-    image: "/case-screens/05-jornada-aprendizado.png",
+    media: "/case-screens/05-jornada-de-aprendizado.mp4",
+    mediaType: "video",
     dor: "Sem orientação sobre o próximo passo, o aluno navega por curiosidade em vez de estratégia, perdendo o fio condutor do progresso e não interagindo com o ecossistema completo.",
     insight: "Gamificar as ações mais valiosas da plataforma com um checklist temporário ativa comportamentos-chave que, quando repetidos, se tornam hábitos duradouros.",
     decisao: "Criar um bloco 'Jornada de aprendizado' na Home com checklist de 4 ações diárias (aula, comentário, conquista, resgate) com badges de recompensa e barra de progresso visível.",
@@ -74,7 +80,8 @@ const decisions: Decision[] = [
     id: "aulas-trilhas",
     label: "Aulas e trilhas",
     subtitle: "Conteúdo organizado por módulos com progresso claro",
-    image: "/case-screens/06-aulas-trilhas.png",
+    media: "/case-screens/06-aulas-e-trilhas.mp4",
+    mediaType: "video",
     dor: "Catálogos desordenados geram paralisia por excesso de escolha e impedem o aluno de manter uma trilha coerente de aprendizado ao longo do semestre.",
     insight: "A progressão clara por módulos com indicadores visuais de estado reduz a carga cognitiva e mantém o aluno em movimento — ele sempre sabe o próximo passo.",
     decisao: "Organizar as aulas em módulos sequenciais com barra de progresso individual, acesso rápido à última aula assistida e destaque visual para a próxima aula desbloqueada.",
@@ -85,7 +92,8 @@ const decisions: Decision[] = [
     id: "player-integrado",
     label: "Player integrado",
     subtitle: "Estudo, notas e contexto no mesmo fluxo",
-    image: "/case-screens/07-player-integrado.png",
+    media: "/case-screens/07-player-integrado.mp4",
+    mediaType: "video",
     dor: "A dispersão mental ao alternar entre o player de vídeo e softwares externos de anotação quebra o fluxo de concentração e reduz a retenção do conteúdo assistido.",
     insight: "Escrever e sintetizar no momento em que o conteúdo é consumido fixa o aprendizado — eliminar o atrito de troca de ferramenta é uma decisão de produto, não apenas de UX.",
     decisao: "Unificar player de vídeo, notas contextuais por aula, discussões e acesso ao suporte IA em uma única tela, com salvamento automático e atalho flutuante para anotar durante o vídeo.",
@@ -96,7 +104,8 @@ const decisions: Decision[] = [
     id: "loja-recompensas",
     label: "Loja de recompensas",
     subtitle: "Pontos convertidos em valor real para a carreira",
-    image: "/case-screens/08-loja-recompensas.png",
+    media: "/case-screens/08-loja-de-recompensas.mp4",
+    mediaType: "video",
     dor: "Pontos fictícios ou medalhas virtuais perdem o apelo em poucas semanas por não gerarem valor real para a vida profissional do aluno.",
     insight: "Para motivar o esforço contínuo, a recompensa deve ser útil e valiosa no mundo real — preferencialmente ligada ao crescimento de carreira do próprio aluno.",
     decisao: "Criar uma loja onde pontos acumulados por constância são trocados por mentoria 1:1, review de portfólio, templates Figma, certificados premium e workshops ao vivo.",
@@ -107,7 +116,8 @@ const decisions: Decision[] = [
     id: "comunidade",
     label: "Comunidade",
     subtitle: "Troca entre alunos, prova social e pertencimento",
-    image: "/case-screens/09-comunidade.png",
+    media: "/case-screens/09-comunidade.mp4",
+    mediaType: "video",
     dor: "Fóruns estáticos e isolados desestimulam a interação genuína e deixam o aluno se sentindo sozinho em um processo que deveria ser coletivo e estimulante.",
     insight: "Prova social e pertencimento a uma comunidade ativa são fatores de retenção tão poderosos quanto a qualidade do conteúdo — em alguns perfis, ainda mais.",
     decisao: "Criar um feed com múltiplas seções (perguntas, feedback de projetos, vagas, eventos, apresentações) e badges de role para diferenciar Mentores, Experientes e Iniciantes.",
@@ -118,7 +128,8 @@ const decisions: Decision[] = [
     id: "suporte-ia",
     label: "Suporte e IA contextual",
     subtitle: "Ajuda no momento de dúvida sem quebrar o estudo",
-    image: "/case-screens/10-suporte-ia.png",
+    media: "/case-screens/10-ia-contextual.mp4",
+    mediaType: "video",
     dor: "Travar em um exercício e depender de fóruns com resposta incerta paralisa o ritmo e força o abandono da aula — o momento de maior atrito se torna o de maior risco de churn.",
     insight: "O suporte deve ser imediato e contextualizado — uma IA que conhece as notas e o conteúdo atual do aluno guia a solução de forma muito mais eficaz do que um fórum genérico.",
     decisao: "Criar um chat com IA que lê o contexto da aula atual e as anotações do aluno, com rota de escalada para monitor humano quando a dúvida exige intervenção.",
@@ -129,12 +140,25 @@ const decisions: Decision[] = [
     id: "perfil-progresso",
     label: "Perfil e progresso",
     subtitle: "Evolução visível, conquistas e próximas metas",
-    image: "/case-screens/11-perfil-progresso.png",
+    media: "/case-screens/11-perfil-e-progresso.mp4",
+    mediaType: "video",
     dor: "Alunos perdem a noção de quanto já evoluíram, o que reduz a motivação para continuar em momentos de dificuldade — o esforço acumulado fica invisível.",
     insight: "Ver o próprio crescimento acumulado — aulas, horas, conquistas e certificados — reforça a identidade de quem está progredindo e reduz o churn no médio prazo.",
     decisao: "Criar um perfil que exibe nível atual com XP, conquistas desbloqueadas, estatísticas de estudo (aulas, horas, dias ativos) e histórico de resgates na loja.",
     telaDesc: "Header com avatar e nível atual. Cards de estatísticas, badge de conquistas e histórico de resgates. Seção de próximas metas desbloqueáveis com pontos necessários.",
     valor: "Cria uma narrativa de crescimento pessoal e profissional que o aluno pode visualizar e compartilhar, reforçando sua identidade como alguém em constante evolução.",
+  },
+  {
+    id: "ranking",
+    label: "Ranking",
+    subtitle: "Competição opcional, visível só quando faz sentido",
+    media: "/case-screens/12-ranking.mp4",
+    mediaType: "video",
+    dor: "Parte dos alunos se sente motivada por ranking e comparação positiva. Outros, porém, podem interpretar a classificação como pressão, exposição ou sinal de atraso em relação aos colegas.",
+    insight: "A competição funciona melhor quando não é obrigatória. Para alguns perfis, ela reforça progresso e engajamento; para outros, pode gerar frustração e desmotivação.",
+    decisao: "Criar um ranking com controle de visibilidade, permitindo que o aluno escolha participar, visualizar sua posição ou manter essa camada desligada, sem comprometer sua jornada de aprendizagem.",
+    telaDesc: "Tela de ranking com opção de ativar ou desativar a participação, exibindo posição, pontuação e comparação apenas quando o aluno quiser acompanhar essa dinâmica.",
+    valor: "O aluno pode usar a competição como motivação quando isso fizer sentido para seu perfil, sem ser obrigado a se comparar com outras pessoas durante o processo de aprendizagem.",
   },
 ];
 
@@ -205,47 +229,42 @@ export default function ProductShowcase() {
           </div>
         </div>
 
-        {/* Center: clean frame — image is the final artwork, no duplicate phone hardware */}
+        {/* Center: clean frame — media is the final artwork, no duplicate phone hardware */}
         <div className="lg:col-span-5 flex justify-center">
           <MockupReveal3D>
             <div className="w-[280px] h-[560px] rounded-3xl shadow-xl border border-border/40 relative overflow-hidden flex-shrink-0 transition-all duration-300">
 
-              {/* Screenshot area */}
+              {/* Screen area */}
               {imageError ? (
-                /* Elegant placeholder — shown when image is absent or fails to load */
-                <div className="absolute inset-0 bg-page flex flex-col items-center justify-center p-5 text-center gap-3.5">
-                  <div className="w-14 h-14 rounded-2xl bg-surface border border-border flex items-center justify-center text-3xl shadow-sm">
-                    📱
-                  </div>
-
-                  <div className="space-y-1 px-2">
-                    <p className="text-[10px] font-bold text-text-primary leading-tight">
-                      {active.label}
-                    </p>
-                    <p className="text-[7px] text-text-secondary leading-relaxed">
-                      {active.subtitle}
-                    </p>
-                  </div>
-
-                  <div className="w-full bg-surface border border-border rounded-xl px-3 py-2.5 space-y-1 text-left">
-                    <p className="text-[7px] font-bold text-brand-strong uppercase tracking-wider">Imagem esperada</p>
-                    <p className="text-[7px] text-text-secondary font-mono break-all leading-relaxed">
-                      {active.image}
-                    </p>
-                  </div>
-
-                  <div className="w-full bg-brand/5 border border-brand/20 rounded-xl px-3 py-2.5 text-left">
-                    <p className="text-[8px] font-semibold text-brand-strong">Como adicionar</p>
-                    <p className="text-[7px] text-text-secondary leading-relaxed mt-0.5">
-                      Coloque o print em <span className="font-mono text-brand">public/case-screens/</span> com o nome exato acima.
-                    </p>
-                  </div>
+                /* Minimal fallback — shown only if the real media fails to load */
+                <div className="absolute inset-0 bg-page flex flex-col items-center justify-center p-5 text-center gap-3">
+                  <ImageOff className="w-6 h-6 text-text-secondary/50" />
+                  <p className="text-[10px] font-bold text-text-primary leading-tight">
+                    {active.label}
+                  </p>
+                  <p className="text-[9px] text-text-secondary leading-relaxed">
+                    Mídia indisponível no momento.
+                  </p>
                 </div>
+              ) : active.mediaType === "video" ? (
+                /* Real screen recording — object-contain preserves the full screen without cropping */
+                <video
+                  key={active.media}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="absolute inset-0 w-full h-full object-contain bg-page"
+                  onError={() => setImageError(true)}
+                >
+                  <source src={active.media} type="video/mp4" />
+                </video>
               ) : (
-                /* Real screenshot — object-contain preserves full screen without cortes */
+                /* Real screenshot — object-contain preserves full screen without cropping */
                 <img
-                  key={active.image}
-                  src={active.image}
+                  key={active.media}
+                  src={active.media}
                   alt={`Print do protótipo: ${active.label}`}
                   className="absolute inset-0 w-full h-full object-contain bg-page"
                   onError={() => setImageError(true)}
@@ -253,11 +272,6 @@ export default function ProductShowcase() {
               )}
             </div>
           </MockupReveal3D>
-
-          {/* Image path hint below phone — visible only for orientation */}
-          <div className="hidden lg:block absolute mt-2 text-center">
-            <p className="text-[9px] text-text-secondary font-mono opacity-50">{active.image}</p>
-          </div>
         </div>
 
         {/* Right: strategic analysis */}
@@ -331,16 +345,28 @@ export default function ProductShowcase() {
                   </div>
                 </div>
 
-                {/* Imagem/placeholder — altura controlada, sem cortes */}
+                {/* Mídia/placeholder — altura controlada, sem cortes */}
                 <div className="w-full h-56 rounded-xl border border-border/60 bg-page relative overflow-hidden">
                   {hasImageError ? (
                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
                       <ImageOff className="w-5 h-5 text-text-secondary/50" />
-                      <p className="text-[10px] text-text-secondary leading-relaxed">Print do protótipo: {d.label}</p>
+                      <p className="text-[10px] text-text-secondary leading-relaxed">Mídia indisponível: {d.label}</p>
                     </div>
+                  ) : d.mediaType === "video" ? (
+                    <video
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      className="absolute inset-0 w-full h-full object-contain bg-page"
+                      onError={() => handleMobileImageError(d.id)}
+                    >
+                      <source src={d.media} type="video/mp4" />
+                    </video>
                   ) : (
                     <img
-                      src={d.image}
+                      src={d.media}
                       alt={`Print do protótipo: ${d.label}`}
                       className="absolute inset-0 w-full h-full object-contain bg-page"
                       onError={() => handleMobileImageError(d.id)}
