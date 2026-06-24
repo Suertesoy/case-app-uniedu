@@ -16,9 +16,9 @@ export default function CursorTrail() {
     const container = containerRef.current;
     if (!container) return;
 
-    type Unit = { h: HTMLDivElement; v: HTMLDivElement; timeoutIds: number[] };
+    type Unit = { elements: HTMLDivElement[]; timeoutIds: number[] };
     const activeUnits: Unit[] = [];
-    const maxUnits = 32; // max active "stair" units (1 unit = 1 horizontal + 1 vertical segment)
+    const maxUnits = 32; // max active "stair" units (1 unit = 1 horizontal + 1 vertical segment, or 1 vertical-only segment for scroll)
 
     // Spacing between stair units along a path — also used as the
     // interpolation step so fast moves/scrolls don't leave gaps.
@@ -27,10 +27,18 @@ export default function CursorTrail() {
     const teleportThreshold = 500; // jumps bigger than this resync silently instead of drawing one giant trail
     const maxScrollDeltaPerFrame = 150; // caps how much a single fast-scroll frame can visually "puff" the trail
 
+    // Anchor for the mousemove staircase trail — walks forward as units are
+    // created so consecutive stair units connect to each other.
     let anchorX: number | null = null;
     let anchorY: number | null = null;
     let lastSignX = 1;
     let lastSignY = 1;
+
+    // Anchor for the scroll-only vertical trail. Always re-pinned to the
+    // cursor's real position when the mouse moves, so a scroll session can
+    // never inherit a stale/drifted origin from the stair trail above.
+    let scrollAnchorX: number | null = null;
+    let scrollAnchorY: number | null = null;
 
     // Raw, unthrottled input captured by the listeners; the rAF loop below
     // batches it into trail generation at most once per frame.
@@ -43,8 +51,9 @@ export default function CursorTrail() {
 
     const removeUnit = (unit: Unit) => {
       unit.timeoutIds.forEach((id) => window.clearTimeout(id));
-      if (container.contains(unit.h)) container.removeChild(unit.h);
-      if (container.contains(unit.v)) container.removeChild(unit.v);
+      unit.elements.forEach((el) => {
+        if (container.contains(el)) container.removeChild(el);
+      });
       const index = activeUnits.indexOf(unit);
       if (index > -1) activeUnits.splice(index, 1);
     };
@@ -115,7 +124,7 @@ export default function CursorTrail() {
         vDiv.style.opacity = "1";
       });
 
-      const unit: Unit = { h: hDiv, v: vDiv, timeoutIds: [] };
+      const unit: Unit = { elements: [hDiv, vDiv], timeoutIds: [] };
       activeUnits.push(unit);
 
       // Brief hold (lets the fade-in finish), then a soft fade-out — oldest
@@ -137,6 +146,50 @@ export default function CursorTrail() {
 
       anchorX = endX;
       anchorY = endY;
+    };
+
+    // Pure-scroll counterpart to createUnit: a single vertical riser, no
+    // horizontal tread, pinned to a fixed x. This is what keeps a stationary
+    // cursor's scroll trail a straight vertical line instead of inheriting
+    // the stair trail's diagonal tread/riser shape.
+    const createScrollUnit = (x: number, fromY: number, toY: number) => {
+      if (activeUnits.length >= maxUnits) {
+        const oldest = activeUnits[0];
+        if (oldest) removeUnit(oldest);
+      }
+
+      const thickness = 2 + Math.random(); // 2–3px, matches the stair trail's riser thickness
+      const vLen = Math.abs(toY - fromY);
+
+      const vDiv = document.createElement("div");
+      baseSegmentStyle(vDiv);
+      vDiv.style.left = `${x - thickness / 2}px`;
+      vDiv.style.top = `${Math.min(fromY, toY)}px`;
+      vDiv.style.width = `${thickness}px`;
+      vDiv.style.height = `${vLen}px`;
+      vDiv.style.background = "linear-gradient(to bottom, var(--brand), var(--brand-soft))";
+
+      container.appendChild(vDiv);
+
+      requestAnimationFrame(() => {
+        vDiv.style.opacity = "1";
+      });
+
+      const unit: Unit = { elements: [vDiv], timeoutIds: [] };
+      activeUnits.push(unit);
+
+      const fadeDelay = 150;
+      const fadeDuration = 550 + Math.random() * 250; // ~550–800ms
+      const fadeTimeoutId = window.setTimeout(() => {
+        vDiv.style.transition = `opacity ${fadeDuration}ms ease-in`;
+        vDiv.style.opacity = "0";
+      }, fadeDelay);
+
+      const removeTimeoutId = window.setTimeout(() => {
+        removeUnit(unit);
+      }, fadeDelay + fadeDuration + 50);
+
+      unit.timeoutIds.push(fadeTimeoutId, removeTimeoutId);
     };
 
     // Walks the straight line from (fromX, fromY) to (toX, toY) and drops a
@@ -165,6 +218,26 @@ export default function CursorTrail() {
       }
     };
 
+    // Scroll counterpart of addTrailBetween: walks a perfectly vertical line
+    // at a fixed x (the cursor's real x), dropping a vertical-only segment
+    // every `spacing` px. No horizontal component is ever introduced, so a
+    // scroll with a stationary mouse can't read as a diagonal/sideways move.
+    const addVerticalTrailBetween = (x: number, fromY: number, toY: number) => {
+      const dy = toY - fromY;
+      const distance = Math.abs(dy);
+
+      if (distance < spacing) return;
+      if (distance > teleportThreshold) return;
+
+      const steps = Math.min(maxStepsPerCall, Math.max(1, Math.round(distance / spacing)));
+
+      for (let i = 1; i <= steps; i++) {
+        const segmentFromY = fromY + dy * ((i - 1) / steps);
+        const segmentToY = fromY + dy * (i / steps);
+        createScrollUnit(x, segmentFromY, segmentToY);
+      }
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       rawX = e.clientX;
       rawY = e.clientY;
@@ -185,25 +258,41 @@ export default function CursorTrail() {
           lastProcessedY = rawY;
           lastProcessedScrollY = window.scrollY;
         } else {
-          if (rawX !== lastProcessedX || rawY !== lastProcessedY) {
+          const mouseMoved = rawX !== lastProcessedX || rawY !== lastProcessedY;
+
+          if (mouseMoved) {
             addTrailBetween(anchorX, anchorY, rawX, rawY);
             lastProcessedX = rawX;
             lastProcessedY = rawY;
+
+            // The mouse actually moved — any in-progress scroll trail must
+            // re-anchor to this fresh position next time, never continue
+            // from where it last left off.
+            scrollAnchorX = null;
+            scrollAnchorY = null;
           }
 
-          // Scroll as relative cursor movement: the cursor's viewport
-          // position doesn't change while scrolling, but the content
-          // beneath it does — so a scroll delta gets the same stair
-          // treatment as a vertical mouse move, clamped so a fast fling
-          // can't dump dozens of units in a single frame.
+          // Scroll with a stationary cursor: the content moves underneath a
+          // fixed pointer, so the trail must be a pure vertical line rooted
+          // at the cursor's real position — never at the stair trail's
+          // (possibly drifted) anchor, and never combined with a horizontal
+          // component. If the mouse moved in this same frame, the stair
+          // trail above already accounts for the frame, so skip this.
           const currentScrollY = window.scrollY;
           const scrollDelta = currentScrollY - lastProcessedScrollY;
-          if (scrollDelta !== 0 && anchorX !== null && anchorY !== null) {
+          if (scrollDelta !== 0 && !mouseMoved) {
+            if (scrollAnchorX === null || scrollAnchorY === null) {
+              scrollAnchorX = rawX;
+              scrollAnchorY = rawY;
+            }
+
             const clampedDelta = Math.max(
               -maxScrollDeltaPerFrame,
               Math.min(maxScrollDeltaPerFrame, scrollDelta)
             );
-            addTrailBetween(anchorX, anchorY, anchorX, anchorY + clampedDelta);
+            const nextScrollAnchorY = scrollAnchorY + clampedDelta;
+            addVerticalTrailBetween(scrollAnchorX, scrollAnchorY, nextScrollAnchorY);
+            scrollAnchorY = nextScrollAnchorY;
           }
           lastProcessedScrollY = currentScrollY;
         }
@@ -220,8 +309,9 @@ export default function CursorTrail() {
       cancelAnimationFrame(rafId);
       activeUnits.forEach((unit) => {
         unit.timeoutIds.forEach((id) => window.clearTimeout(id));
-        if (container.contains(unit.h)) container.removeChild(unit.h);
-        if (container.contains(unit.v)) container.removeChild(unit.v);
+        unit.elements.forEach((el) => {
+          if (container.contains(el)) container.removeChild(el);
+        });
       });
       activeUnits.length = 0;
     };
