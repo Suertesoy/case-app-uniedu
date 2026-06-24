@@ -34,11 +34,15 @@ export default function CursorTrail() {
     let lastSignX = 1;
     let lastSignY = 1;
 
-    // Anchor for the scroll-only vertical trail. Always re-pinned to the
+    // Anchor for the scroll-only zigzag trail. Always re-pinned to the
     // cursor's real position when the mouse moves, so a scroll session can
     // never inherit a stale/drifted origin from the stair trail above.
+    // scrollAnchorX is the fixed origin x — the zigzag jogs out from it and
+    // back, but never drifts past it, so the trail stays anchored near the
+    // cursor instead of "walking" sideways.
     let scrollAnchorX: number | null = null;
     let scrollAnchorY: number | null = null;
+    let scrollZigToggle = false;
 
     // Raw, unthrottled input captured by the listeners; the rAF loop below
     // batches it into trail generation at most once per frame.
@@ -148,41 +152,67 @@ export default function CursorTrail() {
       anchorY = endY;
     };
 
-    // Pure-scroll counterpart to createUnit: a single vertical riser, no
-    // horizontal tread, pinned to a fixed x. This is what keeps a stationary
-    // cursor's scroll trail a straight vertical line instead of inheriting
-    // the stair trail's diagonal tread/riser shape.
-    const createScrollUnit = (x: number, fromY: number, toY: number) => {
+    const scrollStepX = 8 + Math.random() * 4; // 8–12px lateral jog per zigzag step
+
+    // Pure-scroll counterpart to createUnit: a small "L" — a short
+    // horizontal jog then a vertical riser — but unlike the mousemove
+    // staircase, the horizontal jog always oscillates between `baseX` and
+    // `baseX + scrollStepX` instead of accumulating, so the zigzag reads as
+    // a staircase without ever drifting away from the cursor.
+    const createScrollStepUnit = (baseX: number, fromY: number, toY: number) => {
       if (activeUnits.length >= maxUnits) {
         const oldest = activeUnits[0];
         if (oldest) removeUnit(oldest);
       }
 
-      const thickness = 2 + Math.random(); // 2–3px, matches the stair trail's riser thickness
+      const prevX = baseX + (scrollZigToggle ? scrollStepX : 0);
+      scrollZigToggle = !scrollZigToggle;
+      const currX = baseX + (scrollZigToggle ? scrollStepX : 0);
+
+      const thickness = 2 + Math.random(); // 2–3px, matches the stair trail's thickness
       const vLen = Math.abs(toY - fromY);
+      const hLen = Math.abs(currX - prevX);
+
+      const elements: HTMLDivElement[] = [];
+
+      if (hLen > 0.5) {
+        const hDiv = document.createElement("div");
+        baseSegmentStyle(hDiv);
+        hDiv.style.left = `${Math.min(prevX, currX)}px`;
+        hDiv.style.top = `${fromY - thickness / 2}px`;
+        hDiv.style.width = `${hLen}px`;
+        hDiv.style.height = `${thickness}px`;
+        hDiv.style.background = "linear-gradient(to right, var(--brand), var(--brand-soft))";
+        elements.push(hDiv);
+      }
 
       const vDiv = document.createElement("div");
       baseSegmentStyle(vDiv);
-      vDiv.style.left = `${x - thickness / 2}px`;
+      vDiv.style.left = `${currX - thickness / 2}px`;
       vDiv.style.top = `${Math.min(fromY, toY)}px`;
       vDiv.style.width = `${thickness}px`;
       vDiv.style.height = `${vLen}px`;
       vDiv.style.background = "linear-gradient(to bottom, var(--brand), var(--brand-soft))";
+      elements.push(vDiv);
 
-      container.appendChild(vDiv);
+      elements.forEach((el) => container.appendChild(el));
 
       requestAnimationFrame(() => {
-        vDiv.style.opacity = "1";
+        elements.forEach((el) => {
+          el.style.opacity = "1";
+        });
       });
 
-      const unit: Unit = { elements: [vDiv], timeoutIds: [] };
+      const unit: Unit = { elements, timeoutIds: [] };
       activeUnits.push(unit);
 
       const fadeDelay = 150;
-      const fadeDuration = 550 + Math.random() * 250; // ~550–800ms
+      const fadeDuration = 700 + Math.random() * 300; // ~700–1000ms
       const fadeTimeoutId = window.setTimeout(() => {
-        vDiv.style.transition = `opacity ${fadeDuration}ms ease-in`;
-        vDiv.style.opacity = "0";
+        elements.forEach((el) => {
+          el.style.transition = `opacity ${fadeDuration}ms ease-in`;
+          el.style.opacity = "0";
+        });
       }, fadeDelay);
 
       const removeTimeoutId = window.setTimeout(() => {
@@ -218,23 +248,26 @@ export default function CursorTrail() {
       }
     };
 
-    // Scroll counterpart of addTrailBetween: walks a perfectly vertical line
-    // at a fixed x (the cursor's real x), dropping a vertical-only segment
-    // every `spacing` px. No horizontal component is ever introduced, so a
-    // scroll with a stationary mouse can't read as a diagonal/sideways move.
-    const addVerticalTrailBetween = (x: number, fromY: number, toY: number) => {
+    const maxScrollStepsPerCall = 6; // keeps a single fast-scroll frame from drawing a long zigzag
+
+    // Scroll counterpart of addTrailBetween: walks the vertical span at a
+    // fixed origin x (the cursor's real x), dropping a zigzag step every
+    // `spacing` px. The steps oscillate left/right around that origin
+    // instead of drifting, so a scroll with a stationary mouse reads as a
+    // short staircase rooted at the cursor, not a line walking off on its own.
+    const addScrollZigzagBetween = (baseX: number, fromY: number, toY: number) => {
       const dy = toY - fromY;
       const distance = Math.abs(dy);
 
       if (distance < spacing) return;
       if (distance > teleportThreshold) return;
 
-      const steps = Math.min(maxStepsPerCall, Math.max(1, Math.round(distance / spacing)));
+      const steps = Math.min(maxScrollStepsPerCall, Math.max(1, Math.round(distance / spacing)));
 
       for (let i = 1; i <= steps; i++) {
         const segmentFromY = fromY + dy * ((i - 1) / steps);
         const segmentToY = fromY + dy * (i / steps);
-        createScrollUnit(x, segmentFromY, segmentToY);
+        createScrollStepUnit(baseX, segmentFromY, segmentToY);
       }
     };
 
@@ -273,17 +306,18 @@ export default function CursorTrail() {
           }
 
           // Scroll with a stationary cursor: the content moves underneath a
-          // fixed pointer, so the trail must be a pure vertical line rooted
+          // fixed pointer, so the trail must be a zigzag staircase rooted
           // at the cursor's real position — never at the stair trail's
-          // (possibly drifted) anchor, and never combined with a horizontal
-          // component. If the mouse moved in this same frame, the stair
-          // trail above already accounts for the frame, so skip this.
+          // (possibly drifted) anchor, and never accumulating sideways.
+          // If the mouse moved in this same frame, the stair trail above
+          // already accounts for the frame, so skip this.
           const currentScrollY = window.scrollY;
           const scrollDelta = currentScrollY - lastProcessedScrollY;
           if (scrollDelta !== 0 && !mouseMoved) {
             if (scrollAnchorX === null || scrollAnchorY === null) {
               scrollAnchorX = rawX;
               scrollAnchorY = rawY;
+              scrollZigToggle = false;
             }
 
             const clampedDelta = Math.max(
@@ -291,7 +325,7 @@ export default function CursorTrail() {
               Math.min(maxScrollDeltaPerFrame, scrollDelta)
             );
             const nextScrollAnchorY = scrollAnchorY + clampedDelta;
-            addVerticalTrailBetween(scrollAnchorX, scrollAnchorY, nextScrollAnchorY);
+            addScrollZigzagBetween(scrollAnchorX, scrollAnchorY, nextScrollAnchorY);
             scrollAnchorY = nextScrollAnchorY;
           }
           lastProcessedScrollY = currentScrollY;
