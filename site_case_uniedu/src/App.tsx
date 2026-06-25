@@ -207,8 +207,8 @@ export default function App() {
             </span>
           </div>
 
-          {/* Navigation Links — central, 5 itens, só em desktop amplo */}
-          <nav className="hidden lg:flex items-center gap-7 xl:gap-9">
+          {/* Navigation Links — macro narrativa do case em 4 blocos, só em desktop amplo */}
+          <nav className="hidden lg:flex items-center gap-9 xl:gap-14">
             {t.header.nav.map((item) => (
               <a key={item.href} href={item.href} className="text-sm font-semibold text-text-secondary hover:text-brand-strong transition-colors whitespace-nowrap">{item.label}</a>
             ))}
