@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Target, ShieldAlert, Sparkles, Briefcase, Repeat } from "lucide-react";
+import { personaContent, type Lang } from "../content/translations";
 
-export default function PersonaCard() {
+export default function PersonaCard({ lang }: { lang: Lang }) {
   const [activePersona, setActivePersona] = useState<"sofia" | "marcos">("sofia");
   const [imageError, setImageError] = useState(false);
 
@@ -10,78 +11,27 @@ export default function PersonaCard() {
     setImageError(false);
   };
 
+  const c = personaContent[lang];
+
   const personas = {
     sofia: {
       id: "sofia",
       nome: "Sofia",
       idade: 24,
-      perfil: "Designer Gráfica em transição para UX/UI",
       avatarInitials: "S",
       foto: "/personas/sofia.png",
-      tags: ["Estudante EAD Noturna", "Transição de Carreira"],
-      quote: "“Quero entender o básico de UX/UI sem perder tempo e conciliar com meu trabalho CLT.”",
-      rotina: "Sofia trabalha em regime CLT como designer gráfica durante o dia. Seu tempo útil de estudo é à noite ou em pequenos intervalos ao longo da rotina. Busca migrar de carreira sem perder a segurança financeira.",
-      habitos: [
-        "Alterna turnos de estudo entre trabalho e descanso.",
-        "Gosta de estudar com colegas.",
-        "Escreve para fixar melhor o conteúdo.",
-        "Acelera o vídeo e volta quando tem dúvida."
-      ],
-      motivacoes: [
-        "Migrar de carreira com estabilidade técnica",
-        "Ganhar segurança para entrevistas e desafios reais",
-        "Concluir o curso sem acumular pendências mentais"
-      ],
-      dores: [
-        "Falta de ritmo estruturado e quebra de sequência",
-        "Vídeos e módulos muito extensos, sem síntese",
-        "Isolamento e bloqueios ao tentar realizar exercícios",
-        "Dificuldade de mensurar a própria evolução"
-      ],
-      desejos: [
-        "Trilha de estudos incremental e clara",
-        "Suporte rápido nos momentos de travamento",
-        "Integração social ativa (comunidade cooperativa)",
-        "Progresso tangível e recompensas motivadoras"
-      ]
+      tags: lang === "pt" ? ["Estudante EAD Noturna", "Transição de Carreira"] : ["Night Online Student", "Career Transition"],
+      ...c.personas.sofia,
     },
     marcos: {
       id: "marcos",
       nome: "Marcos",
       idade: 29,
-      perfil: "UX Designer",
       avatarInitials: "M",
       foto: "/personas/marcos.png",
-      tags: ["Engajado", "Veterano", "Familiarizado"],
-      quote: "“Quando a aula fica prolixa, eu perco o foco. Gosto de praticidade e otimização.”",
-      rotina: "Marcos é UX Designer e quer aprimorar suas habilidades. Tem horários flexíveis e encaixa o curso na rotina.",
-      habitos: [
-        "Intercala estudo com pausas planejadas.",
-        "Estuda online pela praticidade.",
-        "Gosta de ver o primeiro passo claro.",
-        "Usa Pomodoro e pequenas recompensas.",
-        "Organiza agenda e quadro de propósito."
-      ],
-      motivacoes: [
-        "Melhorar suas habilidades e aplicar o conhecimento.",
-        "Buscar promoção e novas oportunidades.",
-        "Ampliar networking e experiência prática.",
-        "Conseguir certificação."
-      ],
-      dores: [
-        "Formar grupos em cursos EAD é difícil.",
-        "Fica frustrado com conteúdo raso ou prolixo.",
-        "A plataforma é chapada e pouco guiada.",
-        "Concluir cursos no prazo é um desafio.",
-        "Chatbots tornam a experiência fria."
-      ],
-      desejos: [
-        "Precisa de conteúdo direto e aplicável.",
-        "Gosta de comemorações por nível e marco.",
-        "Quer saber quanto concluiu e o que falta.",
-        "Valoriza espaço de troca e café online."
-      ]
-    }
+      tags: lang === "pt" ? ["Engajado", "Veterano", "Familiarizado"] : ["Engaged", "Veteran", "Familiar"],
+      ...c.personas.marcos,
+    },
   };
 
   const current = personas[activePersona];
@@ -89,12 +39,12 @@ export default function PersonaCard() {
   return (
     <section id="personas" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
       <div className="absolute top-0 right-0 w-80 h-80 bg-brand/3 dark:bg-brand/5 rounded-full blur-[100px] pointer-events-none transition-colors duration-300" />
-      
+
       <div className="text-center mb-16 space-y-4">
-        <span className="text-xs font-bold uppercase tracking-widest text-brand">Público-Alvo e Comportamento</span>
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Personas de Pesquisa</h2>
+        <span className="text-xs font-bold uppercase tracking-widest text-brand">{c.eyebrow}</span>
+        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">{c.title}</h2>
         <p className="text-text-secondary max-w-2xl mx-auto text-sm">
-          Compreender a realidade do usuário final foi a base para desenhar fluxos eficientes de retenção, suporte e progresso.
+          {c.description}
         </p>
       </div>
 
@@ -124,7 +74,7 @@ export default function PersonaCard() {
 
       <div className="bg-gradient-to-br from-surface to-surface-elevated border border-border rounded-[2.5rem] p-8 md:p-12 shadow-xl relative overflow-hidden transition-all duration-300">
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-brand/5 rounded-full blur-[80px] pointer-events-none" />
-        
+
         <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center relative z-10">
           {/* Avatar Area */}
           <div className="md:col-span-4 flex flex-col items-center text-center">
@@ -138,7 +88,7 @@ export default function PersonaCard() {
                   <img
                     key={current.id}
                     src={current.foto}
-                    alt={`Foto da persona ${current.nome}`}
+                    alt={`${c.photoAlt} ${current.nome}`}
                     className="w-full h-full rounded-full object-cover object-center"
                     onError={() => setImageError(true)}
                   />
@@ -147,8 +97,8 @@ export default function PersonaCard() {
             </div>
 
             <h3 className="text-2xl font-bold text-text-primary">{current.nome}</h3>
-            <p className="text-xs text-text-secondary mt-1">{current.idade} anos · {current.perfil}</p>
-            
+            <p className="text-xs text-text-secondary mt-1">{current.idade} {lang === "pt" ? "anos" : "years old"} · {current.perfil}</p>
+
             {/* Tags as Chips */}
             <div className="flex flex-wrap gap-1.5 mt-4 justify-center">
               {current.tags.map((tag, idx) => (
@@ -173,7 +123,7 @@ export default function PersonaCard() {
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
                 <Briefcase className="w-4 h-4 text-brand-strong" />
-                Rotina e perfil
+                {c.labels.rotina}
               </h4>
               <p className="text-xs text-text-secondary leading-relaxed">
                 {current.rotina}
@@ -184,7 +134,7 @@ export default function PersonaCard() {
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
                 <Target className="w-4 h-4 text-brand-strong" />
-                Objetivos e motivações
+                {c.labels.motivacoes}
               </h4>
               <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-4 leading-relaxed">
                 {current.motivacoes.map((item, idx) => (
@@ -197,7 +147,7 @@ export default function PersonaCard() {
             <div className="space-y-3 bg-red-500/5 dark:bg-red-500/3 border border-red-500/10 rounded-2xl p-5">
               <h4 className="text-sm font-bold text-red-500 uppercase tracking-wider flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-red-500" />
-                Dores e desafios
+                {c.labels.dores}
               </h4>
               <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-4 leading-relaxed">
                 {current.dores.map((item, idx) => (
@@ -210,7 +160,7 @@ export default function PersonaCard() {
             <div className="space-y-3 bg-brand/5 border border-brand/10 rounded-2xl p-5">
               <h4 className="text-sm font-bold text-brand-strong uppercase tracking-wider flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-brand" />
-                Desejos e necessidades
+                {c.labels.desejos}
               </h4>
               <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-4 leading-relaxed">
                 {current.desejos.map((item, idx) => (
@@ -224,7 +174,7 @@ export default function PersonaCard() {
               <div className="space-y-3 sm:col-span-2">
                 <h4 className="text-sm font-bold text-text-primary uppercase tracking-wider flex items-center gap-2">
                   <Repeat className="w-4 h-4 text-brand-strong" />
-                  Comportamentos e hábitos
+                  {c.labels.habitos}
                 </h4>
                 <ul className="space-y-1.5 text-xs text-text-secondary list-disc pl-4 leading-relaxed">
                   {current.habitos.map((item, idx) => (

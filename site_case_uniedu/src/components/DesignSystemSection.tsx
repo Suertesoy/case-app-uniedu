@@ -1,12 +1,14 @@
 import { Sun, Moon, Trophy, BookOpen, Lock, CheckCircle2, Clock, Zap, Play } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
+import { designSystemContent, type Lang } from "../content/translations";
 
 interface ThemeToggleProps {
   theme: "light" | "dark";
   setTheme: (theme: "light" | "dark") => void;
+  labels: { light: string; dark: string };
 }
 
-function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
+function ThemeToggle({ theme, setTheme, labels }: ThemeToggleProps) {
   const isDark = theme === "dark";
   return (
     <div className="flex items-center gap-1 p-1 rounded-full border border-border bg-surface text-[11px]">
@@ -18,7 +20,7 @@ function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
             : "text-text-secondary hover:text-text-primary"
         }`}
       >
-        <Sun size={11} />Light
+        <Sun size={11} />{labels.light}
       </button>
       <button
         onClick={() => setTheme("dark")}
@@ -28,157 +30,29 @@ function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
             : "text-text-secondary hover:text-text-primary"
         }`}
       >
-        <Moon size={11} />Dark
+        <Moon size={11} />{labels.dark}
       </button>
     </div>
   );
 }
 
-// ─── Color tokens — separados por contexto Light/Dark ────────────────────────
-const colorTokensLight = [
-  {
-    label: "Primary Pink",
-    hex: "#D81B60",
-    bg: "#D81B60",
-    usage: "Barra de progresso, badge de XP, estado ativo e ícone de gamificação",
-  },
-  {
-    label: "Accent Pink",
-    hex: "#F06292",
-    bg: "#F06292",
-    usage: "Hover, gradientes de suporte e microinterações — camada secundária do brand",
-  },
-  {
-    label: "Strong Pink",
-    hex: "#A31545",
-    bg: "#A31545",
-    usage: "Botão primário no Light Mode; header real do app (#A31545 na barra superior)",
-  },
-  {
-    label: "BG Light",
-    hex: "#FFFBFD",
-    bg: "#FFFBFD",
-    usage: "Fundo principal claro — off-white rosado; nunca branco puro",
-  },
-  {
-    label: "Surface Light",
-    hex: "#FDF2F5",
-    bg: "#FDF2F5",
-    usage: "Cards e superfícies no Light Mode — cria hierarquia sem sombra",
-  },
-  {
-    label: "Text on Light",
-    hex: "#1D1518",
-    bg: "#1D1518",
-    usage: "Texto primário no Light Mode — marrom-rosado quase preto",
-  },
-  {
-    label: "Muted Light",
-    hex: "#6E5E64",
-    bg: "#6E5E64",
-    usage: "Captions, metadados e labels secundários no Light Mode — verificar contraste WCAG AA no contexto",
-  },
+// ─── Static hex/bg values per token — separados por contexto Light/Dark ─────
+const colorHexLight = ["#D81B60", "#F06292", "#A31545", "#FFFBFD", "#FDF2F5", "#1D1518", "#6E5E64"];
+const colorHexDark = ["#D81B60", "#F06292", "#F48FB1", "#120E10", "#1E1A1D", "#FCE4EC", "#9E9EAE"];
+
+// ─── Typography style metadata (language-independent) ────────────────────────
+const typeMeta = [
+  { className: "text-2xl md:text-3xl font-extrabold tracking-tight", size: "32–40px", weight: "800", leading: "1.2", tracking: "−0.02em", font: "Plus Jakarta Sans" },
+  { className: "text-xl font-bold tracking-tight", size: "20px", weight: "700", leading: "1.3", tracking: "−0.01em", font: "Plus Jakarta Sans" },
+  { className: "text-sm font-normal", size: "14px", weight: "400", leading: "1.6", tracking: "—", font: "Inter" },
+  { className: "text-[10px] font-bold tracking-widest uppercase", size: "10px", weight: "700", leading: "1.4", tracking: "0.1em + uppercase", font: "Inter" },
 ];
 
-const colorTokensDark = [
-  {
-    label: "Primary Pink",
-    hex: "#D81B60",
-    bg: "#D81B60",
-    usage: "Barra de progresso, badge de XP, estado ativo e ícone de gamificação",
-  },
-  {
-    label: "Accent Pink",
-    hex: "#F06292",
-    bg: "#F06292",
-    usage: "Hover, gradientes de suporte e microinterações — camada secundária do brand",
-  },
-  {
-    label: "Soft Pink",
-    hex: "#F48FB1",
-    bg: "#F48FB1",
-    usage: "Botão primário e CTA acessível no Dark Mode; acento de texto sobre fundos escuros",
-  },
-  {
-    label: "BG Dark",
-    hex: "#120E10",
-    bg: "#120E10",
-    usage: "Fundo profundo aquecido — preto com toque rosado, nunca preto puro",
-  },
-  {
-    label: "Surface Dark",
-    hex: "#1E1A1D",
-    bg: "#1E1A1D",
-    usage: "Cards, bottom nav e superfícies elevadas no Dark Mode",
-  },
-  {
-    label: "Text on Dark",
-    hex: "#FCE4EC",
-    bg: "#FCE4EC",
-    usage: "Texto primário no Dark Mode — rose claro, harmônico com o brand",
-  },
-  {
-    label: "Muted Dark",
-    hex: "#9E9EAE",
-    bg: "#9E9EAE",
-    usage: "Captions, metadados e labels secundários no Dark Mode — verificar contraste WCAG AA no contexto",
-  },
-];
-
-// ─── Typography hierarchy ─────────────────────────────────────────────────────
-const typeSamples = [
-  {
-    role: "Display",
-    sample: "Aprenda com consistência",
-    className: "text-2xl md:text-3xl font-extrabold tracking-tight",
-    size: "32–40px",
-    weight: "800",
-    leading: "1.2",
-    tracking: "−0.02em",
-    font: "Plus Jakarta Sans",
-    use: "Hero, milestone desbloqueado, conquista de nível",
-  },
-  {
-    role: "Heading",
-    sample: "Módulo 2 — Gestão do Tempo",
-    className: "text-xl font-bold tracking-tight",
-    size: "20px",
-    weight: "700",
-    leading: "1.3",
-    tracking: "−0.01em",
-    font: "Plus Jakarta Sans",
-    use: "Título de card, nome do módulo, seção de onboarding",
-  },
-  {
-    role: "Body",
-    sample: "Acompanhe seu ritmo de estudos e construa hábitos que persistem.",
-    className: "text-sm font-normal",
-    size: "14px",
-    weight: "400",
-    leading: "1.6",
-    tracking: "—",
-    font: "Inter",
-    use: "Descrições de aula, feedbacks, texto de apoio em cards e modais",
-  },
-  {
-    role: "Caption",
-    sample: "MÓDULO CONCLUÍDO · 120 XP",
-    className: "text-[10px] font-bold tracking-widest uppercase",
-    size: "10px",
-    weight: "700",
-    leading: "1.4",
-    tracking: "0.1em + uppercase",
-    font: "Inter",
-    use: "Labels de estado (CONCLUÍDO, EM ANDAMENTO), badges de XP, metadados",
-  },
-];
-
-// ─── Static data for product components (outside component for clean renders) ──
-const jornadaItems = [
-  { icon: "📚", label: "Assistir uma aula",    pts: "+50 pts", done: true  },
-  { icon: "💬", label: "Fazer um comentário",  pts: "+10 pts", done: true  },
-  { icon: "⭐", label: "Ganhar uma conquista", pts: "+XP",     done: true  },
-  { icon: "🎁", label: "Resgatar recompensa",  pts: "🎉",      done: false },
+const jornadaIcons = [
+  { icon: "📚", pts: "+50 pts", done: true },
+  { icon: "💬", pts: "+10 pts", done: true },
+  { icon: "⭐", pts: "+XP", done: true },
+  { icon: "🎁", pts: "🎉", done: false },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -186,13 +60,20 @@ const jornadaItems = [
 interface DesignSystemSectionProps {
   theme: "light" | "dark";
   setTheme: (theme: "light" | "dark") => void;
+  lang: Lang;
 }
 
-export default function DesignSystemSection({ theme, setTheme }: DesignSystemSectionProps) {
+export default function DesignSystemSection({ theme, setTheme, lang }: DesignSystemSectionProps) {
   const isDark = theme === "dark";
+  const c = designSystemContent[lang];
 
-  // Mesmo estado global de tema dos demais toggles — alternar aqui também muda o site inteiro
-  const colorTokens = isDark ? colorTokensDark : colorTokensLight;
+  const colorHex = isDark ? colorHexDark : colorHexLight;
+  const colorTokens = (isDark ? c.colorTokensDark : c.colorTokensLight).map((token, i) => ({
+    ...token,
+    bg: colorHex[i],
+  }));
+
+  const typeSamples = c.typeSamples.map((sample, i) => ({ ...sample, ...typeMeta[i] }));
 
   const pv = {
     bg:      isDark ? "#120E10" : "#FFFBFD",
@@ -204,20 +85,24 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
     brand:   isDark ? "#F48FB1" : "#A31545",
   };
 
-  const lessonItems = [
-    { Icon: CheckCircle2, color: "#10b981", label: "Técnicas Pomodoro",      active: false },
-    { Icon: CheckCircle2, color: "#10b981", label: "Flow State e Deep Work", active: false },
-    { Icon: Clock,        color: "#D81B60", label: "Gestão de Distrações",   active: true  },
-    { Icon: Lock,         color: pv.muted,  label: "Revisão Espaçada",       active: false },
+  const lessonIcons = [
+    { Icon: CheckCircle2, color: "#10b981", active: false },
+    { Icon: CheckCircle2, color: "#10b981", active: false },
+    { Icon: Clock,        color: "#D81B60", active: true },
+    { Icon: Lock,         color: pv.muted,  active: false },
   ];
+  const lessonItems = c.lessonItems.map((label, i) => ({ ...lessonIcons[i], label }));
 
-  const statusBadges = [
-    { label: "Concluído",    bg: "rgba(16,185,129,0.12)",  color: "#10b981" },
-    { label: "Em andamento", bg: "rgba(216,27,96,0.12)",   color: "#D81B60" },
-    { label: "Não iniciado", bg: isDark ? "rgba(255,255,255,0.06)" : "rgba(110,94,100,0.10)", color: pv.muted },
-    { label: "Bloqueado",    bg: isDark ? "rgba(255,255,255,0.04)" : "rgba(110,94,100,0.07)", color: pv.muted },
-    { label: "Novo",         bg: "rgba(216,27,96,0.12)",   color: "#F06292" },
+  const statusBadgeStyles = [
+    { bg: "rgba(16,185,129,0.12)",  color: "#10b981" },
+    { bg: "rgba(216,27,96,0.12)",   color: "#D81B60" },
+    { bg: isDark ? "rgba(255,255,255,0.06)" : "rgba(110,94,100,0.10)", color: pv.muted },
+    { bg: isDark ? "rgba(255,255,255,0.04)" : "rgba(110,94,100,0.07)", color: pv.muted },
+    { bg: "rgba(216,27,96,0.12)",   color: "#F06292" },
   ];
+  const statusBadges = c.statusBadges.map((label, i) => ({ ...statusBadgeStyles[i], label }));
+
+  const jornadaItems = c.jornadaItems.map((label, i) => ({ ...jornadaIcons[i], label }));
 
   return (
     <section id="design-system" className="py-24 bg-surface/20 border-t border-border transition-all duration-300">
@@ -227,13 +112,13 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
         <RevealOnScroll direction="up">
           <div className="text-center mb-16">
             <span className="text-[10px] font-bold tracking-widest uppercase text-brand mb-4 block">
-              Sistema Visual
+              {c.eyebrow}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
-              Design System do APP UNIEDU
+              {c.title}
             </h2>
             <p className="text-text-secondary max-w-2xl mx-auto text-sm leading-relaxed">
-              Cores, tipografia, componentes e regras de uso que tornam a experiência do UNIEDU consistente, acessível e alinhada ao propósito de gamificação adulta e aprendizagem contínua.
+              {c.description}
             </p>
           </div>
         </RevealOnScroll>
@@ -242,13 +127,13 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
         <RevealOnScroll direction="up" delay={100}>
           <div className="mb-16">
             <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand mb-5">
-              01 · Tipografia
+              {c.section01.title}
             </h3>
             <div className="rounded-2xl border border-border bg-surface-elevated overflow-hidden">
               <div className="px-5 py-3 border-b border-border flex items-center gap-2 bg-surface/50">
                 <span className="w-2 h-2 rounded-full bg-brand/40 block" />
                 <span className="text-[11px] text-text-secondary font-medium">
-                  Plus Jakarta Sans — Display e Heading · Inter — Body e Caption
+                  {c.section01.fontNote}
                 </span>
               </div>
               <div className="divide-y divide-border">
@@ -288,19 +173,19 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
           <div className="mb-16">
             <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
               <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand">
-                02 · Cores e Tokens
+                {c.section02.title}
               </h3>
               {/* Toggle global — mesmo estado de tema do header, da seção 03 e da seção 04 */}
-              <ThemeToggle theme={theme} setTheme={setTheme} />
+              <ThemeToggle theme={theme} setTheme={setTheme} labels={c.themeToggle} />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-              {colorTokens.map((c) => (
-                <div key={c.label} className="rounded-xl border border-border overflow-hidden bg-surface-elevated">
-                  <div className="h-10 w-full" style={{ background: c.bg }} />
+              {colorTokens.map((tk) => (
+                <div key={tk.label} className="rounded-xl border border-border overflow-hidden bg-surface-elevated">
+                  <div className="h-10 w-full" style={{ background: tk.bg }} />
                   <div className="p-3">
-                    <p className="text-[11px] font-bold text-text-primary leading-tight">{c.label}</p>
-                    <p className="text-[9px] text-text-secondary font-mono mt-0.5">{c.hex}</p>
-                    <p className="text-[9px] text-text-secondary mt-1.5 leading-snug">{c.usage}</p>
+                    <p className="text-[11px] font-bold text-text-primary leading-tight">{tk.label}</p>
+                    <p className="text-[9px] text-text-secondary font-mono mt-0.5">{tk.hex}</p>
+                    <p className="text-[9px] text-text-secondary mt-1.5 leading-snug">{tk.usage}</p>
                   </div>
                 </div>
               ))}
@@ -313,10 +198,10 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
           <div className="mb-16">
             <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
               <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand">
-                03 · Componentes
+                {c.section03.title}
               </h3>
               {/* Toggle global — controla o tema do site inteiro (header, seção 03 e seção 04) */}
-              <ThemeToggle theme={theme} setTheme={setTheme} />
+              <ThemeToggle theme={theme} setTheme={setTheme} labels={c.themeToggle} />
             </div>
 
             {/* Preview canvas */}
@@ -330,7 +215,7 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                 style={{ background: pv.surface, borderColor: pv.border }}
               >
                 <span style={{ fontSize: 11, fontWeight: 700, color: pv.muted, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                  Prévia — {isDark ? "Dark Mode" : "Light Mode"}
+                  {c.section03.previewLabel} — {isDark ? "Dark Mode" : "Light Mode"}
                 </span>
                 <div className="flex gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-400/50 block" />
@@ -346,8 +231,8 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                   <div className="rounded-2xl p-5 flex flex-col gap-4 transition-all duration-500" style={{ background: pv.surface, border: `1px solid ${pv.border}` }}>
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#D81B60", marginBottom: 4 }}>Módulo 2</p>
-                        <p style={{ fontSize: 15, fontWeight: 700, color: pv.text, lineHeight: 1.3 }}>Gestão do Tempo e Foco</p>
+                        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#D81B60", marginBottom: 4 }}>{c.moduleCard.tag}</p>
+                        <p style={{ fontSize: 15, fontWeight: 700, color: pv.text, lineHeight: 1.3 }}>{c.moduleCard.title}</p>
                       </div>
                       <div style={{ background: "rgba(216,27,96,0.12)", color: "#D81B60", borderRadius: 8, padding: "4px 8px", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", gap: 3, flexShrink: 0 }}>
                         <Zap size={10} />+120 XP
@@ -355,7 +240,7 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                     </div>
                     <div>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                        <span style={{ fontSize: 11, color: pv.muted }}>Progresso</span>
+                        <span style={{ fontSize: 11, color: pv.muted }}>{c.moduleCard.progressLabel}</span>
                         <span style={{ fontSize: 11, fontWeight: 700, color: "#D81B60" }}>65%</span>
                       </div>
                       <div style={{ background: "rgba(216,27,96,0.12)", borderRadius: 9999, height: 5, overflow: "hidden" }}>
@@ -364,10 +249,10 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: pv.muted }}>
-                        <BookOpen size={12} />3 de 5 aulas
+                        <BookOpen size={12} />{c.moduleCard.lessonsCount}
                       </div>
                       <div style={{ background: "rgba(216,27,96,0.12)", color: "#D81B60", borderRadius: 9999, padding: "3px 10px", fontSize: 11, fontWeight: 600 }}>
-                        Em andamento
+                        {c.moduleCard.statusInProgress}
                       </div>
                     </div>
                   </div>
@@ -380,7 +265,7 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                       >
                         <item.Icon size={13} color={item.color} strokeWidth={2.5} />
                         <span style={{ fontSize: 12, color: item.active ? pv.text : pv.muted, fontWeight: item.active ? 600 : 400, flex: 1 }}>{item.label}</span>
-                        {item.active && <span style={{ fontSize: 10, fontWeight: 700, color: "#D81B60" }}>Atual</span>}
+                        {item.active && <span style={{ fontSize: 10, fontWeight: 700, color: "#D81B60" }}>{c.currentLabel}</span>}
                       </div>
                     ))}
                   </div>
@@ -393,8 +278,8 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                       <Trophy size={18} color="#D81B60" />
                     </div>
                     <div style={{ flex: 1 }}>
-                      <p style={{ fontSize: 13, fontWeight: 700, color: pv.text }}>Semana Consistente</p>
-                      <p style={{ fontSize: 11, color: pv.muted, marginTop: 2 }}>7 dias de acesso consecutivo</p>
+                      <p style={{ fontSize: 13, fontWeight: 700, color: pv.text }}>{c.achievementCard.title}</p>
+                      <p style={{ fontSize: 11, color: pv.muted, marginTop: 2 }}>{c.achievementCard.desc}</p>
                     </div>
                     <div style={{ background: "linear-gradient(135deg,#D81B60,#F06292)", color: "#fff", borderRadius: 8, padding: "4px 8px", fontSize: 11, fontWeight: 700, flexShrink: 0 }}>
                       +50 XP
@@ -402,7 +287,7 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                   </div>
 
                   <div className="rounded-xl p-4 transition-all duration-500" style={{ background: pv.surface, border: `1px solid ${pv.border}` }}>
-                    <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: pv.muted, marginBottom: 12 }}>Estados de Progresso</p>
+                    <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: pv.muted, marginBottom: 12 }}>{c.statusBadgesLabel}</p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {statusBadges.map((b) => (
                         <span key={b.label} style={{ background: b.bg, color: b.color, borderRadius: 9999, padding: "4px 12px", fontSize: 11, fontWeight: 600 }}>{b.label}</span>
@@ -411,12 +296,12 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                   </div>
 
                   <div className="rounded-xl p-4 transition-all duration-500" style={{ background: pv.surface, border: `1px solid ${pv.border}` }}>
-                    <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: pv.muted, marginBottom: 12 }}>Botões</p>
+                    <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: pv.muted, marginBottom: 12 }}>{c.buttonsLabel}</p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
-                      <button style={{ background: pv.brand, color: "#fff", borderRadius: 10, padding: "8px 18px", fontSize: 13, fontWeight: 700, border: "none", cursor: "pointer" }}>Continuar</button>
-                      <button style={{ background: "transparent", color: pv.brand, borderRadius: 10, padding: "7px 16px", fontSize: 13, fontWeight: 600, border: `1.5px solid ${isDark ? "rgba(244,143,177,0.30)" : "rgba(163,21,69,0.30)"}`, cursor: "pointer" }}>Ver detalhes</button>
-                      <button style={{ background: "transparent", color: pv.muted, borderRadius: 10, padding: "7px 16px", fontSize: 12, fontWeight: 500, border: `1.5px solid ${pv.border}`, cursor: "pointer" }}>Cancelar</button>
-                      <button style={{ background: isDark ? "rgba(255,255,255,0.04)" : "rgba(110,94,100,0.07)", color: pv.muted, borderRadius: 10, padding: "7px 16px", fontSize: 12, fontWeight: 500, border: "none", cursor: "not-allowed", opacity: 0.45 }}>Bloqueado</button>
+                      <button style={{ background: pv.brand, color: "#fff", borderRadius: 10, padding: "8px 18px", fontSize: 13, fontWeight: 700, border: "none", cursor: "pointer" }}>{c.buttons.continue}</button>
+                      <button style={{ background: "transparent", color: pv.brand, borderRadius: 10, padding: "7px 16px", fontSize: 13, fontWeight: 600, border: `1.5px solid ${isDark ? "rgba(244,143,177,0.30)" : "rgba(163,21,69,0.30)"}`, cursor: "pointer" }}>{c.buttons.details}</button>
+                      <button style={{ background: "transparent", color: pv.muted, borderRadius: 10, padding: "7px 16px", fontSize: 12, fontWeight: 500, border: `1.5px solid ${pv.border}`, cursor: "pointer" }}>{c.buttons.cancel}</button>
+                      <button style={{ background: isDark ? "rgba(255,255,255,0.04)" : "rgba(110,94,100,0.07)", color: pv.muted, borderRadius: 10, padding: "7px 16px", fontSize: 12, fontWeight: 500, border: "none", cursor: "not-allowed", opacity: 0.45 }}>{c.buttons.locked}</button>
                     </div>
                   </div>
                 </div>
@@ -430,20 +315,20 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
           <div className="mb-16">
             <div className="flex items-center justify-between mb-2 flex-wrap gap-3">
               <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand">
-                04 · Sistema aplicado ao APP UNIEDU
+                {c.section04.title}
               </h3>
-              <ThemeToggle theme={theme} setTheme={setTheme} />
+              <ThemeToggle theme={theme} setTheme={setTheme} labels={c.themeToggle} />
             </div>
-            <p className="text-[9px] text-text-secondary italic mb-2">Os componentes acompanham o tema global do site.</p>
+            <p className="text-[9px] text-text-secondary italic mb-2">{c.section04.themeNote}</p>
             <p className="text-[11px] text-text-secondary mb-6 leading-relaxed max-w-2xl">
-              Componentes extraídos do produto real — codados em JSX, sem imagens. Documentação viva de como o sistema visual se aplica em contexto.
+              {c.section04.description}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
               {/* C1: Card de aula em destaque */}
               <div>
-                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">C1 · Card de aula em destaque</p>
+                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">{c.c1Label}</p>
                 <div className="rounded-2xl p-3 transition-all duration-500" style={{ background: pv.bg, border: `1px solid ${pv.border}` }}>
                   <div style={{ background: pv.surface, border: `1px solid ${pv.border}`, borderRadius: 14, overflow: "hidden" }}>
                     {/* Gradient thumbnail */}
@@ -460,15 +345,15 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                     </div>
                     {/* Content */}
                     <div style={{ padding: "10px 12px 12px" }}>
-                      <p style={{ fontSize: 10, color: pv.muted, marginBottom: 8, lineHeight: 1.4 }}>UX Research: Pesquisas Longitudinais — Parte 1</p>
+                      <p style={{ fontSize: 10, color: pv.muted, marginBottom: 8, lineHeight: 1.4 }}>{c.c1LessonTitle}</p>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                        <span style={{ fontSize: 9, color: pv.muted }}>Progresso</span>
+                        <span style={{ fontSize: 9, color: pv.muted }}>{c.c1ProgressLabel}</span>
                         <span style={{ fontSize: 9, fontWeight: 700, color: "#D81B60" }}>65%</span>
                       </div>
                       <div style={{ height: 4, borderRadius: 2, background: "rgba(216,27,96,0.12)", marginBottom: 10 }}>
                         <div style={{ width: "65%", height: "100%", borderRadius: 2, background: "linear-gradient(to right,#D81B60,#F06292)" }} />
                       </div>
-                      <button style={{ width: "100%", background: pv.brand, color: "#fff", border: "none", borderRadius: 8, padding: "8px 0", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", cursor: "pointer" }}>CONTINUAR</button>
+                      <button style={{ width: "100%", background: pv.brand, color: "#fff", border: "none", borderRadius: 8, padding: "8px 0", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", cursor: "pointer" }}>{c.c1Button}</button>
                     </div>
                   </div>
                 </div>
@@ -476,11 +361,11 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
 
               {/* C2: Jornada de aprendizado */}
               <div>
-                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">C2 · Jornada de aprendizado</p>
+                <p className="text-[9px] font-bold text-brand/50 uppercase tracking-widest mb-3">{c.c2Label}</p>
                 <div className="rounded-2xl p-3 transition-all duration-500" style={{ background: pv.bg, border: `1px solid ${pv.border}` }}>
                   <div style={{ background: "linear-gradient(135deg,#F48FB1,#EC407A,#A31545)", borderRadius: 14, padding: 14 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                      <p style={{ fontSize: 9, color: "rgba(255,255,255,0.70)", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>Sua jornada de aprendizado</p>
+                      <p style={{ fontSize: 9, color: "rgba(255,255,255,0.70)", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>{c.c2Title}</p>
                       <span style={{ fontSize: 9, color: "rgba(255,255,255,0.85)", background: "rgba(255,255,255,0.18)", borderRadius: 99, padding: "2px 8px", fontWeight: 700 }}>3/4</span>
                     </div>
                     <div style={{ height: 3, background: "rgba(255,255,255,0.20)", borderRadius: 2, marginBottom: 12, overflow: "hidden" }}>
@@ -501,7 +386,7 @@ export default function DesignSystemSection({ theme, setTheme }: DesignSystemSec
                         </div>
                       ))}
                     </div>
-                    <p style={{ fontSize: 9, color: "rgba(255,255,255,0.75)", textAlign: "center", marginTop: 10, fontWeight: 500 }}>Falta 1 ação para completar a jornada de hoje.</p>
+                    <p style={{ fontSize: 9, color: "rgba(255,255,255,0.75)", textAlign: "center", marginTop: 10, fontWeight: 500 }}>{c.c2Footer}</p>
                   </div>
                 </div>
               </div>
