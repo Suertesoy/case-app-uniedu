@@ -1815,48 +1815,52 @@ interface TypeSample {
 
 export type ComponentCategoryId = "navigation" | "progress" | "gamification" | "community" | "profile";
 
+// Controla a altura máxima da miniatura no card (não a largura/colspan):
+// "wide" = tiras horizontais (nav, cabeçalhos, barras) · "tall" = telas bem verticais
+// "compact" = componentes mais quadrados/médios
+export type ComponentFrame = "wide" | "tall" | "compact";
+
 export interface ComponentGalleryItem {
   id: string;
   file: string;
   category: ComponentCategoryId;
-  wide: boolean;
+  frame: ComponentFrame;
 }
 
 // Itens reais recortados do protótipo (imagens/COMPONENTES) — independentes de idioma.
-// `wide: true` ocupa 2 colunas no desktop (tiras horizontais de UI); os demais ficam 1 coluna.
 export const componentGalleryItems: ComponentGalleryItem[] = [
   // Navegação e Estrutura
-  { id: "nav-bar", file: "nav-bar.jpeg", category: "navigation", wide: true },
-  { id: "cabecalho", file: "cabecalho.jpeg", category: "navigation", wide: true },
-  { id: "cabecalho-home", file: "cabecalho-home.jpeg", category: "navigation", wide: true },
-  { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", category: "navigation", wide: true },
+  { id: "nav-bar", file: "nav-bar.jpeg", category: "navigation", frame: "wide" },
+  { id: "cabecalho", file: "cabecalho.jpeg", category: "navigation", frame: "wide" },
+  { id: "cabecalho-home", file: "cabecalho-home.jpeg", category: "navigation", frame: "wide" },
+  { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", category: "navigation", frame: "wide" },
   // Progresso e Jornada
-  { id: "barra-progresso", file: "barra-progresso.jpeg", category: "progress", wide: true },
-  { id: "plano-estudos", file: "plano-estudos.jpeg", category: "progress", wide: true },
-  { id: "streaks", file: "streaks.jpeg", category: "progress", wide: true },
-  { id: "modulo-aula", file: "modulo-aula.jpeg", category: "progress", wide: true },
-  { id: "aula-assistida", file: "aula-assistida.jpeg", category: "progress", wide: true },
-  { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", category: "progress", wide: true },
-  { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", category: "progress", wide: true },
-  { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", category: "progress", wide: true },
+  { id: "barra-progresso", file: "barra-progresso.jpeg", category: "progress", frame: "wide" },
+  { id: "plano-estudos", file: "plano-estudos.jpeg", category: "progress", frame: "wide" },
+  { id: "streaks", file: "streaks.jpeg", category: "progress", frame: "wide" },
+  { id: "modulo-aula", file: "modulo-aula.jpeg", category: "progress", frame: "wide" },
+  { id: "aula-assistida", file: "aula-assistida.jpeg", category: "progress", frame: "wide" },
+  { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", category: "progress", frame: "wide" },
+  { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", category: "progress", frame: "wide" },
+  { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", category: "progress", frame: "wide" },
   // Gamificação e Recompensas
-  { id: "ranking-ativado", file: "ranking-ativado.jpeg", category: "gamification", wide: false },
-  { id: "ranking-desativado", file: "ranking-desativado.jpeg", category: "gamification", wide: false },
-  { id: "onboarding-points", file: "onboarding-points.jpeg", category: "gamification", wide: true },
-  { id: "item-loja", file: "item-loja.jpeg", category: "gamification", wide: false },
-  { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", category: "gamification", wide: false },
-  { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", category: "gamification", wide: true },
+  { id: "ranking-ativado", file: "ranking-ativado.jpeg", category: "gamification", frame: "compact" },
+  { id: "ranking-desativado", file: "ranking-desativado.jpeg", category: "gamification", frame: "compact" },
+  { id: "onboarding-points", file: "onboarding-points.jpeg", category: "gamification", frame: "wide" },
+  { id: "item-loja", file: "item-loja.jpeg", category: "gamification", frame: "tall" },
+  { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", category: "gamification", frame: "compact" },
+  { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", category: "gamification", frame: "wide" },
   // Comunidade e Aulas
-  { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", category: "community", wide: true },
-  { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", category: "community", wide: true },
-  { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", category: "community", wide: true },
-  { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", category: "community", wide: true },
-  { id: "card-home", file: "card-home.jpeg", category: "community", wide: false },
-  { id: "card-cases", file: "card-cases.jpeg", category: "community", wide: false },
-  { id: "certificado", file: "certificado.jpeg", category: "community", wide: true },
+  { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", category: "community", frame: "wide" },
+  { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", category: "community", frame: "wide" },
+  { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", category: "community", frame: "wide" },
+  { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", category: "community", frame: "wide" },
+  { id: "card-home", file: "card-home.jpeg", category: "community", frame: "compact" },
+  { id: "card-cases", file: "card-cases.jpeg", category: "community", frame: "tall" },
+  { id: "certificado", file: "certificado.jpeg", category: "community", frame: "wide" },
   // Perfil e Identidade
-  { id: "perfil", file: "perfil.jpeg", category: "profile", wide: false },
-  { id: "card-login", file: "card-login.jpeg", category: "profile", wide: false },
+  { id: "perfil", file: "perfil.jpeg", category: "profile", frame: "compact" },
+  { id: "card-login", file: "card-login.jpeg", category: "profile", frame: "compact" },
 ];
 
 interface DesignSystemContent {

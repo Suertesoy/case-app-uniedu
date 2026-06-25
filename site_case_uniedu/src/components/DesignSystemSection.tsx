@@ -1,7 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sun, Moon, X, Maximize2 } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
-import { designSystemContent, componentGalleryItems, type ComponentCategoryId, type Lang } from "../content/translations";
+import { designSystemContent, componentGalleryItems, type ComponentCategoryId, type ComponentFrame, type Lang } from "../content/translations";
+
+// Altura máxima da miniatura dentro do card, por tipo de componente —
+// mantém a galeria como inventário compacto em vez de banners gigantes.
+const frameMaxHeight: Record<ComponentFrame, number> = {
+  wide: 140,
+  compact: 160,
+  tall: 240,
+};
 
 interface ThemeToggleProps {
   theme: "light" | "dark";
@@ -73,11 +81,25 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
   const typeSamples = c.typeSamples.map((sample, i) => ({ ...sample, ...typeMeta[i] }));
 
   const [lightboxId, setLightboxId] = useState<string | null>(null);
+  const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const openLightbox = (id: string, trigger: HTMLButtonElement) => {
+    lastTriggerRef.current = trigger;
+    setLightboxId(id);
+  };
+
+  const closeLightbox = () => {
+    setLightboxId(null);
+    // Devolve o foco ao card que abriu o modal, em vez de perdê-lo no body.
+    lastTriggerRef.current?.focus();
+  };
 
   useEffect(() => {
     if (!lightboxId) return;
+    closeButtonRef.current?.focus();
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setLightboxId(null);
+      if (e.key === "Escape") closeLightbox();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -174,52 +196,53 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
           </div>
         </RevealOnScroll>
 
-        {/* ── 03 · Componentes da Interface — galeria com imagens reais do protótipo ── */}
+        {/* ── 03 · Componentes da Interface — inventário compacto com imagens reais do protótipo ── */}
         <RevealOnScroll direction="up" delay={100}>
           <div>
             <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand mb-2">
               {c.section03.title}
             </h3>
-            <p className="text-[11px] text-text-secondary mb-10 leading-relaxed max-w-2xl">
+            <p className="text-[11px] text-text-secondary mb-6 leading-relaxed max-w-2xl">
               {c.section03.description}
             </p>
 
-            <div className="space-y-12">
+            <div className="space-y-7">
               {categoryOrder.map((categoryId) => {
                 const items = componentGalleryItems.filter((item) => item.category === categoryId);
                 if (items.length === 0) return null;
 
                 return (
                   <div key={categoryId}>
-                    <h4 className="text-sm font-bold text-text-primary mb-4">
+                    <h4 className="text-xs font-bold text-text-primary mb-2.5">
                       {c.categories[categoryId]}
                     </h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 items-start">
                       {items.map((item) => {
                         const meta = c.components[item.id];
                         return (
                           <button
                             key={item.id}
                             type="button"
-                            onClick={() => setLightboxId(item.id)}
-                            className={`group text-left bg-surface border border-border rounded-2xl p-4 transition-all duration-300 hover:border-brand/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/5 cursor-zoom-in motion-reduce:hover:translate-y-0 ${
-                              item.wide ? "sm:col-span-2" : ""
-                            }`}
+                            onClick={(e) => openLightbox(item.id, e.currentTarget)}
+                            className="group text-left bg-surface border border-border rounded-xl p-2.5 transition-all duration-300 hover:border-brand/40 hover:-translate-y-0.5 hover:shadow-md hover:shadow-brand/5 cursor-zoom-in motion-reduce:hover:translate-y-0"
                             aria-label={meta.alt}
                           >
-                            <div className="relative rounded-xl overflow-hidden bg-surface-elevated/50 flex items-center justify-center">
+                            <div
+                              className="relative rounded-lg overflow-hidden bg-surface-elevated/50 flex items-center justify-center"
+                              style={{ height: frameMaxHeight[item.frame] }}
+                            >
                               <img
                                 src={`/components/${item.file}`}
                                 alt={meta.alt}
                                 loading="lazy"
-                                className="block max-w-full h-auto object-contain"
-                                style={{ maxHeight: item.wide ? "260px" : "420px" }}
+                                className="block max-w-full w-auto h-auto object-contain"
+                                style={{ maxHeight: frameMaxHeight[item.frame], maxWidth: "100%" }}
                               />
-                              <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-page/80 backdrop-blur-sm border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <Maximize2 className="w-3.5 h-3.5 text-text-primary" />
+                              <span className="absolute top-1 right-1 w-5 h-5 rounded-full bg-page/80 backdrop-blur-sm border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <Maximize2 className="w-2.5 h-2.5 text-text-primary" />
                               </span>
                             </div>
-                            <p className="text-xs font-bold text-text-primary mt-3">{meta.title}</p>
+                            <p className="text-[10px] font-semibold text-text-primary mt-1.5 leading-snug line-clamp-2">{meta.title}</p>
                           </button>
                         );
                       })}
@@ -240,11 +263,12 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
           aria-modal="true"
           aria-label={c.components[lightboxItem.id].title}
           className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
-          onClick={() => setLightboxId(null)}
+          onClick={closeLightbox}
         >
           <button
+            ref={closeButtonRef}
             type="button"
-            onClick={() => setLightboxId(null)}
+            onClick={closeLightbox}
             aria-label={lang === "pt" ? "Fechar" : "Close"}
             className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
           >
