@@ -1,25 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Sun, Moon, X } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
-import { designSystemContent, componentGalleryItems, type ComponentSize, type Lang } from "../content/translations";
+import { designSystemContent, componentGroups, type ComponentSize, type Lang } from "../content/translations";
 
-// Largura (colspan) no mosaico de 12 colunas — controla apenas o posicionamento.
-// A imagem nunca estica para preencher a célula; seu próprio max-width manda.
-const sizeColSpan: Record<ComponentSize, string> = {
-  wide: "col-span-12 md:col-span-6",
-  medium: "col-span-12 md:col-span-4",
-  small: "col-span-6 md:col-span-3",
-  tall: "col-span-12 md:col-span-4",
-};
-
-// Max-width interno da imagem, por tipo — preserva a escala mental de mobile
-// em vez de deixar o componente esticar para a largura do desktop.
+// Max-width interno da imagem, por tipo — usa a largura interna do app mobile
+// (~320–360px) como referência, nunca a largura do desktop. Mesmo dentro de
+// uma célula maior do flex, a imagem nunca ultrapassa esse valor.
 const sizeImgMaxWidth: Record<ComponentSize, number> = {
-  wide: 400,
-  medium: 340,
-  small: 250,
-  tall: 340,
+  full: 340,
+  medium: 300,
+  small: 220,
+  vertical: 300,
 };
+
+// Lookup plano de todos os itens, para o lightbox (independe do agrupamento por tela)
+const allGalleryItems = componentGroups.flatMap((group) => group.items);
 
 interface ThemeToggleProps {
   theme: "light" | "dark";
@@ -67,9 +62,6 @@ const typeMeta = [
   { className: "text-[10px] font-bold tracking-widest uppercase", size: "10px", weight: "700", leading: "1.4", tracking: "0.1em + uppercase", font: "Inter" },
 ];
 
-// Componentes em ordem narrativa, prontos para renderização contínua (sem categorias)
-const galleryItems = [...componentGalleryItems].sort((a, b) => a.order - b.order);
-
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface DesignSystemSectionProps {
@@ -115,7 +107,7 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [lightboxId]);
 
-  const lightboxItem = componentGalleryItems.find((item) => item.id === lightboxId) ?? null;
+  const lightboxItem = allGalleryItems.find((item) => item.id === lightboxId) ?? null;
 
   return (
     <section id="design-system" className="py-24 bg-surface/20 border-t border-border transition-all duration-300">
@@ -206,9 +198,9 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
           </div>
         </RevealOnScroll>
 
-        {/* ── 03 · Componentes da Interface — prancha editorial, sem cards nem categorias ── */}
+        {/* ── 03 · Componentes da Interface — prancha por contexto de tela, sem cards ── */}
         <RevealOnScroll direction="up" delay={100}>
-          <div>
+          <div data-cursor-trail-ignore>
             <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand mb-2">
               {c.section03.title}
             </h3>
@@ -216,34 +208,39 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
               {c.section03.description}
             </p>
 
-            <div className="grid grid-cols-12 gap-x-6 gap-y-12">
-              {galleryItems.map((item) => {
-                const meta = c.components[item.id];
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={(e) => openLightbox(item.id, e.currentTarget)}
-                    className={`group flex flex-col items-center text-center ${sizeColSpan[item.size]}`}
-                    aria-label={meta.alt}
-                  >
-                    <img
-                      src={`/components/${item.file}`}
-                      alt={meta.alt}
-                      loading="lazy"
-                      className="block mx-auto w-full h-auto object-contain cursor-zoom-in transition-all duration-300 group-hover:opacity-85 group-hover:scale-[1.015]"
-                      style={{ maxWidth: sizeImgMaxWidth[item.size] }}
-                    />
-                    <p className="mt-3 text-xs font-semibold text-text-primary">
-                      <span className="font-mono text-text-secondary/50 mr-1">{String(item.order).padStart(2, "0")}.</span>
-                      {meta.title}
-                    </p>
-                    <p className="mt-0.5 text-[11px] text-text-secondary leading-snug max-w-[260px]">
-                      {meta.description}
-                    </p>
-                  </button>
-                );
-              })}
+            <div className="space-y-14">
+              {componentGroups.map((group, groupIndex) => (
+                <div key={group.id} className={groupIndex > 0 ? "pt-10 border-t border-border/40" : undefined}>
+                  <h4 className="text-[11px] font-semibold uppercase tracking-wide text-text-secondary/70 mb-6">
+                    {c.groups[group.id]}
+                  </h4>
+                  <div className="flex flex-wrap justify-center items-start gap-x-10 gap-y-8">
+                    {group.items.map((item) => {
+                      const meta = c.components[item.id];
+                      return (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={(e) => openLightbox(item.id, e.currentTarget)}
+                          className="group flex flex-col items-center text-center"
+                          aria-label={meta.alt}
+                        >
+                          <img
+                            src={`/components/${item.file}`}
+                            alt={meta.alt}
+                            loading="lazy"
+                            className="block mx-auto w-full h-auto object-contain cursor-zoom-in transition-all duration-300 group-hover:opacity-85 group-hover:scale-[1.015]"
+                            style={{ maxWidth: sizeImgMaxWidth[item.size] }}
+                          />
+                          <p className="mt-2.5 text-xs font-medium text-text-primary">
+                            {meta.title}
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </RevealOnScroll>
@@ -277,9 +274,8 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
               alt={c.components[lightboxItem.id].alt}
               className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-xl shadow-2xl"
             />
-            <figcaption className="text-center">
-              <p className="text-sm font-semibold text-white/90">{c.components[lightboxItem.id].title}</p>
-              <p className="text-xs text-white/60 mt-1">{c.components[lightboxItem.id].description}</p>
+            <figcaption className="text-sm font-semibold text-white/90">
+              {c.components[lightboxItem.id].title}
             </figcaption>
           </figure>
         </div>

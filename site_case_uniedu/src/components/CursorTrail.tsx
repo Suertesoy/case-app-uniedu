@@ -277,6 +277,19 @@ export default function CursorTrail() {
       cursorKnown = true;
     };
 
+    // Sections marked with data-cursor-trail-ignore (e.g. the Interface
+    // Components board) draw their own real UI crops — the trail visually
+    // competes with them, so we silently skip drawing while the pointer is
+    // over one, without removing the effect from the rest of the site.
+    const isPointExcluded = (x: number, y: number) => {
+      const zones = document.querySelectorAll("[data-cursor-trail-ignore]");
+      for (const zone of zones) {
+        const r = zone.getBoundingClientRect();
+        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) return true;
+      }
+      return false;
+    };
+
     let rafId: number;
 
     const tick = () => {
@@ -292,9 +305,17 @@ export default function CursorTrail() {
           lastProcessedScrollY = window.scrollY;
         } else {
           const mouseMoved = rawX !== lastProcessedX || rawY !== lastProcessedY;
+          const excluded = isPointExcluded(rawX, rawY);
 
           if (mouseMoved) {
-            addTrailBetween(anchorX, anchorY, rawX, rawY);
+            if (excluded) {
+              // Re-anchor silently so re-entering the normal area never
+              // draws one giant catch-up trail across the excluded zone.
+              anchorX = rawX;
+              anchorY = rawY;
+            } else {
+              addTrailBetween(anchorX, anchorY, rawX, rawY);
+            }
             lastProcessedX = rawX;
             lastProcessedY = rawY;
 
@@ -313,7 +334,7 @@ export default function CursorTrail() {
           // already accounts for the frame, so skip this.
           const currentScrollY = window.scrollY;
           const scrollDelta = currentScrollY - lastProcessedScrollY;
-          if (scrollDelta !== 0 && !mouseMoved) {
+          if (scrollDelta !== 0 && !mouseMoved && !excluded) {
             if (scrollAnchorX === null || scrollAnchorY === null) {
               scrollAnchorX = rawX;
               scrollAnchorY = rawY;
