@@ -1833,6 +1833,7 @@ export const componentBoardColumns: ComponentBoardItem[][] = [
     { id: "plano-estudos", file: "plano-estudos.jpeg", maxWidth: 270 },
     { id: "card-cases", file: "card-cases.jpeg", maxWidth: 130 },
     { id: "item-loja", file: "item-loja.jpeg", maxWidth: 140 },
+    { id: "player-aula", file: "player-aula.png", maxWidth: 310 },
   ],
   [
     { id: "card-login", file: "card-login.jpeg", maxWidth: 310 },
@@ -1843,6 +1844,7 @@ export const componentBoardColumns: ComponentBoardItem[][] = [
     { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", maxWidth: 280 },
     { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", maxWidth: 280 },
     { id: "streaks", file: "streaks.jpeg", maxWidth: 280 },
+    { id: "jornada-aprendizado", file: "jornada-aprendizado.png", maxWidth: 310 },
   ],
   [
     { id: "cabecalho-home", file: "cabecalho-home.jpeg", maxWidth: 310 },
@@ -1937,6 +1939,8 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
       "aviso-comunidade": { title: "Aviso da comunidade", alt: "Card de aviso fixado na comunidade" },
       "sessoes-comunidade": { title: "Sessões da comunidade", alt: "Navegação por sessões dentro da comunidade" },
       "perfil": { title: "Perfil", alt: "Tela de perfil do aluno com nível e estatísticas" },
+      "player-aula": { title: "Player de aula", alt: "Player de vídeo mostrando a aula em andamento na home do aplicativo" },
+      "jornada-aprendizado": { title: "Jornada de aprendizado", alt: "Lista da jornada de aprendizado com etapas de progresso do aluno" },
     },
   },
   en: {
@@ -2002,6 +2006,8 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
       "aviso-comunidade": { title: "Community announcement", alt: "Pinned announcement card in the community" },
       "sessoes-comunidade": { title: "Community sessions", alt: "Navigation between sessions inside the community" },
       "perfil": { title: "Profile", alt: "Student profile screen with level and statistics" },
+      "player-aula": { title: "Lesson player", alt: "Video player showing the current lesson on the app home screen" },
+      "jornada-aprendizado": { title: "Learning journey", alt: "Learning journey list with student progress steps" },
     },
   },
 };
