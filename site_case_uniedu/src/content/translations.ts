@@ -1811,54 +1811,57 @@ interface TypeSample {
   use: string;
 }
 
-export type ComponentCategoryId = "navigation" | "progress" | "gamification" | "community" | "profile";
+export type ComponentCategoryId = "structure" | "learning" | "onboarding" | "gamification" | "store" | "community";
 
-// Controla a altura máxima da miniatura no card (não a largura/colspan):
-// "wide" = tiras horizontais (nav, cabeçalhos, barras) · "tall" = telas bem verticais
-// "compact" = componentes mais quadrados/médios
-export type ComponentFrame = "wide" | "tall" | "compact";
+// Controla largura (colspan no grid de 12 colunas) e altura máxima da miniatura:
+// "small" = badges/indicadores menores · "standard" = cards médios/quadrados
+// "wide" = tiras horizontais (nav, cabeçalhos, barras) — nunca ocupa a largura toda
+// "tall" = telas bem verticais (retrato)
+export type ComponentSize = "small" | "standard" | "wide" | "tall";
 
 export interface ComponentGalleryItem {
   id: string;
   file: string;
   category: ComponentCategoryId;
-  frame: ComponentFrame;
+  size: ComponentSize;
 }
 
 // Itens reais recortados do protótipo (imagens/COMPONENTES) — independentes de idioma.
+// Ordenados pela narrativa do produto, não por ordem alfabética.
 export const componentGalleryItems: ComponentGalleryItem[] = [
-  // Navegação e Estrutura
-  { id: "nav-bar", file: "nav-bar.jpeg", category: "navigation", frame: "wide" },
-  { id: "cabecalho", file: "cabecalho.jpeg", category: "navigation", frame: "wide" },
-  { id: "cabecalho-home", file: "cabecalho-home.jpeg", category: "navigation", frame: "wide" },
-  { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", category: "navigation", frame: "wide" },
-  // Progresso e Jornada
-  { id: "barra-progresso", file: "barra-progresso.jpeg", category: "progress", frame: "wide" },
-  { id: "plano-estudos", file: "plano-estudos.jpeg", category: "progress", frame: "wide" },
-  { id: "streaks", file: "streaks.jpeg", category: "progress", frame: "wide" },
-  { id: "modulo-aula", file: "modulo-aula.jpeg", category: "progress", frame: "wide" },
-  { id: "aula-assistida", file: "aula-assistida.jpeg", category: "progress", frame: "wide" },
-  { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", category: "progress", frame: "wide" },
-  { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", category: "progress", frame: "wide" },
-  { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", category: "progress", frame: "wide" },
-  // Gamificação e Recompensas
-  { id: "ranking-ativado", file: "ranking-ativado.jpeg", category: "gamification", frame: "compact" },
-  { id: "ranking-desativado", file: "ranking-desativado.jpeg", category: "gamification", frame: "compact" },
-  { id: "onboarding-points", file: "onboarding-points.jpeg", category: "gamification", frame: "wide" },
-  { id: "item-loja", file: "item-loja.jpeg", category: "gamification", frame: "tall" },
-  { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", category: "gamification", frame: "compact" },
-  { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", category: "gamification", frame: "wide" },
-  // Comunidade e Aulas
-  { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", category: "community", frame: "wide" },
-  { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", category: "community", frame: "wide" },
-  { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", category: "community", frame: "wide" },
-  { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", category: "community", frame: "wide" },
-  { id: "card-home", file: "card-home.jpeg", category: "community", frame: "compact" },
-  { id: "card-cases", file: "card-cases.jpeg", category: "community", frame: "tall" },
-  { id: "certificado", file: "certificado.jpeg", category: "community", frame: "wide" },
-  // Perfil e Identidade
-  { id: "perfil", file: "perfil.jpeg", category: "profile", frame: "compact" },
-  { id: "card-login", file: "card-login.jpeg", category: "profile", frame: "compact" },
+  // 1. Estrutura e Navegação Global
+  { id: "card-login", file: "card-login.jpeg", category: "structure", size: "standard" },
+  { id: "cabecalho", file: "cabecalho.jpeg", category: "structure", size: "wide" },
+  { id: "cabecalho-home", file: "cabecalho-home.jpeg", category: "structure", size: "wide" },
+  { id: "nav-bar", file: "nav-bar.jpeg", category: "structure", size: "wide" },
+  // 2. Core Loop de Aprendizado
+  { id: "card-home", file: "card-home.jpeg", category: "learning", size: "standard" },
+  { id: "card-cases", file: "card-cases.jpeg", category: "learning", size: "tall" },
+  { id: "modulo-aula", file: "modulo-aula.jpeg", category: "learning", size: "wide" },
+  { id: "aula-assistida", file: "aula-assistida.jpeg", category: "learning", size: "wide" },
+  { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", category: "learning", size: "wide" },
+  { id: "certificado", file: "certificado.jpeg", category: "learning", size: "wide" },
+  { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", category: "learning", size: "wide" },
+  // 3. Onboarding e Constância
+  { id: "plano-estudos", file: "plano-estudos.jpeg", category: "onboarding", size: "wide" },
+  { id: "barra-progresso", file: "barra-progresso.jpeg", category: "onboarding", size: "wide" },
+  { id: "streaks", file: "streaks.jpeg", category: "onboarding", size: "wide" },
+  { id: "onboarding-points", file: "onboarding-points.jpeg", category: "onboarding", size: "small" },
+  { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", category: "onboarding", size: "small" },
+  { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", category: "onboarding", size: "small" },
+  // 4. Gamificação e Retenção
+  { id: "ranking-ativado", file: "ranking-ativado.jpeg", category: "gamification", size: "standard" },
+  { id: "ranking-desativado", file: "ranking-desativado.jpeg", category: "gamification", size: "standard" },
+  { id: "perfil", file: "perfil.jpeg", category: "gamification", size: "standard" },
+  // 5. Loja de Benefícios
+  { id: "item-loja", file: "item-loja.jpeg", category: "store", size: "tall" },
+  { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", category: "store", size: "standard" },
+  { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", category: "store", size: "wide" },
+  // 6. Comunidade e Suporte Social
+  { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", category: "community", size: "wide" },
+  { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", category: "community", size: "wide" },
+  { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", category: "community", size: "wide" },
+  { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", category: "community", size: "wide" },
 ];
 
 interface DesignSystemContent {
@@ -1910,14 +1913,15 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     ],
     section03: {
       title: "03 · Componentes da Interface",
-      description: "Uma seleção dos principais componentes extraídos do protótipo real, organizados para evidenciar padrões de navegação, progresso, gamificação, comunidade e recompensas.",
+      description: "Uma seleção dos principais componentes extraídos do protótipo real, organizada para evidenciar padrões de navegação, progresso, gamificação, comunidade e recompensas.",
     },
     categories: {
-      navigation: "Navegação e Estrutura",
-      progress: "Progresso e Jornada",
-      gamification: "Gamificação e Recompensas",
-      community: "Comunidade e Aulas",
-      profile: "Perfil e Identidade",
+      structure: "Estrutura e Navegação Global",
+      learning: "Core Loop de Aprendizado",
+      onboarding: "Onboarding e Constância",
+      gamification: "Gamificação e Retenção",
+      store: "Loja de Benefícios",
+      community: "Comunidade e Suporte Social",
     },
     components: {
       "nav-bar": { title: "Navegação inferior", alt: "Barra de navegação inferior do app com os ícones de Home, Aulas, Loja, Comunidade e Perfil" },
@@ -1985,11 +1989,12 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
       description: "A selection of key components extracted from the real prototype, organized to highlight patterns of navigation, progress, gamification, community, and rewards.",
     },
     categories: {
-      navigation: "Navigation and Structure",
-      progress: "Progress and Journey",
-      gamification: "Gamification and Rewards",
-      community: "Community and Lessons",
-      profile: "Profile and Identity",
+      structure: "Global Structure and Navigation",
+      learning: "Learning Core Loop",
+      onboarding: "Onboarding and Consistency",
+      gamification: "Gamification and Retention",
+      store: "Benefits Store",
+      community: "Community and Social Support",
     },
     components: {
       "nav-bar": { title: "Bottom navigation", alt: "App bottom navigation bar with Home, Lessons, Store, Community and Profile icons" },
@@ -2005,7 +2010,7 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
       "conquista-bloqueada": { title: "Locked achievement", alt: "Achievement badge still locked" },
       "conquista-desbloqueada": { title: "Unlocked achievement", alt: "Achievement badge already unlocked" },
       "ranking-ativado": { title: "Ranking enabled", alt: "Ranking screen with participation enabled" },
-      "ranking-desativado": { title: "Ranking disabled", alt: "Ranking screen with participation disabled" },
+      "ranking-desativado": { title: "Ranking hidden", alt: "Ranking screen with participation disabled" },
       "onboarding-points": { title: "Onboarding points", alt: "Initial explanation of how points work" },
       "item-loja": { title: "Store item", alt: "Product card available in the rewards store" },
       "grande-premio-loja": { title: "Store grand prize", alt: "Featured high-value prize card in the rewards store" },

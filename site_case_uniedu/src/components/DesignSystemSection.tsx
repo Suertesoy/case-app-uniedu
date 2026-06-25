@@ -1,14 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { Sun, Moon, X, Maximize2 } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
-import { designSystemContent, componentGalleryItems, type ComponentCategoryId, type ComponentFrame, type Lang } from "../content/translations";
+import { designSystemContent, componentGalleryItems, type ComponentCategoryId, type ComponentSize, type Lang } from "../content/translations";
 
 // Altura máxima da miniatura dentro do card, por tipo de componente —
 // mantém a galeria como inventário compacto em vez de banners gigantes.
-const frameMaxHeight: Record<ComponentFrame, number> = {
-  wide: 140,
-  compact: 160,
-  tall: 240,
+const sizeMaxHeight: Record<ComponentSize, number> = {
+  small: 120,
+  standard: 190,
+  wide: 130,
+  tall: 260,
+};
+
+// Largura (colspan) no grid de 12 colunas — nenhum componente horizontal
+// ocupa a largura toda, mesmo em telas grandes.
+const sizeColSpan: Record<ComponentSize, string> = {
+  small: "col-span-12 sm:col-span-6 lg:col-span-3",
+  standard: "col-span-12 sm:col-span-6 lg:col-span-4",
+  wide: "col-span-12 lg:col-span-6",
+  tall: "col-span-12 sm:col-span-6 lg:col-span-4",
 };
 
 interface ThemeToggleProps {
@@ -57,8 +67,8 @@ const typeMeta = [
   { className: "text-[10px] font-bold tracking-widest uppercase", size: "10px", weight: "700", leading: "1.4", tracking: "0.1em + uppercase", font: "Inter" },
 ];
 
-// Ordem de exibição das categorias da galeria de componentes
-const categoryOrder: ComponentCategoryId[] = ["navigation", "progress", "gamification", "community", "profile"];
+// Ordem de exibição das categorias da galeria de componentes — segue a narrativa do produto
+const categoryOrder: ComponentCategoryId[] = ["structure", "learning", "onboarding", "gamification", "store", "community"];
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -206,17 +216,17 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
               {c.section03.description}
             </p>
 
-            <div className="space-y-7">
+            <div className="space-y-12">
               {categoryOrder.map((categoryId) => {
                 const items = componentGalleryItems.filter((item) => item.category === categoryId);
                 if (items.length === 0) return null;
 
                 return (
                   <div key={categoryId}>
-                    <h4 className="text-xs font-bold text-text-primary mb-2.5">
+                    <h4 className="text-xs font-bold text-text-primary mb-3">
                       {c.categories[categoryId]}
                     </h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 items-start">
+                    <div className="grid grid-cols-12 gap-6 items-start">
                       {items.map((item) => {
                         const meta = c.components[item.id];
                         return (
@@ -224,25 +234,25 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
                             key={item.id}
                             type="button"
                             onClick={(e) => openLightbox(item.id, e.currentTarget)}
-                            className="group text-left bg-surface border border-border rounded-xl p-2.5 transition-all duration-300 hover:border-brand/40 hover:-translate-y-0.5 hover:shadow-md hover:shadow-brand/5 cursor-zoom-in motion-reduce:hover:translate-y-0"
+                            className={`group text-left bg-surface border border-border rounded-xl p-3.5 transition-all duration-300 hover:border-brand/25 hover:-translate-y-0.5 hover:shadow-sm cursor-zoom-in motion-reduce:hover:translate-y-0 ${sizeColSpan[item.size]}`}
                             aria-label={meta.alt}
                           >
                             <div
-                              className="relative rounded-lg overflow-hidden bg-surface-elevated/50 flex items-center justify-center"
-                              style={{ height: frameMaxHeight[item.frame] }}
+                              className="relative rounded-lg overflow-hidden bg-surface-elevated/50 flex items-center justify-center p-3"
+                              style={{ height: sizeMaxHeight[item.size] }}
                             >
                               <img
                                 src={`/components/${item.file}`}
                                 alt={meta.alt}
                                 loading="lazy"
                                 className="block max-w-full w-auto h-auto object-contain"
-                                style={{ maxHeight: frameMaxHeight[item.frame], maxWidth: "100%" }}
+                                style={{ maxHeight: sizeMaxHeight[item.size] - 24, maxWidth: "100%" }}
                               />
-                              <span className="absolute top-1 right-1 w-5 h-5 rounded-full bg-page/80 backdrop-blur-sm border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-page/80 backdrop-blur-sm border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <Maximize2 className="w-2.5 h-2.5 text-text-primary" />
                               </span>
                             </div>
-                            <p className="text-[10px] font-semibold text-text-primary mt-1.5 leading-snug line-clamp-2">{meta.title}</p>
+                            <p className="text-xs font-semibold text-text-primary mt-2 leading-snug line-clamp-2">{meta.title}</p>
                           </button>
                         );
                       })}
