@@ -29,6 +29,7 @@ interface AppContent {
     themeToggleLabel: string;
     langToggleLabel: string;
     ctaPrototype: string;
+    ctaPrototypeShort: string;
   };
   hero: {
     authorsLabel: string;
@@ -166,21 +167,16 @@ export const appContent: Record<Lang, AppContent> = {
       badge: "Case Study",
       tagline: "UX/UI · Product Strategy · EdTech",
       nav: [
-        { href: "#solucao-rapida", label: "Solução" },
-        { href: "#problema", label: "Desafio" },
+        { href: "#solucao-rapida", label: "Visão geral" },
         { href: "#processo", label: "Processo" },
-        { href: "#pesquisa", label: "Pesquisa" },
-        { href: "#validacao", label: "Validação" },
         { href: "#produto", label: "Produto" },
-        { href: "#estrategia", label: "Métricas" },
-        { href: "#design-system", label: "Design System" },
-        { href: "#implementacao", label: "Implementação" },
-        { href: "#escopo", label: "Maturidade" },
+        { href: "#validacao", label: "Validação" },
         { href: "#valor", label: "Valor" },
       ],
       themeToggleLabel: "Alternar Tema",
       langToggleLabel: "Selecionar idioma",
       ctaPrototype: "Ver Protótipo",
+      ctaPrototypeShort: "Protótipo",
     },
     hero: {
       authorsLabel: "Autores:",
@@ -378,21 +374,16 @@ export const appContent: Record<Lang, AppContent> = {
       badge: "Case Study",
       tagline: "UX/UI · Product Strategy · EdTech",
       nav: [
-        { href: "#solucao-rapida", label: "Solution" },
-        { href: "#problema", label: "Challenge" },
+        { href: "#solucao-rapida", label: "Overview" },
         { href: "#processo", label: "Process" },
-        { href: "#pesquisa", label: "Research" },
-        { href: "#validacao", label: "Validation" },
         { href: "#produto", label: "Product" },
-        { href: "#estrategia", label: "Metrics" },
-        { href: "#design-system", label: "Design System" },
-        { href: "#implementacao", label: "Implementation" },
-        { href: "#escopo", label: "Maturity" },
+        { href: "#validacao", label: "Validation" },
         { href: "#valor", label: "Value" },
       ],
       themeToggleLabel: "Toggle Theme",
       langToggleLabel: "Select language",
       ctaPrototype: "View Prototype",
+      ctaPrototypeShort: "Prototype",
     },
     hero: {
       authorsLabel: "Authors:",

@@ -191,37 +191,38 @@ export default function App() {
 
       {/* 1. HEADER */}
       <header className="sticky top-0 z-50 bg-page/80 backdrop-blur-md border-b border-border transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex flex-col">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3">
+          {/* Brand */}
+          <div className="flex flex-col shrink-0">
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-brand via-brand-soft to-brand-strong bg-clip-text text-transparent">
                 UNIEDU
               </span>
-              <span className="bg-brand/10 text-brand-strong text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border border-brand/20">
+              <span className="bg-brand/10 text-brand-strong text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border border-brand/20 hidden sm:inline-block">
                 {t.header.badge}
               </span>
             </div>
-            <span className="text-[10px] text-text-secondary uppercase tracking-widest mt-0.5 hidden sm:inline">
+            <span className="text-[10px] text-text-secondary uppercase tracking-widest mt-0.5 hidden lg:inline">
               {t.header.tagline}
             </span>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-5">
+          {/* Navigation Links — central, 5 itens, só em desktop amplo */}
+          <nav className="hidden lg:flex items-center gap-7 xl:gap-9">
             {t.header.nav.map((item) => (
-              <a key={item.href} href={item.href} className="text-xs font-medium text-text-secondary hover:text-brand-strong transition-colors">{item.label}</a>
+              <a key={item.href} href={item.href} className="text-sm font-semibold text-text-secondary hover:text-brand-strong transition-colors whitespace-nowrap">{item.label}</a>
             ))}
           </nav>
 
           {/* CTAs and Toggle */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 lg:gap-3 shrink-0">
 
             <LanguageToggle lang={lang} setLang={setLang} label={t.header.langToggleLabel} />
 
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-surface border border-border text-text-secondary hover:text-brand-strong transition-all duration-300 active:scale-95 cursor-pointer flex items-center justify-center hover:bg-surface-elevated"
+              className="p-2.5 rounded-xl bg-surface border border-border text-text-secondary hover:text-brand-strong transition-all duration-300 active:scale-95 cursor-pointer flex items-center justify-center hover:bg-surface-elevated shrink-0"
               aria-label={t.header.themeToggleLabel}
             >
               {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
@@ -231,9 +232,11 @@ export default function App() {
               href="https://projeto-uniedu.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2.5 bg-brand text-white rounded-xl text-xs font-bold tracking-wide hover:bg-opacity-90 active:scale-95 transition-all flex items-center gap-1.5 shadow-lg shadow-brand/25 border border-brand"
+              aria-label={t.header.ctaPrototype}
+              className="px-3 sm:px-4 xl:px-5 py-2.5 bg-brand text-white rounded-xl text-xs font-bold tracking-wide hover:bg-opacity-90 active:scale-95 transition-all flex items-center gap-1.5 shadow-lg shadow-brand/25 border border-brand shrink-0"
             >
-              {t.header.ctaPrototype}
+              <span className="hidden sm:inline xl:hidden">{t.header.ctaPrototypeShort}</span>
+              <span className="hidden xl:inline">{t.header.ctaPrototype}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </a>
           </div>
