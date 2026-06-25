@@ -1811,87 +1811,52 @@ interface TypeSample {
   use: string;
 }
 
-// Largura máxima (em px) da imagem dentro do seu contexto — usa a largura
-// interna do app mobile (~320-360px) como referência, não a largura do desktop:
-// "full" = elementos full-width dentro da tela do app (cabeçalhos, nav, barras, cards principais)
-// "medium" = cards de apoio (ranking, avisos)
-// "small" = itens isolados, badges e conquistas (agrupam lado a lado)
-// "vertical" = telas mais verticais/retrato (login, perfil, case)
-export type ComponentSize = "full" | "medium" | "small" | "vertical";
-
-export interface ComponentGalleryItem {
+export interface ComponentBoardItem {
   id: string;
   file: string;
-  size: ComponentSize;
+  // Largura máxima (px) da imagem — fixa em todos os breakpoints, calibrada
+  // manualmente por componente para reproduzir a escala real do app mobile
+  // (nunca a largura do desktop), igual em mobile/tablet/desktop.
+  maxWidth: number;
 }
 
-export type ComponentGroupId = "login" | "home" | "lessons" | "store" | "community" | "profile";
-
-export interface ComponentGroup {
-  id: ComponentGroupId;
-  items: ComponentGalleryItem[];
-}
-
-// Componentes reais recortados do protótipo (imagens/COMPONENTES), agrupados
-// pelo contexto de tela do app em que aparecem — independente de idioma.
-export const componentGroups: ComponentGroup[] = [
-  {
-    id: "login",
-    items: [
-      { id: "card-login", file: "card-login.jpeg", size: "vertical" },
-    ],
-  },
-  {
-    id: "home",
-    items: [
-      { id: "cabecalho-home", file: "cabecalho-home.jpeg", size: "full" },
-      { id: "nav-bar", file: "nav-bar.jpeg", size: "full" },
-      { id: "card-home", file: "card-home.jpeg", size: "full" },
-      { id: "barra-progresso", file: "barra-progresso.jpeg", size: "full" },
-      { id: "streaks", file: "streaks.jpeg", size: "full" },
-      { id: "plano-estudos", file: "plano-estudos.jpeg", size: "full" },
-    ],
-  },
-  {
-    id: "lessons",
-    items: [
-      { id: "cabecalho", file: "cabecalho.jpeg", size: "full" },
-      { id: "modulo-aula", file: "modulo-aula.jpeg", size: "full" },
-      { id: "aula-assistida", file: "aula-assistida.jpeg", size: "small" },
-      { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", size: "small" },
-      { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", size: "full" },
-      { id: "certificado", file: "certificado.jpeg", size: "full" },
-      { id: "card-cases", file: "card-cases.jpeg", size: "vertical" },
-    ],
-  },
-  {
-    id: "store",
-    items: [
-      { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", size: "full" },
-      { id: "onboarding-points", file: "onboarding-points.jpeg", size: "small" },
-      { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", size: "full" },
-      { id: "item-loja", file: "item-loja.jpeg", size: "small" },
-    ],
-  },
-  {
-    id: "community",
-    items: [
-      { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", size: "full" },
-      { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", size: "full" },
-      { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", size: "full" },
-      { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", size: "medium" },
-    ],
-  },
-  {
-    id: "profile",
-    items: [
-      { id: "perfil", file: "perfil.jpeg", size: "vertical" },
-      { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", size: "small" },
-      { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", size: "small" },
-      { id: "ranking-ativado", file: "ranking-ativado.jpeg", size: "medium" },
-      { id: "ranking-desativado", file: "ranking-desativado.jpeg", size: "medium" },
-    ],
-  },
+// Prancha montada manualmente em 3 colunas (como um board do Figma), não um
+// grid automático: cada coluna é uma lista fixa de componentes reais
+// recortados do protótipo (imagens/COMPONENTES), independente de idioma.
+export const componentBoardColumns: ComponentBoardItem[][] = [
+  [
+    { id: "perfil", file: "perfil.jpeg", maxWidth: 300 },
+    { id: "ranking-ativado", file: "ranking-ativado.jpeg", maxWidth: 300 },
+    { id: "card-home", file: "card-home.jpeg", maxWidth: 300 },
+    { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", maxWidth: 250 },
+    { id: "aula-assistida", file: "aula-assistida.jpeg", maxWidth: 250 },
+    { id: "plano-estudos", file: "plano-estudos.jpeg", maxWidth: 270 },
+    { id: "card-cases", file: "card-cases.jpeg", maxWidth: 130 },
+    { id: "item-loja", file: "item-loja.jpeg", maxWidth: 140 },
+  ],
+  [
+    { id: "card-login", file: "card-login.jpeg", maxWidth: 310 },
+    { id: "ranking-desativado", file: "ranking-desativado.jpeg", maxWidth: 300 },
+    { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", maxWidth: 290 },
+    { id: "modulo-aula", file: "modulo-aula.jpeg", maxWidth: 290 },
+    { id: "barra-progresso", file: "barra-progresso.jpeg", maxWidth: 290 },
+    { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", maxWidth: 280 },
+    { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", maxWidth: 280 },
+    { id: "streaks", file: "streaks.jpeg", maxWidth: 280 },
+  ],
+  [
+    { id: "cabecalho-home", file: "cabecalho-home.jpeg", maxWidth: 310 },
+    { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", maxWidth: 310 },
+    { id: "nav-bar", file: "nav-bar.jpeg", maxWidth: 300 },
+    { id: "onboarding-points", file: "onboarding-points.jpeg", maxWidth: 300 },
+    { id: "cabecalho", file: "cabecalho.jpeg", maxWidth: 300 },
+    { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", maxWidth: 280 },
+    { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", maxWidth: 280 },
+    { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", maxWidth: 220 },
+    { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", maxWidth: 220 },
+    { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", maxWidth: 270 },
+    { id: "certificado", file: "certificado.jpeg", maxWidth: 280 },
+  ],
 ];
 
 interface DesignSystemContent {
@@ -1905,7 +1870,6 @@ interface DesignSystemContent {
   colorTokensLight: ColorToken[];
   colorTokensDark: ColorToken[];
   section03: { title: string; description: string };
-  groups: Record<ComponentGroupId, string>;
   components: Record<string, { title: string; alt: string }>;
 }
 
@@ -1943,15 +1907,7 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     ],
     section03: {
       title: "03 · Componentes da Interface",
-      description: "Componentes reais extraídos do protótipo, organizados por contexto de uso para preservar escala, hierarquia e relação visual entre as telas do produto.",
-    },
-    groups: {
-      login: "Login e identidade",
-      home: "Home e continuidade",
-      lessons: "Aulas e progresso",
-      store: "Loja e recompensas",
-      community: "Comunidade e suporte social",
-      profile: "Perfil e evolução",
+      description: "Uma prancha visual com componentes reais extraídos do protótipo, preservando escala, hierarquia e contexto de uso dentro do produto.",
     },
     components: {
       "card-login": { title: "Card de login", alt: "Tela de login do app" },
@@ -2016,15 +1972,7 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     ],
     section03: {
       title: "03 · Interface Components",
-      description: "Real components extracted from the prototype, organized by usage context to preserve scale, hierarchy, and visual relationship across the product screens.",
-    },
-    groups: {
-      login: "Login and identity",
-      home: "Home and continuity",
-      lessons: "Lessons and progress",
-      store: "Store and rewards",
-      community: "Community and social support",
-      profile: "Profile and progression",
+      description: "A visual board with real components extracted from the prototype, preserving scale, hierarchy, and usage context within the product.",
     },
     components: {
       "card-login": { title: "Login card", alt: "App login screen" },
