@@ -1833,7 +1833,6 @@ export const componentBoardColumns: ComponentBoardItem[][] = [
     { id: "plano-estudos", file: "plano-estudos.jpeg", maxWidth: 270 },
     { id: "card-cases", file: "card-cases.jpeg", maxWidth: 130 },
     { id: "item-loja", file: "item-loja.jpeg", maxWidth: 140 },
-    { id: "player-aula", file: "player-aula.png", maxWidth: 310 },
   ],
   [
     { id: "card-login", file: "card-login.jpeg", maxWidth: 310 },
@@ -1858,6 +1857,7 @@ export const componentBoardColumns: ComponentBoardItem[][] = [
     { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", maxWidth: 220 },
     { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", maxWidth: 270 },
     { id: "certificado", file: "certificado.jpeg", maxWidth: 280 },
+    { id: "player-aula", file: "player-aula.png", maxWidth: 300 },
   ],
 ];
 
