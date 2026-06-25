@@ -1,24 +1,24 @@
 import { useEffect, useRef, useState } from "react";
-import { Sun, Moon, X, Maximize2 } from "lucide-react";
+import { Sun, Moon, X } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
-import { designSystemContent, componentGalleryItems, type ComponentCategoryId, type ComponentSize, type Lang } from "../content/translations";
+import { designSystemContent, componentGalleryItems, type ComponentSize, type Lang } from "../content/translations";
 
-// Altura máxima da miniatura dentro do card, por tipo de componente —
-// mantém a galeria como inventário compacto em vez de banners gigantes.
-const sizeMaxHeight: Record<ComponentSize, number> = {
-  small: 120,
-  standard: 190,
-  wide: 130,
-  tall: 260,
+// Largura (colspan) no mosaico de 12 colunas — controla apenas o posicionamento.
+// A imagem nunca estica para preencher a célula; seu próprio max-width manda.
+const sizeColSpan: Record<ComponentSize, string> = {
+  wide: "col-span-12 md:col-span-6",
+  medium: "col-span-12 md:col-span-4",
+  small: "col-span-6 md:col-span-3",
+  tall: "col-span-12 md:col-span-4",
 };
 
-// Largura (colspan) no grid de 12 colunas — nenhum componente horizontal
-// ocupa a largura toda, mesmo em telas grandes.
-const sizeColSpan: Record<ComponentSize, string> = {
-  small: "col-span-12 sm:col-span-6 lg:col-span-3",
-  standard: "col-span-12 sm:col-span-6 lg:col-span-4",
-  wide: "col-span-12 lg:col-span-6",
-  tall: "col-span-12 sm:col-span-6 lg:col-span-4",
+// Max-width interno da imagem, por tipo — preserva a escala mental de mobile
+// em vez de deixar o componente esticar para a largura do desktop.
+const sizeImgMaxWidth: Record<ComponentSize, number> = {
+  wide: 400,
+  medium: 340,
+  small: 250,
+  tall: 340,
 };
 
 interface ThemeToggleProps {
@@ -67,8 +67,8 @@ const typeMeta = [
   { className: "text-[10px] font-bold tracking-widest uppercase", size: "10px", weight: "700", leading: "1.4", tracking: "0.1em + uppercase", font: "Inter" },
 ];
 
-// Ordem de exibição das categorias da galeria de componentes — segue a narrativa do produto
-const categoryOrder: ComponentCategoryId[] = ["structure", "learning", "onboarding", "gamification", "store", "community"];
+// Componentes em ordem narrativa, prontos para renderização contínua (sem categorias)
+const galleryItems = [...componentGalleryItems].sort((a, b) => a.order - b.order);
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -206,58 +206,42 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
           </div>
         </RevealOnScroll>
 
-        {/* ── 03 · Componentes da Interface — inventário compacto com imagens reais do protótipo ── */}
+        {/* ── 03 · Componentes da Interface — prancha editorial, sem cards nem categorias ── */}
         <RevealOnScroll direction="up" delay={100}>
           <div>
             <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand mb-2">
               {c.section03.title}
             </h3>
-            <p className="text-[11px] text-text-secondary mb-6 leading-relaxed max-w-2xl">
+            <p className="text-[11px] text-text-secondary mb-10 leading-relaxed max-w-2xl">
               {c.section03.description}
             </p>
 
-            <div className="space-y-12">
-              {categoryOrder.map((categoryId) => {
-                const items = componentGalleryItems.filter((item) => item.category === categoryId);
-                if (items.length === 0) return null;
-
+            <div className="grid grid-cols-12 gap-x-6 gap-y-12">
+              {galleryItems.map((item) => {
+                const meta = c.components[item.id];
                 return (
-                  <div key={categoryId}>
-                    <h4 className="text-xs font-bold text-text-primary mb-3">
-                      {c.categories[categoryId]}
-                    </h4>
-                    <div className="grid grid-cols-12 gap-6 items-start">
-                      {items.map((item) => {
-                        const meta = c.components[item.id];
-                        return (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={(e) => openLightbox(item.id, e.currentTarget)}
-                            className={`group text-left bg-surface border border-border rounded-xl p-3.5 transition-all duration-300 hover:border-brand/25 hover:-translate-y-0.5 hover:shadow-sm cursor-zoom-in motion-reduce:hover:translate-y-0 ${sizeColSpan[item.size]}`}
-                            aria-label={meta.alt}
-                          >
-                            <div
-                              className="relative rounded-lg overflow-hidden bg-surface-elevated/50 flex items-center justify-center p-3"
-                              style={{ height: sizeMaxHeight[item.size] }}
-                            >
-                              <img
-                                src={`/components/${item.file}`}
-                                alt={meta.alt}
-                                loading="lazy"
-                                className="block max-w-full w-auto h-auto object-contain"
-                                style={{ maxHeight: sizeMaxHeight[item.size] - 24, maxWidth: "100%" }}
-                              />
-                              <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-page/80 backdrop-blur-sm border border-border flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <Maximize2 className="w-2.5 h-2.5 text-text-primary" />
-                              </span>
-                            </div>
-                            <p className="text-xs font-semibold text-text-primary mt-2 leading-snug line-clamp-2">{meta.title}</p>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={(e) => openLightbox(item.id, e.currentTarget)}
+                    className={`group flex flex-col items-center text-center ${sizeColSpan[item.size]}`}
+                    aria-label={meta.alt}
+                  >
+                    <img
+                      src={`/components/${item.file}`}
+                      alt={meta.alt}
+                      loading="lazy"
+                      className="block mx-auto w-full h-auto object-contain cursor-zoom-in transition-all duration-300 group-hover:opacity-85 group-hover:scale-[1.015]"
+                      style={{ maxWidth: sizeImgMaxWidth[item.size] }}
+                    />
+                    <p className="mt-3 text-xs font-semibold text-text-primary">
+                      <span className="font-mono text-text-secondary/50 mr-1">{String(item.order).padStart(2, "0")}.</span>
+                      {meta.title}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-text-secondary leading-snug max-w-[260px]">
+                      {meta.description}
+                    </p>
+                  </button>
                 );
               })}
             </div>
@@ -293,8 +277,9 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
               alt={c.components[lightboxItem.id].alt}
               className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-xl shadow-2xl"
             />
-            <figcaption className="text-sm font-semibold text-white/90">
-              {c.components[lightboxItem.id].title}
+            <figcaption className="text-center">
+              <p className="text-sm font-semibold text-white/90">{c.components[lightboxItem.id].title}</p>
+              <p className="text-xs text-white/60 mt-1">{c.components[lightboxItem.id].description}</p>
             </figcaption>
           </figure>
         </div>

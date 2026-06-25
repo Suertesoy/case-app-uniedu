@@ -1811,57 +1811,52 @@ interface TypeSample {
   use: string;
 }
 
-export type ComponentCategoryId = "structure" | "learning" | "onboarding" | "gamification" | "store" | "community";
-
-// Controla largura (colspan no grid de 12 colunas) e altura máxima da miniatura:
-// "small" = badges/indicadores menores · "standard" = cards médios/quadrados
-// "wide" = tiras horizontais (nav, cabeçalhos, barras) — nunca ocupa a largura toda
-// "tall" = telas bem verticais (retrato)
-export type ComponentSize = "small" | "standard" | "wide" | "tall";
+// Controla largura no mosaico de 12 colunas e o max-width interno da imagem:
+// "wide" = navegação/cabeçalhos/barras/abas (nunca ocupa a largura toda)
+// "medium" = cards de conteúdo (home, módulo, progresso, loja, avisos)
+// "small" = badges, conquistas, itens isolados (agrupam lado a lado)
+// "tall" = telas mais verticais (login, perfil, case)
+export type ComponentSize = "wide" | "medium" | "small" | "tall";
 
 export interface ComponentGalleryItem {
   id: string;
   file: string;
-  category: ComponentCategoryId;
   size: ComponentSize;
+  order: number;
 }
 
 // Itens reais recortados do protótipo (imagens/COMPONENTES) — independentes de idioma.
-// Ordenados pela narrativa do produto, não por ordem alfabética.
+// Ordenados como uma narrativa visual contínua do produto, sem divisórias de categoria:
+// entrada/navegação → home/continuidade → aulas/progresso → constância/conquistas →
+// loja/recompensas → comunidade/suporte → perfil.
 export const componentGalleryItems: ComponentGalleryItem[] = [
-  // 1. Estrutura e Navegação Global
-  { id: "card-login", file: "card-login.jpeg", category: "structure", size: "standard" },
-  { id: "cabecalho", file: "cabecalho.jpeg", category: "structure", size: "wide" },
-  { id: "cabecalho-home", file: "cabecalho-home.jpeg", category: "structure", size: "wide" },
-  { id: "nav-bar", file: "nav-bar.jpeg", category: "structure", size: "wide" },
-  // 2. Core Loop de Aprendizado
-  { id: "card-home", file: "card-home.jpeg", category: "learning", size: "standard" },
-  { id: "card-cases", file: "card-cases.jpeg", category: "learning", size: "tall" },
-  { id: "modulo-aula", file: "modulo-aula.jpeg", category: "learning", size: "wide" },
-  { id: "aula-assistida", file: "aula-assistida.jpeg", category: "learning", size: "wide" },
-  { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", category: "learning", size: "wide" },
-  { id: "certificado", file: "certificado.jpeg", category: "learning", size: "wide" },
-  { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", category: "learning", size: "wide" },
-  // 3. Onboarding e Constância
-  { id: "plano-estudos", file: "plano-estudos.jpeg", category: "onboarding", size: "wide" },
-  { id: "barra-progresso", file: "barra-progresso.jpeg", category: "onboarding", size: "wide" },
-  { id: "streaks", file: "streaks.jpeg", category: "onboarding", size: "wide" },
-  { id: "onboarding-points", file: "onboarding-points.jpeg", category: "onboarding", size: "small" },
-  { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", category: "onboarding", size: "small" },
-  { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", category: "onboarding", size: "small" },
-  // 4. Gamificação e Retenção
-  { id: "ranking-ativado", file: "ranking-ativado.jpeg", category: "gamification", size: "standard" },
-  { id: "ranking-desativado", file: "ranking-desativado.jpeg", category: "gamification", size: "standard" },
-  { id: "perfil", file: "perfil.jpeg", category: "gamification", size: "standard" },
-  // 5. Loja de Benefícios
-  { id: "item-loja", file: "item-loja.jpeg", category: "store", size: "tall" },
-  { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", category: "store", size: "standard" },
-  { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", category: "store", size: "wide" },
-  // 6. Comunidade e Suporte Social
-  { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", category: "community", size: "wide" },
-  { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", category: "community", size: "wide" },
-  { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", category: "community", size: "wide" },
-  { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", category: "community", size: "wide" },
+  { id: "card-login", file: "card-login.jpeg", size: "tall", order: 1 },
+  { id: "cabecalho", file: "cabecalho.jpeg", size: "wide", order: 2 },
+  { id: "cabecalho-home", file: "cabecalho-home.jpeg", size: "wide", order: 3 },
+  { id: "nav-bar", file: "nav-bar.jpeg", size: "wide", order: 4 },
+  { id: "card-home", file: "card-home.jpeg", size: "medium", order: 5 },
+  { id: "barra-progresso", file: "barra-progresso.jpeg", size: "medium", order: 6 },
+  { id: "streaks", file: "streaks.jpeg", size: "medium", order: 7 },
+  { id: "plano-estudos", file: "plano-estudos.jpeg", size: "medium", order: 8 },
+  { id: "modulo-aula", file: "modulo-aula.jpeg", size: "medium", order: 9 },
+  { id: "aula-assistida", file: "aula-assistida.jpeg", size: "small", order: 10 },
+  { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", size: "small", order: 11 },
+  { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", size: "wide", order: 12 },
+  { id: "card-cases", file: "card-cases.jpeg", size: "tall", order: 13 },
+  { id: "certificado", file: "certificado.jpeg", size: "medium", order: 14 },
+  { id: "onboarding-points", file: "onboarding-points.jpeg", size: "small", order: 15 },
+  { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", size: "small", order: 16 },
+  { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", size: "small", order: 17 },
+  { id: "ranking-ativado", file: "ranking-ativado.jpeg", size: "medium", order: 18 },
+  { id: "ranking-desativado", file: "ranking-desativado.jpeg", size: "medium", order: 19 },
+  { id: "item-loja", file: "item-loja.jpeg", size: "small", order: 20 },
+  { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", size: "medium", order: 21 },
+  { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", size: "wide", order: 22 },
+  { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", size: "wide", order: 23 },
+  { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", size: "wide", order: 24 },
+  { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", size: "medium", order: 25 },
+  { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", size: "wide", order: 26 },
+  { id: "perfil", file: "perfil.jpeg", size: "tall", order: 27 },
 ];
 
 interface DesignSystemContent {
@@ -1875,8 +1870,7 @@ interface DesignSystemContent {
   colorTokensLight: ColorToken[];
   colorTokensDark: ColorToken[];
   section03: { title: string; description: string };
-  categories: Record<ComponentCategoryId, string>;
-  components: Record<string, { title: string; alt: string }>;
+  components: Record<string, { title: string; description: string; alt: string }>;
 }
 
 export const designSystemContent: Record<Lang, DesignSystemContent> = {
@@ -1913,44 +1907,36 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     ],
     section03: {
       title: "03 · Componentes da Interface",
-      description: "Uma seleção dos principais componentes extraídos do protótipo real, organizada para evidenciar padrões de navegação, progresso, gamificação, comunidade e recompensas.",
-    },
-    categories: {
-      structure: "Estrutura e Navegação Global",
-      learning: "Core Loop de Aprendizado",
-      onboarding: "Onboarding e Constância",
-      gamification: "Gamificação e Retenção",
-      store: "Loja de Benefícios",
-      community: "Comunidade e Suporte Social",
+      description: "Uma prancha visual com componentes reais extraídos do protótipo, preservando escala, hierarquia e contexto de uso dentro do produto.",
     },
     components: {
-      "nav-bar": { title: "Navegação inferior", alt: "Barra de navegação inferior do app com os ícones de Home, Aulas, Loja, Comunidade e Perfil" },
-      "cabecalho": { title: "Cabeçalho", alt: "Cabeçalho padrão do app" },
-      "cabecalho-home": { title: "Cabeçalho da home", alt: "Cabeçalho da tela inicial com saldo de pontos e notificações" },
-      "sessoes-comunidade": { title: "Sessões da comunidade", alt: "Navegação por sessões dentro da comunidade" },
-      "barra-progresso": { title: "Barra de progresso", alt: "Barra de progresso de uma aula ou módulo" },
-      "plano-estudos": { title: "Plano de estudos", alt: "Card de seleção de plano de estudos com ritmo semanal" },
-      "streaks": { title: "Streaks", alt: "Indicador de sequência de dias estudando (streak)" },
-      "modulo-aula": { title: "Módulo da aula", alt: "Card de módulo de aula com progresso" },
-      "aula-assistida": { title: "Aula assistida", alt: "Item de lista de aula já assistida" },
-      "aula-nao-assistida": { title: "Aula não assistida", alt: "Item de lista de aula ainda não assistida" },
-      "conquista-bloqueada": { title: "Conquista bloqueada", alt: "Badge de conquista ainda bloqueada" },
-      "conquista-desbloqueada": { title: "Conquista desbloqueada", alt: "Badge de conquista já desbloqueada" },
-      "ranking-ativado": { title: "Ranking ativado", alt: "Tela de ranking com participação ativada" },
-      "ranking-desativado": { title: "Ranking desativado", alt: "Tela de ranking com participação desativada" },
-      "onboarding-points": { title: "Pontos de onboarding", alt: "Explicação inicial de como os pontos funcionam" },
-      "item-loja": { title: "Item da loja", alt: "Card de produto disponível na loja de recompensas" },
-      "grande-premio-loja": { title: "Grande prêmio da loja", alt: "Card de prêmio de maior destaque na loja de recompensas" },
-      "barra-pesquisa-loja": { title: "Barra de pesquisa da loja", alt: "Campo de busca de produtos na loja de recompensas" },
-      "aba-feed-selecionada": { title: "Aba do feed selecionada", alt: "Aba do feed da comunidade no estado selecionado" },
-      "aba-feed-nao-selecionada": { title: "Aba do feed não selecionada", alt: "Aba do feed da comunidade no estado não selecionado" },
-      "aviso-comunidade": { title: "Aviso da comunidade", alt: "Card de aviso fixado na comunidade" },
-      "barra-pesquisa-aulas": { title: "Barra de pesquisa de aulas", alt: "Campo de busca de aulas e conteúdos" },
-      "card-home": { title: "Card da home", alt: "Card de destaque exibido na tela inicial" },
-      "card-cases": { title: "Card de cases", alt: "Card de case de estudo dentro do app" },
-      "certificado": { title: "Certificado", alt: "Card de certificado emitido ao aluno" },
-      "perfil": { title: "Perfil", alt: "Tela de perfil do aluno com nível e estatísticas" },
-      "card-login": { title: "Card de login", alt: "Tela de login do app" },
+      "card-login": { title: "Card de login", description: "Primeiro contato visual com a identidade da marca.", alt: "Tela de login do app" },
+      "cabecalho": { title: "Cabeçalho", description: "Cabeçalho padrão presente nas telas internas do app.", alt: "Cabeçalho padrão do app" },
+      "cabecalho-home": { title: "Cabeçalho da home", description: "Saudação, saldo de pontos e notificações na tela inicial.", alt: "Cabeçalho da tela inicial com saldo de pontos e notificações" },
+      "nav-bar": { title: "Navegação inferior", description: "Base global de deslocamento entre as áreas principais do app.", alt: "Barra de navegação inferior do app com os ícones de Home, Aulas, Loja, Comunidade e Perfil" },
+      "card-home": { title: "Card da home", description: "Atalho de continuidade para a última aula em andamento.", alt: "Card de destaque exibido na tela inicial" },
+      "barra-progresso": { title: "Barra de progresso", description: "Indica visualmente o avanço do aluno em um módulo.", alt: "Barra de progresso de uma aula ou módulo" },
+      "streaks": { title: "Streaks", description: "Reforça a constância diária com lembrete de sequência ativa.", alt: "Indicador de sequência de dias estudando (streak)" },
+      "plano-estudos": { title: "Plano de estudos", description: "Ritmo de estudo escolhido pelo aluno conforme disponibilidade.", alt: "Card de seleção de plano de estudos com ritmo semanal" },
+      "modulo-aula": { title: "Módulo da aula", description: "Estrutura do módulo com progresso e próxima aula sugerida.", alt: "Card de módulo de aula com progresso" },
+      "aula-assistida": { title: "Aula assistida", description: "Estado de conclusão de uma aula já estudada.", alt: "Item de lista de aula já assistida" },
+      "aula-nao-assistida": { title: "Aula não assistida", description: "Próxima aula disponível, ainda não iniciada pelo aluno.", alt: "Item de lista de aula ainda não assistida" },
+      "barra-pesquisa-aulas": { title: "Barra de pesquisa de aulas", description: "Busca rápida por aulas e conteúdos do curso.", alt: "Campo de busca de aulas e conteúdos" },
+      "card-cases": { title: "Card de cases", description: "Estudo de caso aplicado dentro da trilha de aprendizado.", alt: "Card de case de estudo dentro do app" },
+      "certificado": { title: "Certificado", description: "Reconhecimento formal emitido ao concluir um módulo ou curso.", alt: "Card de certificado emitido ao aluno" },
+      "onboarding-points": { title: "Pontos de onboarding", description: "Explicação inicial de como os pontos são conquistados.", alt: "Explicação inicial de como os pontos funcionam" },
+      "conquista-bloqueada": { title: "Conquista bloqueada", description: "Meta futura ainda não alcançada pelo aluno.", alt: "Badge de conquista ainda bloqueada" },
+      "conquista-desbloqueada": { title: "Conquista desbloqueada", description: "Marco de progresso já conquistado, com recompensa associada.", alt: "Badge de conquista já desbloqueada" },
+      "ranking-ativado": { title: "Ranking ativado", description: "Posição do aluno visível entre os colegas de turma.", alt: "Tela de ranking com participação ativada" },
+      "ranking-desativado": { title: "Ranking desativado", description: "Comparação social oculta para quem prefere não competir.", alt: "Tela de ranking com participação desativada" },
+      "item-loja": { title: "Item da loja", description: "Produto disponível para troca por pontos acumulados.", alt: "Card de produto disponível na loja de recompensas" },
+      "grande-premio-loja": { title: "Grande prêmio da loja", description: "Recompensa de maior valor dentro da loja de benefícios.", alt: "Card de prêmio de maior destaque na loja de recompensas" },
+      "barra-pesquisa-loja": { title: "Barra de pesquisa da loja", description: "Busca de produtos disponíveis para troca na loja.", alt: "Campo de busca de produtos na loja de recompensas" },
+      "aba-feed-selecionada": { title: "Aba do feed selecionada", description: "Estado ativo de navegação dentro do feed da comunidade.", alt: "Aba do feed da comunidade no estado selecionado" },
+      "aba-feed-nao-selecionada": { title: "Aba do feed não selecionada", description: "Estado inativo de uma aba alternativa do feed.", alt: "Aba do feed da comunidade no estado não selecionado" },
+      "aviso-comunidade": { title: "Aviso da comunidade", description: "Comunicado fixado para toda a turma ou comunidade.", alt: "Card de aviso fixado na comunidade" },
+      "sessoes-comunidade": { title: "Sessões da comunidade", description: "Organização do feed por tipo de conteúdo e interação.", alt: "Navegação por sessões dentro da comunidade" },
+      "perfil": { title: "Perfil", description: "Identidade, nível e estatísticas consolidadas do aluno.", alt: "Tela de perfil do aluno com nível e estatísticas" },
     },
   },
   en: {
@@ -1986,44 +1972,36 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     ],
     section03: {
       title: "03 · Interface Components",
-      description: "A selection of key components extracted from the real prototype, organized to highlight patterns of navigation, progress, gamification, community, and rewards.",
-    },
-    categories: {
-      structure: "Global Structure and Navigation",
-      learning: "Learning Core Loop",
-      onboarding: "Onboarding and Consistency",
-      gamification: "Gamification and Retention",
-      store: "Benefits Store",
-      community: "Community and Social Support",
+      description: "A visual board with real components extracted from the prototype, preserving scale, hierarchy, and usage context within the product.",
     },
     components: {
-      "nav-bar": { title: "Bottom navigation", alt: "App bottom navigation bar with Home, Lessons, Store, Community and Profile icons" },
-      "cabecalho": { title: "Header", alt: "Standard app header" },
-      "cabecalho-home": { title: "Home header", alt: "Home screen header with points balance and notifications" },
-      "sessoes-comunidade": { title: "Community sessions", alt: "Navigation between sessions inside the community" },
-      "barra-progresso": { title: "Progress bar", alt: "Progress bar for a lesson or module" },
-      "plano-estudos": { title: "Study plan", alt: "Study plan selection card with weekly pace" },
-      "streaks": { title: "Streaks", alt: "Indicator of consecutive study days (streak)" },
-      "modulo-aula": { title: "Lesson module", alt: "Lesson module card with progress" },
-      "aula-assistida": { title: "Watched lesson", alt: "List item for an already watched lesson" },
-      "aula-nao-assistida": { title: "Unwatched lesson", alt: "List item for a lesson not yet watched" },
-      "conquista-bloqueada": { title: "Locked achievement", alt: "Achievement badge still locked" },
-      "conquista-desbloqueada": { title: "Unlocked achievement", alt: "Achievement badge already unlocked" },
-      "ranking-ativado": { title: "Ranking enabled", alt: "Ranking screen with participation enabled" },
-      "ranking-desativado": { title: "Ranking hidden", alt: "Ranking screen with participation disabled" },
-      "onboarding-points": { title: "Onboarding points", alt: "Initial explanation of how points work" },
-      "item-loja": { title: "Store item", alt: "Product card available in the rewards store" },
-      "grande-premio-loja": { title: "Store grand prize", alt: "Featured high-value prize card in the rewards store" },
-      "barra-pesquisa-loja": { title: "Store search bar", alt: "Search field for products in the rewards store" },
-      "aba-feed-selecionada": { title: "Selected feed tab", alt: "Community feed tab in the selected state" },
-      "aba-feed-nao-selecionada": { title: "Unselected feed tab", alt: "Community feed tab in the unselected state" },
-      "aviso-comunidade": { title: "Community announcement", alt: "Pinned announcement card in the community" },
-      "barra-pesquisa-aulas": { title: "Lessons search bar", alt: "Search field for lessons and content" },
-      "card-home": { title: "Home card", alt: "Featured card shown on the home screen" },
-      "card-cases": { title: "Case study card", alt: "Case study card inside the app" },
-      "certificado": { title: "Certificate", alt: "Certificate card issued to the student" },
-      "perfil": { title: "Profile", alt: "Student profile screen with level and statistics" },
-      "card-login": { title: "Login card", alt: "App login screen" },
+      "card-login": { title: "Login card", description: "First visual touchpoint with the app's brand identity.", alt: "App login screen" },
+      "cabecalho": { title: "Header", description: "Standard header used across the app's internal screens.", alt: "Standard app header" },
+      "cabecalho-home": { title: "Home header", description: "Greeting, points balance and notifications on the home screen.", alt: "Home screen header with points balance and notifications" },
+      "nav-bar": { title: "Bottom navigation", description: "Global base for moving between the app's main areas.", alt: "App bottom navigation bar with Home, Lessons, Store, Community and Profile icons" },
+      "card-home": { title: "Home card", description: "Shortcut to continue the lesson currently in progress.", alt: "Featured card shown on the home screen" },
+      "barra-progresso": { title: "Progress bar", description: "Visually tracks the student's advance through a module.", alt: "Progress bar for a lesson or module" },
+      "streaks": { title: "Streaks", description: "Reinforces daily consistency with an active streak reminder.", alt: "Indicator of consecutive study days (streak)" },
+      "plano-estudos": { title: "Study plan", description: "Study pace chosen by the student based on availability.", alt: "Study plan selection card with weekly pace" },
+      "modulo-aula": { title: "Lesson module", description: "Module structure showing progress and the suggested next lesson.", alt: "Lesson module card with progress" },
+      "aula-assistida": { title: "Watched lesson", description: "Completion state for a lesson already studied.", alt: "List item for an already watched lesson" },
+      "aula-nao-assistida": { title: "Unwatched lesson", description: "Next available lesson, not yet started by the student.", alt: "List item for a lesson not yet watched" },
+      "barra-pesquisa-aulas": { title: "Lessons search bar", description: "Quick search for lessons and course content.", alt: "Search field for lessons and content" },
+      "card-cases": { title: "Case study card", description: "Applied case study within the learning path.", alt: "Case study card inside the app" },
+      "certificado": { title: "Certificate", description: "Formal recognition issued upon completing a module or course.", alt: "Certificate card issued to the student" },
+      "onboarding-points": { title: "Onboarding points", description: "Initial explanation of how points are earned.", alt: "Initial explanation of how points work" },
+      "conquista-bloqueada": { title: "Locked achievement", description: "Future goal not yet reached by the student.", alt: "Achievement badge still locked" },
+      "conquista-desbloqueada": { title: "Unlocked achievement", description: "Progress milestone already achieved, with an associated reward.", alt: "Achievement badge already unlocked" },
+      "ranking-ativado": { title: "Ranking enabled", description: "Student's position made visible among classmates.", alt: "Ranking screen with participation enabled" },
+      "ranking-desativado": { title: "Ranking hidden", description: "Social comparison hidden for students who opt out.", alt: "Ranking screen with participation disabled" },
+      "item-loja": { title: "Store item", description: "Product available in exchange for accumulated points.", alt: "Product card available in the rewards store" },
+      "grande-premio-loja": { title: "Store grand prize", description: "Highest-value reward inside the benefits store.", alt: "Featured high-value prize card in the rewards store" },
+      "barra-pesquisa-loja": { title: "Store search bar", description: "Search for products available to redeem in the store.", alt: "Search field for products in the rewards store" },
+      "aba-feed-selecionada": { title: "Selected feed tab", description: "Active navigation state inside the community feed.", alt: "Community feed tab in the selected state" },
+      "aba-feed-nao-selecionada": { title: "Unselected feed tab", description: "Inactive state of an alternate feed tab.", alt: "Community feed tab in the unselected state" },
+      "aviso-comunidade": { title: "Community announcement", description: "Announcement pinned for the whole class or community.", alt: "Pinned announcement card in the community" },
+      "sessoes-comunidade": { title: "Community sessions", description: "Feed organized by content type and interaction.", alt: "Navigation between sessions inside the community" },
+      "perfil": { title: "Profile", description: "Student's identity, level and consolidated statistics.", alt: "Student profile screen with level and statistics" },
     },
   },
 };
