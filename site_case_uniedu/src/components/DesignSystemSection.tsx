@@ -1,10 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import { Sun, Moon, X } from "lucide-react";
+import { Sun, Moon, X, ChevronDown } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
-import { designSystemContent, componentBoardColumns, type Lang } from "../content/translations";
+import { designSystemContent, componentBoardColumns, type ComponentBoardItem, type Lang } from "../content/translations";
 
-// Lookup plano de todos os itens, para o lightbox (independe da coluna)
+// Lookup plano de todos os itens, na ordem das colunas (col1 → col2 → col3) —
+// usado pelo lightbox e como base da lista única do mobile.
 const allBoardItems = componentBoardColumns.flat();
+
+// No mobile, os componentes "grandes" da jornada ficam dentro de um acordeão
+// retrátil, e os dois mais compactos/quadrados ficam lado a lado no final —
+// o restante segue em coluna única, na mesma ordem da prancha desktop.
+const JOURNEY_ACCORDION_IDS = ["player-aula", "jornada-aprendizado"];
+const FINAL_PAIR_IDS = ["card-cases", "item-loja"];
+const mobileMainItems = allBoardItems.filter(
+  (item) => !JOURNEY_ACCORDION_IDS.includes(item.id) && !FINAL_PAIR_IDS.includes(item.id)
+);
+const journeyAccordionItems = JOURNEY_ACCORDION_IDS.map((id) => allBoardItems.find((item) => item.id === id)!);
+const finalPairItems = FINAL_PAIR_IDS.map((id) => allBoardItems.find((item) => item.id === id)!);
 
 interface ThemeToggleProps {
   theme: "light" | "dark";
@@ -40,6 +52,39 @@ function ThemeToggle({ theme, setTheme, labels }: ThemeToggleProps) {
   );
 }
 
+// Botão + imagem de um componente da prancha — usado no board desktop (3
+// colunas), na lista única mobile, no acordeão da jornada e no par final.
+// Sem card externo: o próprio <img> carrega a moldura, sombra e superfície
+// reais do recorte do protótipo.
+function BoardImage({
+  item,
+  meta,
+  maxWidth,
+  onOpen,
+}: {
+  item: ComponentBoardItem;
+  meta: { title: string; alt: string };
+  maxWidth?: number;
+  onOpen: (id: string, trigger: HTMLButtonElement) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={(e) => onOpen(item.id, e.currentTarget)}
+      className="block w-full cursor-zoom-in"
+      aria-label={meta.alt}
+    >
+      <img
+        src={`/components/${item.file}`}
+        alt={meta.alt}
+        loading="lazy"
+        className="block mx-auto w-full h-auto object-contain transition-all duration-300 hover:opacity-85 hover:scale-[1.01]"
+        style={{ maxWidth: maxWidth ?? item.maxWidth }}
+      />
+    </button>
+  );
+}
+
 // ─── Static hex/bg values per token — separados por contexto Light/Dark ─────
 const colorHexLight = ["#D81B60", "#F06292", "#A31545", "#FFFBFD", "#FDF2F5", "#1D1518", "#6E5E64"];
 const colorHexDark = ["#D81B60", "#F06292", "#F48FB1", "#120E10", "#1E1A1D", "#FCE4EC", "#9E9EAE"];
@@ -71,6 +116,9 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
   }));
 
   const typeSamples = c.typeSamples.map((sample, i) => ({ ...sample, ...typeMeta[i] }));
+
+  // Controla apenas o bloco retrátil mobile com os componentes maiores da jornada.
+  const [showJourneyComponents, setShowJourneyComponents] = useState(false);
 
   const [lightboxId, setLightboxId] = useState<string | null>(null);
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
@@ -198,36 +246,53 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
               {c.section03.description}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6">
+            {/* Desktop/tablet — prancha manual em 3 colunas (inalterada) */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-x-6">
               {componentBoardColumns.map((column, colIndex) => (
                 <div
                   key={colIndex}
-                  className={`flex flex-col gap-5 ${
-                    colIndex === 2 ? "md:grid md:grid-cols-2 md:col-span-2 lg:flex lg:flex-col lg:col-span-1" : ""
-                  }`}
+                  className={
+                    colIndex === 2 ? "flex flex-col gap-5 md:grid md:grid-cols-2 md:col-span-2 lg:flex lg:flex-col lg:col-span-1" : "flex flex-col gap-5"
+                  }
                 >
-                  {column.map((item) => {
-                    const meta = c.components[item.id];
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={(e) => openLightbox(item.id, e.currentTarget)}
-                        className="block cursor-zoom-in"
-                        aria-label={meta.alt}
-                      >
-                        <img
-                          src={`/components/${item.file}`}
-                          alt={meta.alt}
-                          loading="lazy"
-                          className="block mx-auto w-full h-auto object-contain transition-all duration-300 hover:opacity-85 hover:scale-[1.01]"
-                          style={{ maxWidth: item.maxWidth }}
-                        />
-                      </button>
-                    );
-                  })}
+                  {column.map((item) => (
+                    <BoardImage key={item.id} item={item} meta={c.components[item.id]} onOpen={openLightbox} />
+                  ))}
                 </div>
               ))}
+            </div>
+
+            {/* Mobile — coluna única, par compacto no final e acordeão para os componentes maiores */}
+            <div className="flex md:hidden flex-col items-center gap-6">
+              {mobileMainItems.map((item) => (
+                <BoardImage key={item.id} item={item} meta={c.components[item.id]} maxWidth={320} onOpen={openLightbox} />
+              ))}
+
+              <div className="w-full max-w-[320px]">
+                <button
+                  type="button"
+                  onClick={() => setShowJourneyComponents((v) => !v)}
+                  aria-expanded={showJourneyComponents}
+                  aria-controls="journey-components-panel"
+                  className="w-full flex items-center justify-between gap-2 px-4 py-3 rounded-xl border border-border bg-surface text-text-secondary text-xs font-medium transition-colors hover:text-text-primary cursor-pointer"
+                >
+                  <span>{showJourneyComponents ? c.section03.journeyToggleHide : c.section03.journeyToggleShow}</span>
+                  <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-300 ${showJourneyComponents ? "rotate-180" : ""}`} />
+                </button>
+                {showJourneyComponents && (
+                  <div id="journey-components-panel" className="flex flex-col items-center gap-6 mt-6">
+                    {journeyAccordionItems.map((item) => (
+                      <BoardImage key={item.id} item={item} meta={c.components[item.id]} maxWidth={320} onOpen={openLightbox} />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3.5 w-full max-w-[320px]">
+                {finalPairItems.map((item) => (
+                  <BoardImage key={item.id} item={item} meta={c.components[item.id]} onOpen={openLightbox} />
+                ))}
+              </div>
             </div>
           </div>
         </RevealOnScroll>

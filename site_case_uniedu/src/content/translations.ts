@@ -1871,7 +1871,7 @@ interface DesignSystemContent {
   section02: { title: string };
   colorTokensLight: ColorToken[];
   colorTokensDark: ColorToken[];
-  section03: { title: string; description: string };
+  section03: { title: string; description: string; journeyToggleShow: string; journeyToggleHide: string };
   components: Record<string, { title: string; alt: string }>;
 }
 
@@ -1910,6 +1910,8 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     section03: {
       title: "03 · Componentes da Interface",
       description: "Uma prancha visual com componentes reais extraídos do protótipo, preservando escala, hierarquia e contexto de uso dentro do produto.",
+      journeyToggleShow: "Ver componentes completos da jornada",
+      journeyToggleHide: "Ocultar componentes completos da jornada",
     },
     components: {
       "card-login": { title: "Card de login", alt: "Tela de login do app" },
@@ -1977,6 +1979,8 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     section03: {
       title: "03 · Interface Components",
       description: "A visual board with real components extracted from the prototype, preserving scale, hierarchy, and usage context within the product.",
+      journeyToggleShow: "View full journey components",
+      journeyToggleHide: "Hide full journey components",
     },
     components: {
       "card-login": { title: "Login card", alt: "App login screen" },
