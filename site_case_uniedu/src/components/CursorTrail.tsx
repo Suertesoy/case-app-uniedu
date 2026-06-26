@@ -345,7 +345,11 @@ export default function CursorTrail() {
               -maxScrollDeltaPerFrame,
               Math.min(maxScrollDeltaPerFrame, scrollDelta)
             );
-            const nextScrollAnchorY = scrollAnchorY + clampedDelta;
+            // Inverted on purpose: scrolling down (positive delta) moves the
+            // page content up past a stationary cursor, so the trail must
+            // project upward (negative Y) to read as the cursor's relative
+            // previous position — not chase the scroll direction itself.
+            const nextScrollAnchorY = scrollAnchorY - clampedDelta;
             addScrollZigzagBetween(scrollAnchorX, scrollAnchorY, nextScrollAnchorY);
             scrollAnchorY = nextScrollAnchorY;
           }
