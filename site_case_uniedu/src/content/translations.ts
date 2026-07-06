@@ -6,7 +6,7 @@ export const AUTHORS = {
     linkedin: "https://www.linkedin.com/in/laclucascabral/",
   },
   najme: {
-    name: "Najme Simón Alé",
+    name: "Najme Simon Alé",
     linkedin: "https://www.linkedin.com/in/najme-simon-al%C3%A9-b08b6221",
   },
 };
