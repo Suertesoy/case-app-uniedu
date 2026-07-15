@@ -153,13 +153,13 @@ export default function RecruitingCasePage() {
               <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-brand via-brand-soft to-brand-strong bg-clip-text text-transparent">
                 UNIEDU
               </span>
-              <span className="bg-brand/10 text-brand-strong text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border border-brand/20 hidden sm:inline-block">
+              <span className="bg-brand/10 text-brand-strong text-xs uppercase font-bold tracking-wide px-2 py-0.5 rounded-full border border-brand/20 hidden sm:inline-block">
                 Case para recrutadores
               </span>
             </div>
             <a
               href="/"
-              className="text-[10px] text-text-secondary/70 uppercase tracking-widest mt-0.5 hidden lg:inline underline decoration-border underline-offset-2 hover:text-brand-strong transition-colors"
+              className="text-xs text-text-secondary/70 uppercase tracking-wide mt-0.5 hidden lg:inline underline decoration-border underline-offset-2 hover:text-brand-strong transition-colors"
             >
               Ver versão completa/TCC
             </a>
@@ -251,7 +251,7 @@ export default function RecruitingCasePage() {
                 <div className="grid sm:grid-cols-2 gap-3">
                   {heroCards.map((card) => (
                     <div key={card.label} className="p-4 rounded-2xl bg-surface border border-border text-left">
-                      <span className="text-[10px] font-bold text-brand uppercase tracking-wider">{card.label}</span>
+                      <span className="text-xs font-bold text-brand uppercase tracking-wide">{card.label}</span>
                       <p className="text-xs text-text-primary font-medium mt-1 leading-relaxed">{card.value}</p>
                     </div>
                   ))}
@@ -396,16 +396,16 @@ export default function RecruitingCasePage() {
             <RevealOnScroll key={card.decisao} direction="up" delay={(idx % 3) * 100} duration={900}>
               <div className="p-5 rounded-2xl bg-surface border border-border h-full flex flex-col gap-3">
                 <div>
-                  <span className="text-[9px] font-bold text-brand uppercase tracking-wider">Insight</span>
+                  <span className="text-xs font-bold text-brand uppercase tracking-wide">Insight</span>
                   <p className="text-xs text-text-secondary leading-relaxed mt-1">{card.insight}</p>
                 </div>
                 <div>
-                  <span className="text-[9px] font-bold text-brand uppercase tracking-wider">Decisão</span>
+                  <span className="text-xs font-bold text-brand uppercase tracking-wide">Decisão</span>
                   <p className="text-sm font-bold text-text-primary leading-snug mt-1">{card.decisao}</p>
                 </div>
                 <div className="mt-auto pt-2 border-t border-border/60">
-                  <span className="text-[9px] font-bold text-brand-strong uppercase tracking-wider">Impacto esperado</span>
-                  <p className="text-[11px] text-text-secondary leading-relaxed mt-1">{card.impacto}</p>
+                  <span className="text-xs font-bold text-brand-strong uppercase tracking-wide">Impacto esperado</span>
+                  <p className="text-sm text-text-secondary leading-relaxed mt-1">{card.impacto}</p>
                 </div>
               </div>
             </RevealOnScroll>
@@ -451,7 +451,7 @@ export default function RecruitingCasePage() {
                   <Moon className="w-5 h-5 text-brand-strong" />
                 </div>
                 <p className="text-xs font-bold text-text-primary">Dark/light mode</p>
-                <p className="text-[11px] text-text-secondary leading-relaxed">
+                <p className="text-sm text-text-secondary leading-relaxed">
                   Todo o produto foi construído com temas claro e escuro nativos, alternáveis a qualquer momento.
                 </p>
               </div>
@@ -573,7 +573,7 @@ export default function RecruitingCasePage() {
             <span className="font-semibold text-text-primary">{AUTHORS.lucas.name}</span> em dupla com{" "}
             <span className="font-semibold text-text-primary">{AUTHORS.najme.name}</span>.
           </p>
-          <p className="text-[10px]">
+          <p className="text-xs">
             <a
               href="/"
               className="underline decoration-border underline-offset-2 text-text-secondary/70 hover:text-brand-strong transition-colors"

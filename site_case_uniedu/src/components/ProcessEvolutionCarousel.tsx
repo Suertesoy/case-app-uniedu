@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import RevealOnScroll from "./RevealOnScroll";
 import { processEvolutionContent, type Lang } from "../content/translations";
 
 import prototipo1 from "../../../PROTOTIPO 1.png";
@@ -76,7 +77,7 @@ export default function ProcessEvolutionCarousel({ lang }: { lang: Lang }) {
       id="processo-evolucao"
       className="py-24 border-y border-border bg-surface/20 transition-all duration-300 overflow-hidden"
     >
-      {/* Stylesheet scoping inline for this component to prevent index.css modification */}
+      {/* Estilos exclusivos do marquee automático — desktop (lg+) apenas */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes marquee-process {
           0% {
@@ -181,50 +182,65 @@ export default function ProcessEvolutionCarousel({ lang }: { lang: Lang }) {
             {c.description}
           </p>
           <div className="flex justify-center pt-2">
-            <p className="text-xs text-text-secondary italic leading-relaxed border-l-2 border-brand/30 pl-4 text-left max-w-lg">
+            <p className="text-sm text-text-secondary italic leading-relaxed border-l-2 border-brand/30 pl-4 text-left max-w-lg">
               {c.quote}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Carousel — outside of max-w-7xl for full-bleed width on desktop */}
-      <div className="relative px-6 lg:px-0">
+      {/* Mobile/tablet (abaixo de lg) — grid vertical simples, ordem cronológica sempre visível, sem swipe obrigatório */}
+      <div className="lg:hidden max-w-3xl mx-auto px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {steps.map((step) => (
+            <div key={step.id} className="rounded-[1.5rem] overflow-hidden">
+              <div className="relative w-full h-[340px] bg-surface overflow-hidden rounded-[1.5rem]">
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="inline-flex items-center bg-page/85 backdrop-blur-sm border border-border/60 rounded-full px-2.5 py-1 text-xs font-black text-brand tracking-wide">
+                    {step.num} · {step.label}
+                  </span>
+                </div>
+                <img
+                  src={step.image}
+                  alt={`${step.label} — ${step.id.replace("prototipo-", "")}`}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-contain rounded-[1.5rem]"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {/* Left arrow — desktop only */}
+      {/* Desktop (lg+) — marquee automático contínuo; todas as imagens seguem acessíveis, pausa no hover e respeita reduced-motion */}
+      <div className="hidden lg:block relative px-0">
         <button
           onClick={() => scrollTo(activeIndex - 1)}
           disabled={activeIndex === 0}
           aria-label={c.prevAriaLabel}
-          className="hidden lg:flex desktop-nav-btn absolute left-4 top-[200px] -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface-elevated border border-border shadow-md items-center justify-center text-text-secondary hover:text-brand-strong hover:border-brand/30 transition-all duration-200 disabled:opacity-25 disabled:pointer-events-none cursor-pointer"
+          className="hidden desktop-nav-btn absolute left-4 top-[200px] -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface-elevated border border-border shadow-md items-center justify-center text-text-secondary hover:text-brand-strong hover:border-brand/30 transition-all duration-200 disabled:opacity-25 disabled:pointer-events-none cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
 
-        {/* Scroll container wrapper */}
         <div
           ref={scrollRef}
           onScroll={handleScroll}
           className="marquee-container flex gap-5 overflow-x-auto scrollbar-none pb-4"
           style={{ scrollSnapType: "x mandatory" }}
         >
-          {/* Inner track that scrolls on desktop */}
           <div className="marquee-track flex gap-5">
             {doubleSteps.map((step, index) => (
               <article
                 key={`${step.id}-${index}`}
-                className={`carousel-card flex-shrink-0 w-[256px] lg:w-[290px] xl:w-[300px] rounded-[1.5rem] transition-all duration-300 ${
+                className={`carousel-card flex-shrink-0 w-[290px] xl:w-[300px] rounded-[1.5rem] transition-all duration-300 ${
                   index >= steps.length ? "hidden lg:flex" : "flex"
                 }`}
                 style={{ scrollSnapAlign: "start" }}
               >
-                {/* Image area — imagem solta, sem card branco externo, sem moldura de device.
-                    bg-surface acompanha o tema global: claro no light mode, quase preto (#1E1A1D) no dark mode —
-                    preenche qualquer respiro deixado pelo object-contain sem nunca virar uma barra branca fixa. */}
-                <div className="relative w-full h-[400px] lg:h-[390px] xl:h-[410px] bg-surface overflow-hidden rounded-[1.5rem] flex-shrink-0">
-                  {/* Rótulo curto da fase */}
+                <div className="relative w-full h-[390px] xl:h-[410px] bg-surface overflow-hidden rounded-[1.5rem] flex-shrink-0">
                   <div className="absolute top-3 left-3 z-10">
-                    <span className="inline-flex items-center bg-page/85 backdrop-blur-sm border border-border/60 rounded-full px-2.5 py-1 text-[9px] font-black text-brand tracking-wider">
+                    <span className="inline-flex items-center bg-page/85 backdrop-blur-sm border border-border/60 rounded-full px-2.5 py-1 text-xs font-black text-brand tracking-wide">
                       {step.num} · {step.label}
                     </span>
                   </div>
@@ -232,6 +248,7 @@ export default function ProcessEvolutionCarousel({ lang }: { lang: Lang }) {
                   <img
                     src={step.image}
                     alt={`${step.label} — ${step.id.replace("prototipo-", "")}`}
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-contain rounded-[1.5rem]"
                   />
                 </div>
@@ -240,44 +257,45 @@ export default function ProcessEvolutionCarousel({ lang }: { lang: Lang }) {
           </div>
         </div>
 
-        {/* Right arrow — desktop only */}
         <button
           onClick={() => scrollTo(activeIndex + 1)}
           disabled={activeIndex === steps.length - 1}
           aria-label={c.nextAriaLabel}
-          className="hidden lg:flex desktop-nav-btn absolute right-4 top-[200px] -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface-elevated border border-border shadow-md items-center justify-center text-text-secondary hover:text-brand-strong hover:border-brand/30 transition-all duration-200 disabled:opacity-25 disabled:pointer-events-none cursor-pointer"
+          className="hidden desktop-nav-btn absolute right-4 top-[200px] -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-surface-elevated border border-border shadow-md items-center justify-center text-text-secondary hover:text-brand-strong hover:border-brand/30 transition-all duration-200 disabled:opacity-25 disabled:pointer-events-none cursor-pointer"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
-      </div>
 
-      {/* Dot indicators + active step label */}
-      <div className="max-w-7xl mx-auto px-6 mt-8 flex flex-col items-center gap-3 desktop-indicators">
-        <div className="flex items-center gap-1.5 flex-wrap justify-center" role="tablist" aria-label={c.tablistAriaLabel}>
-          {steps.map((step, i) => (
-            <button
-              key={`${step.id}-dot`}
-              role="tab"
-              aria-selected={activeIndex === i}
-              aria-label={c.dotAriaLabel(i + 1, step.num)}
-              onClick={() => scrollTo(i)}
-              className={`rounded-full transition-all duration-300 cursor-pointer ${
-                activeIndex === i
-                  ? "w-6 h-2 bg-brand"
-                  : "w-2 h-2 bg-border hover:bg-brand/40"
-              }`}
-            />
-          ))}
+        <div className="max-w-7xl mx-auto px-6 mt-8 flex flex-col items-center gap-3 desktop-indicators">
+          <div className="flex items-center gap-1.5 flex-wrap justify-center" role="tablist" aria-label={c.tablistAriaLabel}>
+            {steps.map((step, i) => (
+              <button
+                key={`${step.id}-dot`}
+                role="tab"
+                aria-selected={activeIndex === i}
+                aria-label={c.dotAriaLabel(i + 1, step.num)}
+                onClick={() => scrollTo(i)}
+                className={`rounded-full transition-all duration-300 cursor-pointer ${
+                  activeIndex === i ? "w-6 h-2 bg-brand" : "w-2 h-2 bg-border hover:bg-brand/40"
+                }`}
+              />
+            ))}
+          </div>
+          <p className="text-sm text-text-secondary">
+            <span className="text-brand font-bold">{steps[activeIndex].num}</span>
+            <span className="mx-1 opacity-40">/</span>
+            <span className="opacity-40">03</span>
+            <span className="mx-2 opacity-30">—</span>
+            <span className="font-medium text-text-primary">{steps[activeIndex].label}</span>
+          </p>
         </div>
-        <p className="text-xs text-text-secondary">
-          <span className="text-brand font-bold">{steps[activeIndex].num}</span>
-          <span className="mx-1 opacity-40">/</span>
-          <span className="opacity-40">03</span>
-          <span className="mx-2 opacity-30">—</span>
-          <span className="font-medium text-text-primary">{steps[activeIndex].label}</span>
-        </p>
       </div>
 
+      <RevealOnScroll direction="up">
+        <p className="text-text-secondary text-sm leading-relaxed mt-14 max-w-3xl mx-auto text-center px-6">
+          {c.transitionToProduct}
+        </p>
+      </RevealOnScroll>
     </section>
   );
 }

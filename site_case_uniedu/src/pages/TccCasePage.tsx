@@ -61,7 +61,7 @@ function LanguageToggle({ lang, setLang, label }: { lang: Lang; setLang: (lang: 
         onClick={() => setLang("pt")}
         aria-label="Português"
         aria-pressed={lang === "pt"}
-        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-bold transition-all duration-300 cursor-pointer ${
+        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
           lang === "pt"
             ? "bg-surface-elevated text-brand-strong shadow-sm"
             : "text-text-secondary opacity-60 hover:opacity-100"
@@ -74,7 +74,7 @@ function LanguageToggle({ lang, setLang, label }: { lang: Lang; setLang: (lang: 
         onClick={() => setLang("en")}
         aria-label="English"
         aria-pressed={lang === "en"}
-        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-bold transition-all duration-300 cursor-pointer ${
+        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
           lang === "en"
             ? "bg-surface-elevated text-brand-strong shadow-sm"
             : "text-text-secondary opacity-60 hover:opacity-100"
@@ -177,11 +177,11 @@ export default function TccCasePage() {
               <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-brand via-brand-soft to-brand-strong bg-clip-text text-transparent">
                 UNIEDU
               </span>
-              <span className="bg-brand/10 text-brand-strong text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border border-brand/20 hidden sm:inline-block">
+              <span className="bg-brand/10 text-brand-strong text-xs uppercase font-bold tracking-wide px-2 py-0.5 rounded-full border border-brand/20 hidden sm:inline-block">
                 {t.header.badge}
               </span>
             </div>
-            <span className="text-[10px] text-text-secondary uppercase tracking-widest mt-0.5 hidden lg:inline">
+            <span className="text-xs text-text-secondary uppercase tracking-wide mt-0.5 hidden lg:inline">
               {t.header.tagline}
             </span>
           </div>
@@ -296,7 +296,7 @@ export default function TccCasePage() {
               {t.hero.chips.map((item) => (
                 <span
                   key={item}
-                  className="text-[10px] md:text-xs font-bold text-text-primary bg-surface border border-border px-3 py-1.5 rounded-full"
+                  className="text-xs font-bold text-text-primary bg-surface border border-border px-3 py-1.5 rounded-full"
                 >
                   {item}
                 </span>
@@ -306,7 +306,7 @@ export default function TccCasePage() {
 
           <RevealOnScroll direction="up" delay={400} duration={1000}>
             {/* Linha discreta de ferramentas de processo */}
-            <p className="text-[10px] text-text-secondary/70 tracking-wide mb-10">
+            <p className="text-xs text-text-secondary/70 tracking-wide mb-10">
               {t.hero.toolsLine}
             </p>
           </RevealOnScroll>
@@ -358,7 +358,7 @@ export default function TccCasePage() {
                         <CheckCircle2 className="w-4 h-4 text-brand flex-shrink-0 mt-0.5" />
                         <div>
                           <h4 className="text-xs font-bold text-text-primary">{h.title}</h4>
-                          <p className="text-[10px] text-text-secondary mt-0.5">{h.desc}</p>
+                          <p className="text-sm text-text-secondary mt-0.5">{h.desc}</p>
                         </div>
                       </div>
                     ))}
@@ -446,7 +446,7 @@ export default function TccCasePage() {
         </div>
 
         {/* Referência discreta de apoio às fricções */}
-        <p className="mt-6 text-[10px] text-text-secondary leading-relaxed">
+        <p className="mt-6 text-sm text-text-secondary leading-relaxed">
           <span className="font-semibold text-text-primary/70">{t.challenge.sourcesLabel}</span> estudos sobre evasão em EAD, presença social em ambientes online e gamificação aplicada ao aprendizado —{" "}
           <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9197481/" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-2 hover:text-brand-strong transition-colors">Shaikh &amp; Asif, 2022</a>,{" "}
           <a href="https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-024-00450-9" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-2 hover:text-brand-strong transition-colors">Rahmani et al., 2024</a>,{" "}
@@ -460,7 +460,7 @@ export default function TccCasePage() {
           <div className="mt-16 bg-gradient-to-r from-surface to-surface-elevated border border-brand/20 rounded-3xl p-8 md:p-14 relative overflow-hidden transition-all duration-300 shadow-md flex justify-center">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand/5 dark:bg-brand/10 rounded-full blur-[80px] pointer-events-none" />
             <div className="relative z-10 max-w-[780px] md:max-w-[860px] text-center py-2">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-brand-strong px-2.5 py-1 rounded-full bg-brand/10 border border-brand/20 mb-5 inline-block">
+              <span className="text-xs font-bold uppercase tracking-wide text-brand-strong px-2.5 py-1 rounded-full bg-brand/10 border border-brand/20 mb-5 inline-block">
                 {t.challenge.hmwBadge}
               </span>
               <h3 className="text-xl md:text-2xl font-bold tracking-tight text-text-primary leading-snug">
@@ -474,7 +474,7 @@ export default function TccCasePage() {
       {/* 4b. NOTA METODOLÓGICA — COMO CONDUZIMOS O PROCESSO (DOUBLE DIAMOND VISUAL) */}
       <section id="processo" className="py-16 max-w-4xl mx-auto px-6 text-center transition-all duration-300">
         <RevealOnScroll direction="up" duration={800}>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-brand">{t.process.eyebrow}</span>
+          <span className="text-xs font-bold uppercase tracking-wide text-brand">{t.process.eyebrow}</span>
           <p className="text-text-secondary text-sm leading-relaxed mt-3 max-w-xl mx-auto">
             {t.process.description}
           </p>
@@ -497,7 +497,7 @@ export default function TccCasePage() {
             {t.process.steps.map((step) => (
               <div key={step.title}>
                 <p className="text-xs font-bold text-text-primary">{step.title}</p>
-                <p className="text-[11px] text-text-secondary mt-1 leading-relaxed">
+                <p className="text-sm text-text-secondary mt-1 leading-relaxed">
                   {step.desc}
                 </p>
               </div>
@@ -528,7 +528,7 @@ export default function TccCasePage() {
             <div className="md:col-span-4">
               <RevealOnScroll direction="left" duration={1000}>
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-brand uppercase tracking-wider">{t.research.deskResearch.methodLabel}</span>
+                  <span className="text-xs font-bold text-brand uppercase tracking-wide">{t.research.deskResearch.methodLabel}</span>
                   <h3 className="text-xl font-bold text-text-primary">{t.research.deskResearch.title}</h3>
                   <p className="text-xs text-text-secondary leading-relaxed">
                     {t.research.deskResearch.desc}
@@ -548,7 +548,7 @@ export default function TccCasePage() {
                       <strong>{t.research.deskResearch.keyIndicatorLabel}</strong> {t.research.deskResearch.keyIndicator}
                     </span>
                   </div>
-                  <p className="text-[10px] text-text-secondary italic">
+                  <p className="text-sm text-text-secondary italic">
                     {t.research.deskResearch.source}
                   </p>
                 </div>
@@ -561,7 +561,7 @@ export default function TccCasePage() {
             <div className="md:col-span-4">
               <RevealOnScroll direction="left" duration={1000}>
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-brand uppercase tracking-wider">{t.research.benchmark.methodLabel}</span>
+                  <span className="text-xs font-bold text-brand uppercase tracking-wide">{t.research.benchmark.methodLabel}</span>
                   <h3 className="text-xl font-bold text-text-primary">{t.research.benchmark.title}</h3>
                   <p className="text-xs text-text-secondary leading-relaxed">
                     {t.research.benchmark.desc}
@@ -579,7 +579,7 @@ export default function TccCasePage() {
                           <span className="w-1.5 h-1.5 rounded-full bg-brand" />
                           {item.name}
                         </h4>
-                        <div className="text-[10px] text-text-secondary space-y-1.5">
+                        <div className="text-sm text-text-secondary space-y-1.5">
                           <p><strong>{t.research.benchmark.obsLabel}</strong> {item.obs}</p>
                           <p><strong>{t.research.benchmark.learnLabel}</strong> {item.learn}</p>
                           <p className="text-brand-strong font-semibold"><strong>{t.research.benchmark.impactLabel}</strong> {item.impact}</p>
@@ -597,7 +597,7 @@ export default function TccCasePage() {
             <div className="md:col-span-4">
               <RevealOnScroll direction="left" duration={1000}>
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-brand uppercase tracking-wider">{t.research.interviews.methodLabel}</span>
+                  <span className="text-xs font-bold text-brand uppercase tracking-wide">{t.research.interviews.methodLabel}</span>
                   <h3 className="text-xl font-bold text-text-primary">{t.research.interviews.title}</h3>
                   <p className="text-xs text-text-secondary leading-relaxed">
                     {t.research.interviews.desc}
@@ -620,7 +620,7 @@ export default function TccCasePage() {
                         <p className="pl-6 pt-3 relative z-10 leading-relaxed mb-4">
                           {q.text}
                         </p>
-                        <span className="text-[9px] text-text-secondary font-bold not-italic uppercase tracking-wider">
+                        <span className="text-xs text-text-secondary font-bold not-italic uppercase tracking-wide">
                           {q.meta}
                         </span>
                       </div>
@@ -632,9 +632,15 @@ export default function TccCasePage() {
           </div>
 
         </div>
+
+        <RevealOnScroll direction="up">
+          <p className="text-text-secondary text-sm leading-relaxed mt-14 max-w-3xl mx-auto text-center">
+            {t.research.transitionToPersonas}
+          </p>
+        </RevealOnScroll>
       </section>
 
-      {/* 6. PERSONA SOFIA */}
+      {/* 6. PERSONAS — SOFIA E MARCOS */}
       <RevealOnScroll direction="up" duration={1000}>
         <PersonaCard lang={lang} />
       </RevealOnScroll>
@@ -654,7 +660,12 @@ export default function TccCasePage() {
         <ProcessEvolutionCarousel lang={lang} />
       </RevealOnScroll>
 
-      {/* 9. VALIDAÇÃO COM USUÁRIOS */}
+      {/* 9. DOR -> INSIGHT -> SOLUÇÃO EM TELA — as 12 telas do produto, antes da validação que as testa */}
+      <RevealOnScroll direction="up" duration={1000}>
+        <ProductShowcase lang={lang} />
+      </RevealOnScroll>
+
+      {/* 10. VALIDAÇÃO COM USUÁRIOS */}
       <section id="validacao" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
 
@@ -686,12 +697,12 @@ export default function TccCasePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {t.validation.tasks.map((card) => (
                     <div key={card.label} className="bg-surface border border-border p-4 rounded-2xl space-y-1.5 hover:border-brand-soft/30 transition-all duration-300">
-                      <div className="flex justify-between items-center text-[10px] gap-2">
+                      <div className="flex justify-between items-center text-xs gap-2">
                         <span className="font-bold text-brand bg-brand/10 px-2 py-0.5 rounded border border-brand/25 shrink-0">{card.label}</span>
                         <span className={`font-semibold text-right ${card.cor}`}>{card.resultado}</span>
                       </div>
                       <h4 className="font-bold text-xs text-text-primary leading-snug">{card.titulo}</h4>
-                      <p className="text-[11px] text-text-secondary leading-relaxed">{card.texto}</p>
+                      <p className="text-sm text-text-secondary leading-relaxed">{card.texto}</p>
                     </div>
                   ))}
                 </div>
@@ -701,11 +712,6 @@ export default function TccCasePage() {
 
         </div>
       </section>
-
-      {/* 10. DOR -> INSIGHT -> SOLUÇÃO EM TELA */}
-      <RevealOnScroll direction="up" duration={1000}>
-        <ProductShowcase lang={lang} />
-      </RevealOnScroll>
 
       {/* 11. MÉTRICAS DE SUCESSO PROPOSTAS */}
       <section id="estrategia" className="py-24 bg-surface/20 border-y border-border transition-all duration-300">
@@ -726,7 +732,7 @@ export default function TccCasePage() {
             <RevealOnScroll direction="left" delay={100} duration={1000}>
               <div className="bg-gradient-to-br from-surface to-surface-elevated border border-border rounded-3xl p-6 md:p-8 relative overflow-hidden transition-all duration-300 shadow-md h-full">
                 <div className="absolute -right-16 -bottom-16 w-48 h-48 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
-                <span className="text-[9px] font-bold text-brand uppercase tracking-widest bg-brand/10 border border-brand/20 px-3 py-1 rounded-full mb-6 inline-block">
+                <span className="text-xs font-bold text-brand uppercase tracking-wide bg-brand/10 border border-brand/20 px-3 py-1 rounded-full mb-6 inline-block">
                   {t.metrics.axis1Label}
                 </span>
 
@@ -736,7 +742,7 @@ export default function TccCasePage() {
                       <div className="w-7 h-7 rounded-lg bg-brand/10 border border-brand/20 flex items-center justify-center text-xs font-bold text-brand-strong">{idx + 1}</div>
                       <div>
                         <h4 className="text-xs font-bold text-text-primary">{item.title}</h4>
-                        <p className="text-[11px] text-text-secondary mt-0.5">{item.desc}</p>
+                        <p className="text-sm text-text-secondary mt-0.5">{item.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -748,7 +754,7 @@ export default function TccCasePage() {
             <RevealOnScroll direction="right" delay={200} duration={1000}>
               <div className="bg-gradient-to-br from-surface to-surface-elevated border border-border rounded-3xl p-6 md:p-8 relative overflow-hidden transition-all duration-300 shadow-md h-full">
                 <div className="absolute -right-16 -bottom-16 w-48 h-48 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
-                <span className="text-[9px] font-bold text-brand uppercase tracking-widest bg-brand/10 border border-brand/20 px-3 py-1 rounded-full mb-6 inline-block">
+                <span className="text-xs font-bold text-brand uppercase tracking-wide bg-brand/10 border border-brand/20 px-3 py-1 rounded-full mb-6 inline-block">
                   {t.metrics.axis2Label}
                 </span>
 
@@ -758,7 +764,7 @@ export default function TccCasePage() {
                       <div className="w-7 h-7 rounded-lg bg-brand/10 border border-brand/20 flex items-center justify-center text-xs font-bold text-brand-strong">{idx + 1}</div>
                       <div>
                         <h4 className="text-xs font-bold text-text-primary">{item.title}</h4>
-                        <p className="text-[11px] text-text-secondary mt-0.5">{item.desc}</p>
+                        <p className="text-sm text-text-secondary mt-0.5">{item.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -769,7 +775,7 @@ export default function TccCasePage() {
           </div>
 
           <RevealOnScroll direction="up" delay={300} duration={1000}>
-            <p className="text-[11px] text-text-secondary italic text-center max-w-2xl mx-auto mt-8">
+            <p className="text-sm text-text-secondary italic text-center max-w-2xl mx-auto mt-8">
               {t.metrics.footnote}
             </p>
           </RevealOnScroll>
@@ -815,7 +821,7 @@ export default function TccCasePage() {
             {t.implementation.stack.map((tech) => (
               <span
                 key={tech}
-                className="text-[10px] font-medium text-text-secondary bg-surface border border-border px-3 py-1.5 rounded-full"
+                className="text-xs font-medium text-text-secondary bg-surface border border-border px-3 py-1.5 rounded-full"
               >
                 {tech}
               </span>
@@ -908,7 +914,7 @@ export default function TccCasePage() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   {t.learnings.cards.map((card) => (
                     <div key={card.title} className="bg-surface border border-border p-5 rounded-2xl space-y-2">
-                      <span className="text-[10px] font-bold text-brand uppercase tracking-wider">{card.tag}</span>
+                      <span className="text-xs font-bold text-brand uppercase tracking-wide">{card.tag}</span>
                       <h4 className="font-bold text-sm text-text-primary">{card.title}</h4>
                       <p className="text-xs text-text-secondary leading-relaxed">
                         {card.desc}
@@ -946,7 +952,7 @@ export default function TccCasePage() {
                       {metric.desc}
                     </p>
                   </div>
-                  <span className="text-[10px] text-brand-strong/80 italic mt-6 inline-block w-fit font-semibold">
+                  <span className="text-xs text-brand-strong/80 italic mt-6 inline-block w-fit font-semibold">
                     {metric.tag}
                   </span>
                 </div>
@@ -956,53 +962,28 @@ export default function TccCasePage() {
         </div>
       </section>
 
-      {/* 17. PROTÓTIPO COMPLETO */}
-      <section className="py-24 max-w-5xl mx-auto px-6 relative transition-all duration-300">
+      {/* 17. PROTÓTIPO COMPLETO — CTA de fechamento; o vídeo de navegação completo já
+           foi mostrado uma única vez na seção "Solução em Poucos Segundos", então aqui
+           ficam só a chamada final e os links, sem repetir a mesma demonstração. */}
+      <section className="py-24 max-w-3xl mx-auto px-6 relative transition-all duration-300">
         <div className="bg-gradient-to-b from-surface to-page border border-border rounded-[2.5rem] p-8 md:p-12 text-center relative overflow-hidden shadow-xl">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand/5 rounded-full blur-[100px] pointer-events-none" />
 
           <div className="relative z-10 space-y-6">
             <RevealOnScroll direction="up" duration={800}>
-              <span className="text-[9px] font-bold text-brand uppercase tracking-widest bg-brand/10 border border-brand/20 rounded-full px-3 py-1 inline-block">
+              <span className="text-xs font-bold text-brand uppercase tracking-wide bg-brand/10 border border-brand/20 rounded-full px-3 py-1 inline-block">
                 {t.prototypeSection.badge}
               </span>
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-text-primary mt-2">
                 {t.prototypeSection.title}
               </h2>
-              <p className="text-xs text-text-secondary max-w-xl mx-auto leading-relaxed mt-2">
+              <p className="text-sm text-text-secondary max-w-xl mx-auto leading-relaxed mt-2">
                 {t.prototypeSection.description}
               </p>
             </RevealOnScroll>
 
-            {/* Mockup Mobile de iPhone 16 - Video Tour */}
-            <div className="flex justify-center my-8">
-              <MockupReveal3D>
-                <div className="w-[280px] max-w-full aspect-[7/13] bg-black rounded-[42px] border-4 border-gray-800 shadow-2xl relative overflow-hidden flex-shrink-0 transition-transform duration-300 hover:scale-[1.01]">
-                {/* Dynamic Island */}
-                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-900">
-                  <div className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
-                </div>
-
-                {/* Tela Interna - Vídeo de navegação do protótipo, troca conforme o tema */}
-                <div className="absolute inset-0">
-                  <video
-                    key={theme}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  >
-                    <source src={theme === "dark" ? prototypeDarkVideo : prototypeLightVideo} type="video/mp4" />
-                  </video>
-                </div>
-              </div>
-            </MockupReveal3D>
-          </div>
-
             <RevealOnScroll direction="up" delay={200} duration={800}>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
                 <a
                   href="https://projeto-uniedu.vercel.app/"
                   target="_blank"
@@ -1033,7 +1014,7 @@ export default function TccCasePage() {
             </h2>
 
             <div className="w-16 h-0.5 bg-brand mx-auto mb-6 rounded-full" />
-            <p className="text-[10px] text-text-secondary uppercase tracking-widest font-bold">
+            <p className="text-xs text-text-secondary uppercase tracking-wide font-bold">
               {t.closing.credit} · {AUTHORS.lucas.name} {t.footer.line1Middle} {AUTHORS.najme.name}
             </p>
           </div>
@@ -1046,16 +1027,16 @@ export default function TccCasePage() {
           <p className="text-xs text-text-secondary leading-relaxed">
             {t.footer.line1Prefix} <span className="font-semibold text-text-primary">{AUTHORS.lucas.name}</span> {t.footer.line1Middle} <span className="font-semibold text-text-primary">{AUTHORS.najme.name}</span> {t.footer.line1Program} <span className="font-semibold text-brand-strong">UX Unicórnio</span>, {t.footer.line1ConductedBy} <span className="font-semibold text-text-primary">Leandro Rezende</span>.
           </p>
-          <p className="text-[10px] text-text-secondary/70">
+          <p className="text-xs text-text-secondary/70">
             {t.footer.line2}
           </p>
-          <p className="text-[10px] text-text-secondary/80 flex flex-wrap items-center justify-center gap-1.5 pt-1">
+          <p className="text-xs text-text-secondary/80 flex flex-wrap items-center justify-center gap-1.5 pt-1">
             <span className="font-semibold">{t.footer.linkedinLabel}</span>
             <AuthorLink name={AUTHORS.lucas.name} href={AUTHORS.lucas.linkedin} />
             <span aria-hidden="true">·</span>
             <AuthorLink name={AUTHORS.najme.name} href={AUTHORS.najme.linkedin} />
           </p>
-          <p className="text-[10px] pt-2">
+          <p className="text-xs pt-2">
             <a
               href="/recrutamento"
               className="underline decoration-border underline-offset-2 text-text-secondary/70 hover:text-brand-strong transition-colors"

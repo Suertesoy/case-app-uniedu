@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Sun, Moon, X, ChevronDown } from "lucide-react";
+import { Sun, Moon, X } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
 import { designSystemContent, componentBoardColumns, type ComponentBoardItem, type Lang } from "../content/translations";
 
@@ -7,15 +7,11 @@ import { designSystemContent, componentBoardColumns, type ComponentBoardItem, ty
 // usado pelo lightbox e como base da lista única do mobile.
 const allBoardItems = componentBoardColumns.flat();
 
-// No mobile, os componentes "grandes" da jornada ficam dentro de um acordeão
-// retrátil, e os dois mais compactos/quadrados ficam lado a lado no final —
-// o restante segue em coluna única, na mesma ordem da prancha desktop.
-const JOURNEY_ACCORDION_IDS = ["player-aula", "jornada-aprendizado"];
+// No mobile, os dois componentes mais compactos/quadrados ficam lado a lado no
+// final; o restante — incluindo os componentes grandes da jornada — segue em
+// coluna única, sempre visível, na mesma ordem da prancha desktop.
 const FINAL_PAIR_IDS = ["card-cases", "item-loja"];
-const mobileMainItems = allBoardItems.filter(
-  (item) => !JOURNEY_ACCORDION_IDS.includes(item.id) && !FINAL_PAIR_IDS.includes(item.id)
-);
-const journeyAccordionItems = JOURNEY_ACCORDION_IDS.map((id) => allBoardItems.find((item) => item.id === id)!);
+const mobileMainItems = allBoardItems.filter((item) => !FINAL_PAIR_IDS.includes(item.id));
 const finalPairItems = FINAL_PAIR_IDS.map((id) => allBoardItems.find((item) => item.id === id)!);
 
 interface ThemeToggleProps {
@@ -27,7 +23,7 @@ interface ThemeToggleProps {
 function ThemeToggle({ theme, setTheme, labels }: ThemeToggleProps) {
   const isDark = theme === "dark";
   return (
-    <div className="flex items-center gap-1 p-1 rounded-full border border-border bg-surface text-[11px]">
+    <div className="flex items-center gap-1 p-1 rounded-full border border-border bg-surface text-xs">
       <button
         onClick={() => setTheme("light")}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
@@ -94,7 +90,7 @@ const typeMeta = [
   { className: "text-2xl md:text-3xl font-extrabold tracking-tight", size: "32–40px", weight: "800", leading: "1.2", tracking: "−0.02em", font: "Plus Jakarta Sans" },
   { className: "text-xl font-bold tracking-tight", size: "20px", weight: "700", leading: "1.3", tracking: "−0.01em", font: "Plus Jakarta Sans" },
   { className: "text-sm font-normal", size: "14px", weight: "400", leading: "1.6", tracking: "—", font: "Inter" },
-  { className: "text-[10px] font-bold tracking-widest uppercase", size: "10px", weight: "700", leading: "1.4", tracking: "0.1em + uppercase", font: "Inter" },
+  { className: "text-xs font-bold tracking-wide uppercase", size: "10px", weight: "700", leading: "1.4", tracking: "0.1em + uppercase", font: "Inter" },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -116,9 +112,6 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
   }));
 
   const typeSamples = c.typeSamples.map((sample, i) => ({ ...sample, ...typeMeta[i] }));
-
-  // Controla apenas o bloco retrátil mobile com os componentes maiores da jornada.
-  const [showJourneyComponents, setShowJourneyComponents] = useState(false);
 
   const [lightboxId, setLightboxId] = useState<string | null>(null);
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
@@ -154,7 +147,7 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
         {/* ── Header ── */}
         <RevealOnScroll direction="up">
           <div className="text-center mb-16">
-            <span className="text-[10px] font-bold tracking-widest uppercase text-brand mb-4 block">
+            <span className="text-xs font-bold tracking-wide uppercase text-brand mb-4 block">
               {c.eyebrow}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
@@ -169,13 +162,13 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
         {/* ── 01 · Tipografia ── */}
         <RevealOnScroll direction="up" delay={100}>
           <div className="mb-16">
-            <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand mb-5">
+            <h3 className="text-xs font-bold tracking-wide uppercase text-brand mb-5">
               {c.section01.title}
             </h3>
             <div className="rounded-2xl border border-border bg-surface-elevated overflow-hidden">
               <div className="px-5 py-3 border-b border-border flex items-center gap-2 bg-surface/50">
                 <span className="w-2 h-2 rounded-full bg-brand/40 block" />
-                <span className="text-[11px] text-text-secondary font-medium">
+                <span className="text-sm text-text-secondary font-medium">
                   {c.section01.fontNote}
                 </span>
               </div>
@@ -184,15 +177,15 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
                   <div key={t.role} className="px-5 py-5 flex flex-col md:flex-row gap-3 md:gap-6 items-start">
                     {/* Role tag */}
                     <div className="w-full md:w-16 shrink-0">
-                      <span className="text-[10px] font-bold tracking-wider uppercase text-brand">{t.role}</span>
+                      <span className="text-xs font-bold tracking-wide uppercase text-brand">{t.role}</span>
                     </div>
                     {/* Sample + use */}
                     <div className="flex-1 min-w-0">
                       <p className={`${t.className} text-text-primary leading-tight`}>{t.sample}</p>
-                      <p className="text-[10px] text-text-secondary mt-2 italic leading-relaxed hidden md:block">{t.use}</p>
+                      <p className="text-sm text-text-secondary mt-2 italic leading-relaxed hidden md:block">{t.use}</p>
                     </div>
                     {/* Technical specs */}
-                    <div className="hidden md:grid grid-cols-2 gap-x-4 gap-y-1.5 w-52 shrink-0 text-[10px]">
+                    <div className="hidden md:grid grid-cols-2 gap-x-4 gap-y-1.5 w-52 shrink-0 text-xs">
                       <span className="text-text-secondary font-mono">size</span>
                       <span className="text-text-primary font-mono">{t.size}</span>
                       <span className="text-text-secondary font-mono">weight</span>
@@ -202,7 +195,7 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
                       <span className="text-text-secondary font-mono">tracking</span>
                       <span className="text-text-primary font-mono">{t.tracking}</span>
                       <span className="text-text-secondary font-mono">font</span>
-                      <span className="text-text-primary font-mono text-[9px]">{t.font}</span>
+                      <span className="text-text-primary font-mono text-xs">{t.font}</span>
                     </div>
                   </div>
                 ))}
@@ -215,7 +208,7 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
         <RevealOnScroll direction="up" delay={100}>
           <div className="mb-16">
             <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-              <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand">
+              <h3 className="text-xs font-bold tracking-wide uppercase text-brand">
                 {c.section02.title}
               </h3>
               {/* Toggle local — preview de tokens Light/Dark, independente do tema global do site */}
@@ -226,9 +219,9 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
                 <div key={tk.label} className="rounded-xl border border-border overflow-hidden bg-surface-elevated">
                   <div className="h-10 w-full" style={{ background: tk.bg }} />
                   <div className="p-3">
-                    <p className="text-[11px] font-bold text-text-primary leading-tight">{tk.label}</p>
-                    <p className="text-[9px] text-text-secondary font-mono mt-0.5">{tk.hex}</p>
-                    <p className="text-[9px] text-text-secondary mt-1.5 leading-snug">{tk.usage}</p>
+                    <p className="text-xs font-bold text-text-primary leading-tight">{tk.label}</p>
+                    <p className="text-xs text-text-secondary font-mono mt-0.5">{tk.hex}</p>
+                    <p className="text-sm text-text-secondary mt-1.5 leading-snug">{tk.usage}</p>
                   </div>
                 </div>
               ))}
@@ -239,10 +232,10 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
         {/* ── 03 · Componentes da Interface — prancha manual em 3 colunas, sem cards ── */}
         <RevealOnScroll direction="up" delay={100}>
           <div data-cursor-trail-ignore className="max-w-[1100px] mx-auto">
-            <h3 className="text-[10px] font-bold tracking-widest uppercase text-brand mb-2 text-left">
+            <h3 className="text-xs font-bold tracking-wide uppercase text-brand mb-2 text-left">
               {c.section03.title}
             </h3>
-            <p className="text-[11px] text-text-secondary mb-10 leading-relaxed max-w-2xl text-left">
+            <p className="text-sm text-text-secondary mb-10 leading-relaxed max-w-2xl text-left">
               {c.section03.description}
             </p>
 
@@ -262,31 +255,11 @@ export default function DesignSystemSection({ theme, setTheme, lang }: DesignSys
               ))}
             </div>
 
-            {/* Mobile — coluna única, par compacto no final e acordeão para os componentes maiores */}
+            {/* Mobile — coluna única com todos os componentes sempre visíveis, sem accordion; par compacto no final */}
             <div className="flex md:hidden flex-col items-center gap-6">
               {mobileMainItems.map((item) => (
                 <BoardImage key={item.id} item={item} meta={c.components[item.id]} maxWidth={320} onOpen={openLightbox} />
               ))}
-
-              <div className="w-full max-w-[320px]">
-                <button
-                  type="button"
-                  onClick={() => setShowJourneyComponents((v) => !v)}
-                  aria-expanded={showJourneyComponents}
-                  aria-controls="journey-components-panel"
-                  className="w-full flex items-center justify-between gap-2 px-4 py-3 rounded-xl border border-border bg-surface text-text-secondary text-xs font-medium transition-colors hover:text-text-primary cursor-pointer"
-                >
-                  <span>{showJourneyComponents ? c.section03.journeyToggleHide : c.section03.journeyToggleShow}</span>
-                  <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-300 ${showJourneyComponents ? "rotate-180" : ""}`} />
-                </button>
-                {showJourneyComponents && (
-                  <div id="journey-components-panel" className="flex flex-col items-center gap-6 mt-6">
-                    {journeyAccordionItems.map((item) => (
-                      <BoardImage key={item.id} item={item} meta={c.components[item.id]} maxWidth={320} onOpen={openLightbox} />
-                    ))}
-                  </div>
-                )}
-              </div>
 
               <div className="grid grid-cols-2 gap-3.5 w-full max-w-[320px]">
                 {finalPairItems.map((item) => (

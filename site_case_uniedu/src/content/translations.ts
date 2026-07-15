@@ -93,6 +93,7 @@ interface AppContent {
       body: string;
       quotes: { text: string; meta: string }[];
     };
+    transitionToPersonas: string;
   };
   validation: {
     eyebrow: string;
@@ -263,6 +264,7 @@ export const appContent: Record<Lang, AppContent> = {
           { text: "\"Gostaria de ganhar algo real pelos meus pontos. Acumular medalhas virtuais no app não muda nada na minha vida.\"", meta: "Participante 06 · 28 anos" },
         ],
       },
+      transitionToPersonas: "Esses achados se cristalizaram em dois perfis comportamentais recorrentes — apresentados a seguir como as personas do case.",
     },
     validation: {
       eyebrow: "Métricas de Usabilidade",
@@ -469,6 +471,7 @@ export const appContent: Record<Lang, AppContent> = {
           { text: "\"I'd like to get something real for my points. Collecting virtual badges in the app doesn't change anything in my life.\"", meta: "Participant 06 · 28 years old" },
         ],
       },
+      transitionToPersonas: "These findings crystallized into two recurring behavioral profiles — presented next as the case's personas.",
     },
     validation: {
       eyebrow: "Usability Metrics",
@@ -604,6 +607,7 @@ interface PersonaContent {
     sofia: PersonaData;
     marcos: PersonaData;
   };
+  transitionToJourney: string;
 }
 
 export const personaContent: Record<Lang, PersonaContent> = {
@@ -680,6 +684,7 @@ export const personaContent: Record<Lang, PersonaContent> = {
         ],
       },
     },
+    transitionToJourney: "A partir de Sofia e Marcos, desdobramos cada perfil em uma jornada completa, para localizar onde a rotina se rompe, onde falta apoio e onde existe espaço para uma decisão de produto.",
   },
   en: {
     eyebrow: "Target Audience and Behavior",
@@ -754,12 +759,13 @@ export const personaContent: Record<Lang, PersonaContent> = {
         ],
       },
     },
+    transitionToJourney: "Starting from Sofia and Marcos, we unfolded each profile into a full journey, to pinpoint where the routine breaks down, where support is missing, and where there's room for a product decision.",
   },
 };
 
 // ─── JourneyMap ────────────────────────────────────────────────────────────
 
-interface JourneyStage {
+export interface JourneyStage {
   id: string;
   label: string;
   desc: string;
@@ -787,6 +793,7 @@ interface JourneyContent {
   };
   sofiaStages: JourneyStage[];
   marcosStages: JourneyStage[];
+  transitionToTensions: string;
 }
 
 export const journeyContent: Record<Lang, JourneyContent> = {
@@ -1053,6 +1060,7 @@ export const journeyContent: Record<Lang, JourneyContent> = {
         ],
       },
     ],
+    transitionToTensions: "As rupturas e oportunidades mapeadas em cada etapa nem sempre apontam na mesma direção entre os dois perfis — essas divergências viram as tensões de pesquisa a seguir.",
   },
   en: {
     eyebrow: "Understanding Behavior",
@@ -1317,6 +1325,7 @@ export const journeyContent: Record<Lang, JourneyContent> = {
         ],
       },
     ],
+    transitionToTensions: "The breakdowns and opportunities mapped at each stage don't always point the same way for both profiles — those divergences become the research tensions below.",
   },
 };
 
@@ -1328,6 +1337,8 @@ interface Tension {
   decisao: string;
   impacto: string;
   badge: string;
+  /** Referencia o id de uma tela em productShowcaseContent.decisions — evita duplicar insight/manifestação. */
+  telaId: string;
 }
 
 interface TensionsContent {
@@ -1336,10 +1347,14 @@ interface TensionsContent {
   description: string;
   labels: {
     achado: string;
+    insight: string;
     decisao: string;
+    manifestacao: string;
     impacto: string;
+    verTela: string;
   };
   tensions: Tension[];
+  transitionToProduct: string;
 }
 
 export const tensionsContent: Record<Lang, TensionsContent> = {
@@ -1349,8 +1364,11 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
     description: "As personas ajudaram a sintetizar os perfis principais, mas outros achados da pesquisa revelaram comportamentos complementares. Em vez de forçar uma única resposta para todos os alunos, a solução foi desenhada para acomodar diferentes estilos de motivação, estudo e continuidade.",
     labels: {
       achado: "Achado da Pesquisa",
+      insight: "Insight",
       decisao: "Decisão de Design",
+      manifestacao: "Manifestação na Interface",
       impacto: "Impacto no Produto",
+      verTela: "Ver esta decisão na tela",
     },
     tensions: [
       {
@@ -1359,6 +1377,7 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "Ranking opcional com toggle de visibilidade.",
         impacto: "A plataforma mantém a competição como alavanca de engajamento para quem se motiva com isso, mas não obriga todos os alunos a participarem da lógica competitiva.",
         badge: "Competição virou escolha, não obrigação.",
+        telaId: "ranking",
       },
       {
         titulo: "2. Autonomia é valorizada, mas sem estrutura vira abandono",
@@ -1366,6 +1385,7 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "Plano de estudos personalizável, checkpoints e progresso visível.",
         impacto: "O aluno mantém total autonomia sobre sua rotina, mas conta com orientação estruturada suficiente para continuar avançando sem se dispersar.",
         badge: "Autonomia com trilha de segurança.",
+        telaId: "plano-estudos",
       },
       {
         titulo: "3. IA ajuda, mas sozinha pode parecer fria",
@@ -1373,6 +1393,7 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "ChatBot IA combinado com monitor humano e comunidade ativa no mesmo ecossistema.",
         impacto: "A experiência ganha agilidade e respostas instantâneas sem perder o acolhimento e a empatia da troca com outras pessoas.",
         badge: "Tecnologia ágil com suporte humano.",
+        telaId: "suporte-ia",
       },
       {
         titulo: "4. Recompensas engajam quando conectadas ao esforço real",
@@ -1380,6 +1401,7 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "Pontos, conquistas, loja de recompensas e certificados intermediários por módulo concluído.",
         impacto: "A plataforma transforma o avanço de aprendizado diário em progresso percebido e recompensado com prêmios de carreira.",
         badge: "Progresso invisível vira valor percebido.",
+        telaId: "loja-recompensas",
       },
       {
         titulo: "5. Conteúdo profundo precisa de síntese e aplicação",
@@ -1387,8 +1409,10 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "Player com notas integradas, estrutura de aula dividida em blocos e foco em continuidade.",
         impacto: "O estudante consegue assistir às aulas, pausar e retomar seu progresso com facilidade, assimilando o valor prático com notas contextuais.",
         badge: "Foco total na aplicação prática.",
+        telaId: "player-integrado",
       },
     ],
+    transitionToProduct: "Cada uma dessas decisões amadurece ao longo do processo de design e se manifesta, tela a tela, no produto final.",
   },
   en: {
     eyebrow: "Decision Bridges",
@@ -1396,8 +1420,11 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
     description: "The personas helped synthesize the main profiles, but other research findings revealed complementary behaviors. Instead of forcing a single answer for all students, the solution was designed to accommodate different styles of motivation, study and continuity.",
     labels: {
       achado: "Research Finding",
+      insight: "Insight",
       decisao: "Design Decision",
+      manifestacao: "Interface Manifestation",
       impacto: "Product Impact",
+      verTela: "See this decision on screen",
     },
     tensions: [
       {
@@ -1406,6 +1433,7 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "Optional ranking with a visibility toggle.",
         impacto: "The platform keeps competition as an engagement lever for those motivated by it, without forcing every student into the competitive logic.",
         badge: "Competition became a choice, not an obligation.",
+        telaId: "ranking",
       },
       {
         titulo: "2. Autonomy is valued, but without structure it turns into dropout",
@@ -1413,6 +1441,7 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "Customizable study plan, checkpoints and visible progress.",
         impacto: "Students keep full autonomy over their routine, while having enough structured guidance to keep advancing without drifting off track.",
         badge: "Autonomy with a safety net.",
+        telaId: "plano-estudos",
       },
       {
         titulo: "3. AI helps, but alone it can feel cold",
@@ -1420,6 +1449,7 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "AI chatbot combined with a human tutor and an active community in the same ecosystem.",
         impacto: "The experience gains speed and instant answers without losing the warmth and empathy of exchanging with other people.",
         badge: "Agile technology with human support.",
+        telaId: "suporte-ia",
       },
       {
         titulo: "4. Rewards engage when connected to real effort",
@@ -1427,6 +1457,7 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "Points, achievements, a rewards store and intermediate certificates per completed module.",
         impacto: "The platform turns daily learning progress into perceived progress, rewarded with career-oriented prizes.",
         badge: "Invisible progress becomes perceived value.",
+        telaId: "loja-recompensas",
       },
       {
         titulo: "5. Deep content needs synthesis and application",
@@ -1434,8 +1465,10 @@ export const tensionsContent: Record<Lang, TensionsContent> = {
         decisao: "Player with integrated notes, lessons broken into blocks and a focus on continuity.",
         impacto: "Students can watch lessons, pause and resume their progress with ease, absorbing the practical value through contextual notes.",
         badge: "Total focus on practical application.",
+        telaId: "player-integrado",
       },
     ],
+    transitionToProduct: "Each of these decisions matures through the design process and shows up, screen by screen, in the final product.",
   },
 };
 
@@ -1464,11 +1497,9 @@ interface ProductShowcaseContent {
     valorPrefix: string;
     screenCounter: string;
     mediaUnavailable: string;
-    showDecision: string;
-    hideDecision: string;
-    mediaUnavailableFor: string;
   };
   decisions: ShowcaseDecision[];
+  transitionToValidation: string;
 }
 
 export const productShowcaseContent: Record<Lang, ProductShowcaseContent> = {
@@ -1480,13 +1511,10 @@ export const productShowcaseContent: Record<Lang, ProductShowcaseContent> = {
       dor: "Dor Identificada",
       insight: "Insight de Pesquisa",
       decisao: "Decisão de Produto",
-      tela: "Visualização",
+      tela: "Manifestação na Interface",
       valorPrefix: "Valor para o aluno:",
       screenCounter: "Tela",
       mediaUnavailable: "Mídia indisponível no momento.",
-      showDecision: "Ver decisão de design",
-      hideDecision: "Ocultar decisão de design",
-      mediaUnavailableFor: "Mídia indisponível:",
     },
     decisions: [
       {
@@ -1610,6 +1638,7 @@ export const productShowcaseContent: Record<Lang, ProductShowcaseContent> = {
         valor: "O aluno pode usar a competição como motivação quando isso fizer sentido para seu perfil, sem ser obrigado a se comparar com outras pessoas durante o processo de aprendizagem.",
       },
     ],
+    transitionToValidation: "Depois de desenhadas, essas telas foram colocadas na frente de usuários reais — veja a seguir como cada fluxo se saiu na validação.",
   },
   en: {
     eyebrow: "On-Screen Design Decisions",
@@ -1619,13 +1648,10 @@ export const productShowcaseContent: Record<Lang, ProductShowcaseContent> = {
       dor: "Identified Pain Point",
       insight: "Research Insight",
       decisao: "Product Decision",
-      tela: "Visualization",
+      tela: "Interface Manifestation",
       valorPrefix: "Value for the student:",
       screenCounter: "Screen",
       mediaUnavailable: "Media currently unavailable.",
-      showDecision: "See design decision",
-      hideDecision: "Hide design decision",
-      mediaUnavailableFor: "Media unavailable:",
     },
     decisions: [
       {
@@ -1749,6 +1775,7 @@ export const productShowcaseContent: Record<Lang, ProductShowcaseContent> = {
         valor: "Students can use competition as motivation when it fits their profile, without being forced to compare themselves to others during the learning process.",
       },
     ],
+    transitionToValidation: "Once designed, these screens were put in front of real users — see next how each flow performed in validation.",
   },
 };
 
@@ -1766,6 +1793,7 @@ interface ProcessEvolutionContent {
   nextAriaLabel: string;
   tablistAriaLabel: string;
   dotAriaLabel: (index: number, phaseNum: string) => string;
+  transitionToProduct: string;
 }
 
 export const processEvolutionContent: Record<Lang, ProcessEvolutionContent> = {
@@ -1781,6 +1809,7 @@ export const processEvolutionContent: Record<Lang, ProcessEvolutionContent> = {
     nextAriaLabel: "Próxima etapa",
     tablistAriaLabel: "Etapas do processo",
     dotAriaLabel: (index, phaseNum) => `Ir para imagem ${index} da fase ${phaseNum}`,
+    transitionToProduct: "Da primeira ideia no papel à versão em alta fidelidade, essas iterações resultaram nas 12 telas detalhadas a seguir.",
   },
   en: {
     eyebrow: "Process Maturity",
@@ -1794,6 +1823,7 @@ export const processEvolutionContent: Record<Lang, ProcessEvolutionContent> = {
     nextAriaLabel: "Next step",
     tablistAriaLabel: "Process steps",
     dotAriaLabel: (index, phaseNum) => `Go to image ${index} of phase ${phaseNum}`,
+    transitionToProduct: "From the first idea on paper to the high-fidelity version, these iterations resulted in the 12 screens detailed next.",
   },
 };
 
@@ -1871,7 +1901,7 @@ interface DesignSystemContent {
   section02: { title: string };
   colorTokensLight: ColorToken[];
   colorTokensDark: ColorToken[];
-  section03: { title: string; description: string; journeyToggleShow: string; journeyToggleHide: string };
+  section03: { title: string; description: string };
   components: Record<string, { title: string; alt: string }>;
 }
 
@@ -1910,8 +1940,6 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     section03: {
       title: "03 · Componentes da Interface",
       description: "Uma prancha visual com componentes reais extraídos do protótipo, preservando escala, hierarquia e contexto de uso dentro do produto.",
-      journeyToggleShow: "Ver componentes completos da jornada",
-      journeyToggleHide: "Ocultar componentes completos da jornada",
     },
     components: {
       "card-login": { title: "Card de login", alt: "Tela de login do app" },
@@ -1979,8 +2007,6 @@ export const designSystemContent: Record<Lang, DesignSystemContent> = {
     section03: {
       title: "03 · Interface Components",
       description: "A visual board with real components extracted from the prototype, preserving scale, hierarchy, and usage context within the product.",
-      journeyToggleShow: "View full journey components",
-      journeyToggleHide: "Hide full journey components",
     },
     components: {
       "card-login": { title: "Login card", alt: "App login screen" },
