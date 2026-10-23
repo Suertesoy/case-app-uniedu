@@ -19,6 +19,7 @@ import prototypeLightVideo from "../../../NAVEGACAO_UNIEDU_LIGHTMODE.mp4";
 import prototypeDarkVideo from "../../../NAVEGACAO_UNIEDU_DARKMODE.mp4";
 import CursorTrail from "../components/CursorTrail";
 import MockupReveal3D from "../components/MockupReveal3D";
+import RecruitingDesignSystemSection from "../components/RecruitingDesignSystemSection";
 import RevealOnScroll from "../components/RevealOnScroll";
 import { AUTHORS } from "../content/translations";
 import { useTheme } from "../hooks/useTheme";
@@ -33,7 +34,8 @@ const navLinks = [
   { href: "#resumo", label: "Resumo" },
   { href: "#decisoes", label: "Decisões" },
   { href: "#ui", label: "UI" },
-  { href: "#ia", label: "IA no processo" },
+  { href: "#design-system", label: "Design System" },
+  { href: "#ia", label: "IA" },
   { href: "#validacao", label: "Validação" },
   { href: "#contato", label: "Contato" },
 ];
@@ -165,7 +167,7 @@ export default function RecruitingCasePage() {
             </a>
           </div>
 
-          <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-9">
             {navLinks.map((item) => (
               <a
                 key={item.href}
@@ -460,6 +462,9 @@ export default function RecruitingCasePage() {
         </div>
       </section>
 
+      {/* DESIGN SYSTEM */}
+      <RecruitingDesignSystemSection />
+
       {/* IA APLICADA AO PROCESSO */}
       <section id="ia" className="py-20 max-w-6xl mx-auto px-6 transition-all duration-300">
         <RevealOnScroll direction="up" duration={900}>
@@ -509,7 +514,7 @@ export default function RecruitingCasePage() {
           <Eyebrow>Aprendizados e próximos passos</Eyebrow>
           <div className="space-y-5 mt-4 text-text-secondary text-sm md:text-base leading-relaxed">
             <p>
-              Se eu evoluísse o projeto hoje, aprofundaria três frentes: testar a solução com estudantes de áreas além de UX/UI, criar métricas mais claras para retenção e ativação, e aproximar ainda mais o design system da implementação real com tokens, componentes e documentação técnica.
+              Se eu evoluísse o projeto hoje, aprofundaria três frentes: testar a solução com estudantes de áreas além de UX/UI, criar métricas mais claras para retenção e ativação, e levar o Design System para o código. A biblioteca no Figma já organiza tokens, componentes e documentação, mas ainda não há Code Connect nem sincronização automática com o aplicativo, e as melhorias de contraste propostas ainda precisam chegar ao protótipo.
             </p>
             <p>
               Também exploraria melhor o papel da IA dentro do produto, não como um assistente genérico, mas como suporte contextual no momento em que o aluno trava, precisa revisar um conceito ou organizar próximos passos de estudo.
