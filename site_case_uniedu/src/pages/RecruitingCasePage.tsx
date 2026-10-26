@@ -155,7 +155,7 @@ export default function RecruitingCasePage() {
               <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-brand via-brand-soft to-brand-strong bg-clip-text text-transparent">
                 UNIEDU
               </span>
-              <span className="bg-brand/10 text-brand-strong text-xs uppercase font-bold tracking-wide px-2 py-0.5 rounded-full border border-brand/20 hidden sm:inline-block">
+              <span className="bg-brand/10 text-brand-strong text-xs uppercase font-bold tracking-wide px-2 py-0.5 rounded-full border border-brand/20 hidden sm:inline-block lg:hidden xl:inline-block">
                 Case para recrutadores
               </span>
             </div>
