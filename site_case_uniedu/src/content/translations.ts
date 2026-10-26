@@ -26,6 +26,12 @@ interface AppContent {
     badge: string;
     tagline: string;
     nav: { href: string; label: string }[];
+    navAriaLabel: string;
+    sectionsLabel: string;
+    sectionsMenuTitle: string;
+    railAriaLabel: string;
+    railTopLabel: string;
+    backToTopLabel: string;
     themeToggleLabel: string;
     langToggleLabel: string;
     ctaPrototype: string;
@@ -169,10 +175,20 @@ export const appContent: Record<Lang, AppContent> = {
       tagline: "UX/UI · Product Strategy · EdTech",
       nav: [
         { href: "#solucao-rapida", label: "Visão geral" },
-        { href: "#processo", label: "Processo" },
+        { href: "#pesquisa", label: "Pesquisa" },
+        { href: "#jornada", label: "Jornada" },
         { href: "#produto", label: "Produto" },
-        { href: "#escopo", label: "Aprendizados" },
+        { href: "#validacao", label: "Validação" },
+        { href: "#design-system", label: "Design System" },
+        { href: "#implementacao", label: "Implementação" },
+        { href: "#aprendizados", label: "Aprendizados" },
       ],
+      navAriaLabel: "Navegação principal",
+      sectionsLabel: "Seções",
+      sectionsMenuTitle: "Capítulos do case",
+      railAriaLabel: "Índice de capítulos do case",
+      railTopLabel: "Início",
+      backToTopLabel: "Voltar ao início",
       themeToggleLabel: "Alternar Tema",
       langToggleLabel: "Selecionar idioma",
       ctaPrototype: "Ver Protótipo",
@@ -376,10 +392,20 @@ export const appContent: Record<Lang, AppContent> = {
       tagline: "UX/UI · Product Strategy · EdTech",
       nav: [
         { href: "#solucao-rapida", label: "Overview" },
-        { href: "#processo", label: "Process" },
+        { href: "#pesquisa", label: "Research" },
+        { href: "#jornada", label: "Journey" },
         { href: "#produto", label: "Product" },
-        { href: "#escopo", label: "Learnings" },
+        { href: "#validacao", label: "Validation" },
+        { href: "#design-system", label: "Design System" },
+        { href: "#implementacao", label: "Implementation" },
+        { href: "#aprendizados", label: "Learnings" },
       ],
+      navAriaLabel: "Main navigation",
+      sectionsLabel: "Sections",
+      sectionsMenuTitle: "Case chapters",
+      railAriaLabel: "Case chapter index",
+      railTopLabel: "Top",
+      backToTopLabel: "Back to top",
       themeToggleLabel: "Toggle Theme",
       langToggleLabel: "Select language",
       ctaPrototype: "View Prototype",
@@ -1827,217 +1853,312 @@ export const processEvolutionContent: Record<Lang, ProcessEvolutionContent> = {
   },
 };
 
+
 // ─── DesignSystemSection ───────────────────────────────────────────────────
+// Espelha a biblioteca do Figma (mesmos números e decisões de RecruitingDesignSystemSection).
+// Hex, nomes de tokens e nomes de componentes não mudam com o idioma e ficam no componente.
 
-interface ColorToken {
+interface DesignSystemBlockCopy {
   label: string;
-  hex: string;
-  usage: string;
+  title: string;
+  text: string;
 }
 
-interface TypeSample {
-  role: string;
-  sample: string;
-  use: string;
+interface PropCopy {
+  name: string;
+  kind: string;
 }
-
-export interface ComponentBoardItem {
-  id: string;
-  file: string;
-  // Largura máxima (px) da imagem — fixa em todos os breakpoints, calibrada
-  // manualmente por componente para reproduzir a escala real do app mobile
-  // (nunca a largura do desktop), igual em mobile/tablet/desktop.
-  maxWidth: number;
-}
-
-// Prancha montada manualmente em 3 colunas (como um board do Figma), não um
-// grid automático: cada coluna é uma lista fixa de componentes reais
-// recortados do protótipo (imagens/COMPONENTES), independente de idioma.
-export const componentBoardColumns: ComponentBoardItem[][] = [
-  [
-    { id: "perfil", file: "perfil.jpeg", maxWidth: 300 },
-    { id: "ranking-ativado", file: "ranking-ativado.jpeg", maxWidth: 300 },
-    { id: "card-home", file: "card-home.jpeg", maxWidth: 300 },
-    { id: "aula-nao-assistida", file: "aula-nao-assistida.jpeg", maxWidth: 250 },
-    { id: "aula-assistida", file: "aula-assistida.jpeg", maxWidth: 250 },
-    { id: "plano-estudos", file: "plano-estudos.jpeg", maxWidth: 270 },
-    { id: "card-cases", file: "card-cases.jpeg", maxWidth: 130 },
-    { id: "item-loja", file: "item-loja.jpeg", maxWidth: 140 },
-  ],
-  [
-    { id: "card-login", file: "card-login.jpeg", maxWidth: 310 },
-    { id: "ranking-desativado", file: "ranking-desativado.jpeg", maxWidth: 300 },
-    { id: "grande-premio-loja", file: "grande-premio-loja.jpeg", maxWidth: 290 },
-    { id: "modulo-aula", file: "modulo-aula.jpeg", maxWidth: 290 },
-    { id: "barra-progresso", file: "barra-progresso.jpeg", maxWidth: 290 },
-    { id: "aba-feed-nao-selecionada", file: "aba-feed-nao-selecionada.jpeg", maxWidth: 280 },
-    { id: "aba-feed-selecionada", file: "aba-feed-selecionada.jpeg", maxWidth: 280 },
-    { id: "streaks", file: "streaks.jpeg", maxWidth: 280 },
-    { id: "jornada-aprendizado", file: "jornada-aprendizado.png", maxWidth: 310 },
-  ],
-  [
-    { id: "cabecalho-home", file: "cabecalho-home.jpeg", maxWidth: 310 },
-    { id: "barra-pesquisa-loja", file: "barra-pesquisa-loja.jpeg", maxWidth: 310 },
-    { id: "nav-bar", file: "nav-bar.jpeg", maxWidth: 300 },
-    { id: "onboarding-points", file: "onboarding-points.jpeg", maxWidth: 300 },
-    { id: "cabecalho", file: "cabecalho.jpeg", maxWidth: 300 },
-    { id: "sessoes-comunidade", file: "sessoes-comunidade.jpeg", maxWidth: 280 },
-    { id: "barra-pesquisa-aulas", file: "barra-pesquisa-aulas.jpeg", maxWidth: 280 },
-    { id: "conquista-bloqueada", file: "conquista-bloqueada.jpeg", maxWidth: 220 },
-    { id: "conquista-desbloqueada", file: "conquista-desbloqueada.jpeg", maxWidth: 220 },
-    { id: "aviso-comunidade", file: "aviso-comunidade.jpeg", maxWidth: 270 },
-    { id: "certificado", file: "certificado.jpeg", maxWidth: 280 },
-    { id: "player-aula", file: "player-aula.png", maxWidth: 300 },
-  ],
-];
 
 interface DesignSystemContent {
   eyebrow: string;
   title: string;
-  description: string;
-  themeToggle: { light: string; dark: string };
-  section01: { title: string; fontNote: string };
-  typeSamples: TypeSample[];
-  section02: { title: string };
-  colorTokensLight: ColorToken[];
-  colorTokensDark: ColorToken[];
-  section03: { title: string; description: string };
-  components: Record<string, { title: string; alt: string }>;
+  intro: string;
+  authorshipOriginal: string;
+  authorshipAnd: string;
+  authorshipDs: string;
+  authorshipAi: string;
+  facts: { value: string; label: string }[];
+  pipelineLabel: string;
+  pipeline: { step: string; desc: string }[];
+  tokens: DesignSystemBlockCopy & {
+    colToken: string;
+    colLight: string;
+    colDark: string;
+    roles: { actionPrimary: string; bgSurface: string; textContent: string };
+    figureAlt: string;
+    figureCaptionStrong: string;
+    figureCaption: string;
+  };
+  components: DesignSystemBlockCopy & {
+    selectionLabel: string;
+    catalog: { name: string; desc: string }[];
+    composition: { kicker: string; desc: string; alt: string; props: PropCopy[] };
+    button: { kicker: string; desc: string; alt: string; props: PropCopy[] };
+    nav: {
+      kicker: string;
+      activeLabel: string;
+      altAulas: string;
+      altPerfil: string;
+      props: PropCopy[];
+    };
+  };
+  application: DesignSystemBlockCopy & {
+    screensLight: string;
+    screensDark: string;
+    altLight: string;
+    altDark: string;
+    screensNote: string;
+    accessibilityKicker: string;
+    accessibilityTitle: string;
+    accessibilityP1: string;
+    accessibilityP2: string;
+    asBuiltLabel: string;
+    asBuiltBadge: string;
+    asBuiltAlt: string;
+    proposedLabel: string;
+    proposedBadge: string;
+    proposedAlt: string;
+    status: string;
+    statusDetail: string;
+  };
+  closing: string;
+  cta: string;
+  newTab: string;
 }
 
 export const designSystemContent: Record<Lang, DesignSystemContent> = {
   pt: {
-    eyebrow: "Sistema Visual",
-    title: "Design System do APP UNIEDU",
-    description: "Cores, tipografia, componentes e regras de uso que tornam a experiência do UNIEDU consistente, acessível e alinhada ao propósito de gamificação adulta e aprendizagem contínua.",
-    themeToggle: { light: "Light", dark: "Dark" },
-    section01: { title: "01 · Tipografia", fontNote: "Plus Jakarta Sans — Display e Heading · Inter — Body e Caption" },
-    typeSamples: [
-      { role: "Display", sample: "Aprenda com consistência", use: "Hero, milestone desbloqueado, conquista de nível" },
-      { role: "Heading", sample: "Módulo 2 — Gestão do Tempo", use: "Título de card, nome do módulo, seção de onboarding" },
-      { role: "Body", sample: "Acompanhe seu ritmo de estudos e construa hábitos que persistem.", use: "Descrições de aula, feedbacks, texto de apoio em cards e modais" },
-      { role: "Caption", sample: "MÓDULO CONCLUÍDO · 120 XP", use: "Labels de estado (CONCLUÍDO, EM ANDAMENTO), badges de XP, metadados" },
+    eyebrow: "Design System",
+    title: "Da interface ao sistema",
+    intro:
+      "Depois de concluído o protótipo do UNIEDU, seus padrões visuais foram organizados em uma biblioteca reutilizável no Figma. Tokens, componentes, variantes e temas tornam as decisões de interface mais consistentes, documentadas e fáceis de evoluir.",
+    authorshipOriginal: "Projeto original e identidade visual:",
+    authorshipAnd: "e",
+    authorshipDs: "Estruturação do Design System, decisões técnicas e validação:",
+    authorshipAi: "com apoio de IA na execução.",
+    facts: [
+      { value: "146", label: "variáveis em 6 coleções" },
+      { value: "2", label: "temas por modo de variável" },
+      { value: "8", label: "famílias de componentes, 32 variantes" },
+      { value: "14", label: "estilos de texto" },
     ],
-    section02: { title: "02 · Cores e Tokens" },
-    colorTokensLight: [
-      { label: "Primary Pink", hex: "#D81B60", usage: "Barra de progresso, badge de XP, estado ativo e ícone de gamificação" },
-      { label: "Accent Pink", hex: "#F06292", usage: "Hover, gradientes de suporte e microinterações — camada secundária do brand" },
-      { label: "Strong Pink", hex: "#A31545", usage: "Botão primário no Light Mode; header real do app (#A31545 na barra superior)" },
-      { label: "BG Light", hex: "#FFFBFD", usage: "Fundo principal claro — off-white rosado; nunca branco puro" },
-      { label: "Surface Light", hex: "#FDF2F5", usage: "Cards e superfícies no Light Mode — cria hierarquia sem sombra" },
-      { label: "Text on Light", hex: "#1D1518", usage: "Texto primário no Light Mode — marrom-rosado quase preto" },
-      { label: "Muted Light", hex: "#6E5E64", usage: "Captions, metadados e labels secundários no Light Mode — verificar contraste WCAG AA no contexto" },
+    pipelineLabel: "Do protótipo à biblioteca",
+    pipeline: [
+      { step: "Foundations", desc: "Plus Jakarta Sans e Inter, escala de espaçamento em múltiplos de 4 px e raios de 10 a 16 px." },
+      { step: "Tokens", desc: "Primitivos guardam valores brutos; tokens semânticos dão a função de cada valor e mudam por tema." },
+      { step: "Components", desc: "Header/Page, Nav/Bottom, 4 Card/Module e 19 Card/Lesson, com Progress/Bar aninhada." },
+      { step: "Interface", desc: "A tela Aulas em Light e Dark, montada só com instâncias vinculadas, sem frames desanexados." },
     ],
-    colorTokensDark: [
-      { label: "Primary Pink", hex: "#D81B60", usage: "Barra de progresso, badge de XP, estado ativo e ícone de gamificação" },
-      { label: "Accent Pink", hex: "#F06292", usage: "Hover, gradientes de suporte e microinterações — camada secundária do brand" },
-      { label: "Soft Pink", hex: "#F48FB1", usage: "Botão primário e CTA acessível no Dark Mode; acento de texto sobre fundos escuros" },
-      { label: "BG Dark", hex: "#120E10", usage: "Fundo profundo aquecido — preto com toque rosado, nunca preto puro" },
-      { label: "Surface Dark", hex: "#1E1A1D", usage: "Cards, bottom nav e superfícies elevadas no Dark Mode" },
-      { label: "Text on Dark", hex: "#FCE4EC", usage: "Texto primário no Dark Mode — rose claro, harmônico com o brand" },
-      { label: "Muted Dark", hex: "#9E9EAE", usage: "Captions, metadados e labels secundários no Dark Mode — verificar contraste WCAG AA no contexto" },
-    ],
-    section03: {
-      title: "03 · Componentes da Interface",
-      description: "Uma prancha visual com componentes reais extraídos do protótipo, preservando escala, hierarquia e contexto de uso dentro do produto.",
+    tokens: {
+      label: "Foundations e tokens",
+      title: "O componente mantém sua função. O tema determina quais valores ele utiliza.",
+      text:
+        "Os componentes usam apenas tokens semânticos. Cada token aponta para um primitivo diferente em Light e em Dark, então a troca de tema não exige redesenhar nada. Esta é uma seleção de três tokens, não a tabela completa.",
+      colToken: "Token semântico",
+      colLight: "Light",
+      colDark: "Dark",
+      roles: {
+        actionPrimary: "Ação principal, aba ativa, foco",
+        bgSurface: "Superfície de cards e barras",
+        textContent: "Títulos e texto de conteúdo",
+      },
+      figureAlt: "Componente Card/Lesson exibido lado a lado nos temas Light e Dark, com as mesmas aulas e propriedades.",
+      figureCaptionStrong: "Card/Lesson",
+      figureCaption: "nos dois temas: mesmo componente, mesmas propriedades. Só o modo de variável muda.",
     },
     components: {
-      "card-login": { title: "Card de login", alt: "Tela de login do app" },
-      "cabecalho": { title: "Cabeçalho", alt: "Cabeçalho padrão do app" },
-      "cabecalho-home": { title: "Cabeçalho da home", alt: "Cabeçalho da tela inicial com saldo de pontos e notificações" },
-      "nav-bar": { title: "Navegação inferior", alt: "Barra de navegação inferior do app com os ícones de Home, Aulas, Loja, Comunidade e Perfil" },
-      "card-home": { title: "Card da home", alt: "Card de destaque exibido na tela inicial" },
-      "barra-progresso": { title: "Barra de progresso", alt: "Barra de progresso de uma aula ou módulo" },
-      "streaks": { title: "Streaks", alt: "Indicador de sequência de dias estudando (streak)" },
-      "plano-estudos": { title: "Plano de estudos", alt: "Card de seleção de plano de estudos com ritmo semanal" },
-      "modulo-aula": { title: "Módulo da aula", alt: "Card de módulo de aula com progresso" },
-      "aula-assistida": { title: "Aula assistida", alt: "Item de lista de aula já assistida" },
-      "aula-nao-assistida": { title: "Aula não assistida", alt: "Item de lista de aula ainda não assistida" },
-      "barra-pesquisa-aulas": { title: "Barra de pesquisa de aulas", alt: "Campo de busca de aulas e conteúdos" },
-      "card-cases": { title: "Card de cases", alt: "Card de case de estudo dentro do app" },
-      "certificado": { title: "Certificado", alt: "Card de certificado emitido ao aluno" },
-      "onboarding-points": { title: "Pontos de onboarding", alt: "Explicação inicial de como os pontos funcionam" },
-      "conquista-bloqueada": { title: "Conquista bloqueada", alt: "Badge de conquista ainda bloqueada" },
-      "conquista-desbloqueada": { title: "Conquista desbloqueada", alt: "Badge de conquista já desbloqueada" },
-      "ranking-ativado": { title: "Ranking ativado", alt: "Tela de ranking com participação ativada" },
-      "ranking-desativado": { title: "Ranking desativado", alt: "Tela de ranking com participação desativada" },
-      "item-loja": { title: "Item da loja", alt: "Card de produto disponível na loja de recompensas" },
-      "grande-premio-loja": { title: "Grande prêmio da loja", alt: "Card de prêmio de maior destaque na loja de recompensas" },
-      "barra-pesquisa-loja": { title: "Barra de pesquisa da loja", alt: "Campo de busca de produtos na loja de recompensas" },
-      "aba-feed-selecionada": { title: "Aba do feed selecionada", alt: "Aba do feed da comunidade no estado selecionado" },
-      "aba-feed-nao-selecionada": { title: "Aba do feed não selecionada", alt: "Aba do feed da comunidade no estado não selecionado" },
-      "aviso-comunidade": { title: "Aviso da comunidade", alt: "Card de aviso fixado na comunidade" },
-      "sessoes-comunidade": { title: "Sessões da comunidade", alt: "Navegação por sessões dentro da comunidade" },
-      "perfil": { title: "Perfil", alt: "Tela de perfil do aluno com nível e estatísticas" },
-      "player-aula": { title: "Player de aula", alt: "Player de vídeo mostrando a aula em andamento na home do aplicativo" },
-      "jornada-aprendizado": { title: "Jornada de aprendizado", alt: "Lista da jornada de aprendizado com etapas de progresso do aluno" },
+      label: "Componentes reutilizáveis",
+      title: "Poucos componentes, com propriedades que cobrem os casos reais.",
+      text:
+        "Em vez de reconstruir elementos em cada tela, os padrões viraram componentes configuráveis. Variantes resolvem estados e tamanhos; textos, booleanos, troca de ícone e slots evitam multiplicar variantes. Tudo é montado com Auto Layout e usado como instância.",
+      selectionLabel: "Seleção apresentada",
+      catalog: [
+        { name: "Button/Primary", desc: "3 tamanhos × 4 estados" },
+        { name: "Header/Page", desc: "cabeçalho das telas" },
+        { name: "Nav/Bottom", desc: "5 destinos" },
+        { name: "Card/Module", desc: "4 cores + Progress/Bar" },
+        { name: "Card/Lesson", desc: "19 instâncias" },
+      ],
+      composition: {
+        kicker: "Composição",
+        desc: "O cabeçalho aninha uma Progress/Bar; as aulas entram por um slot como instâncias de Card/Lesson.",
+        alt: "Card/Module UX Strategy expandido, com barra de progresso aninhada e duas instâncias de Card/Lesson no slot de aulas.",
+        props: [
+          { name: "Color", kind: "variant · 4" },
+          { name: "Title · Meta", kind: "texto" },
+          { name: "Show Lessons", kind: "booleano" },
+          { name: "Lessons", kind: "slot" },
+          { name: "Progress/Bar", kind: "aninhada" },
+        ],
+      },
+      button: {
+        kicker: "Variantes",
+        desc: "3 tamanhos × 4 estados = 12 variantes.",
+        alt: "Variantes do Button/Primary: tamanhos SM, MD e LG e estados Pressed, Focus e Disabled.",
+        props: [
+          { name: "Size", kind: "variant" },
+          { name: "State", kind: "variant" },
+          { name: "Label", kind: "texto" },
+          { name: "Show Icon", kind: "booleano" },
+          { name: "Icon", kind: "troca de instância" },
+        ],
+      },
+      nav: {
+        kicker: "Uma variante por destino",
+        activeLabel: "Active",
+        altAulas: "Nav/Bottom com o destino Aulas ativo.",
+        altPerfil: "Nav/Bottom com o destino Perfil ativo.",
+        props: [
+          { name: "Active", kind: "variant · 5 destinos" },
+          { name: "Nav/Item State × Focus", kind: "variant" },
+        ],
+      },
     },
+    application: {
+      label: "Aplicação real e acessibilidade",
+      title: "A tela Aulas, recomposta com a biblioteca.",
+      text:
+        "As versões Light e Dark usam os mesmos componentes principais. Cada uma tem suas próprias instâncias, configuradas pelo modo de variável do tema. Busca e abas ainda são estruturas locais da tela.",
+      screensLight: "Light",
+      screensDark: "Dark",
+      altLight: "Tela Aulas no tema Light, composta com instâncias da biblioteca.",
+      altDark: "Tela Aulas no tema Dark, composta com as mesmas instâncias e o modo Dark.",
+      screensNote: "As duas telas já incluem as melhorias de contraste propostas abaixo, por isso diferem do protótipo publicado.",
+      accessibilityKicker: "Revisão de acessibilidade",
+      accessibilityTitle: "Cabeçalho do módulo",
+      accessibilityP1:
+        "No protótipo, o título e a meta em branco ficam sobre um gradiente rosa claro. Medido nos dois extremos do gradiente, o contraste fica abaixo de 4,5:1, mínimo exigido para texto desse tamanho (WCAG 1.4.3).",
+      accessibilityP2:
+        "A proposta mantém o matiz e o texto branco e escurece o gradiente para os tons -700 de cada módulo. A diferenciação entre módulos continua, e a legibilidade passa no critério.",
+      asBuiltLabel: "As built · protótipo publicado",
+      asBuiltBadge: "2,76–2,86:1 · reprova",
+      asBuiltAlt: "Cabeçalho do módulo UX Strategy como está no protótipo: texto branco sobre gradiente rosa claro.",
+      proposedLabel: "Proposed · Figma",
+      proposedBadge: "5,91–6,03:1 · passa",
+      proposedAlt: "Cabeçalho do módulo UX Strategy proposto no Figma: texto branco sobre gradiente rosa escuro.",
+      status: "A melhoria está especificada no Figma e ainda não foi implementada no protótipo publicado.",
+      statusDetail: "O tema Dark já atendia ao critério e não mudou.",
+    },
+    closing:
+      "A documentação completa, com tokens, fichas de componentes, critérios de contraste e correspondência com o código, está no arquivo do Figma. A biblioteca ainda não está conectada ao código do app: não há Code Connect nem sincronização automática.",
+    cta: "Explorar Design System no Figma",
+    newTab: "(abre em nova aba)",
   },
   en: {
-    eyebrow: "Visual System",
-    title: "UNIEDU APP Design System",
-    description: "Colors, typography, components and usage rules that make the UNIEDU experience consistent, accessible and aligned with the purpose of adult gamification and continuous learning.",
-    themeToggle: { light: "Light", dark: "Dark" },
-    section01: { title: "01 · Typography", fontNote: "Plus Jakarta Sans — Display and Heading · Inter — Body and Caption" },
-    typeSamples: [
-      { role: "Display", sample: "Learn with consistency", use: "Hero, unlocked milestone, level achievement" },
-      { role: "Heading", sample: "Module 2 — Time Management", use: "Card title, module name, onboarding section" },
-      { role: "Body", sample: "Track your study pace and build habits that last.", use: "Lesson descriptions, feedback, supporting text in cards and modals" },
-      { role: "Caption", sample: "MODULE COMPLETED · 120 XP", use: "State labels (COMPLETED, IN PROGRESS), XP badges, metadata" },
+    eyebrow: "Design System",
+    title: "From interface to system",
+    intro:
+      "Once the UNIEDU prototype was finished, its visual patterns were organized into a reusable Figma library. Tokens, components, variants and themes make interface decisions more consistent, documented and easier to evolve.",
+    authorshipOriginal: "Original project and visual identity:",
+    authorshipAnd: "and",
+    authorshipDs: "Design System structure, technical decisions and validation:",
+    authorshipAi: "with AI support in execution.",
+    facts: [
+      { value: "146", label: "variables in 6 collections" },
+      { value: "2", label: "themes via variable modes" },
+      { value: "8", label: "component families, 32 variants" },
+      { value: "14", label: "text styles" },
     ],
-    section02: { title: "02 · Colors and Tokens" },
-    colorTokensLight: [
-      { label: "Primary Pink", hex: "#D81B60", usage: "Progress bar, XP badge, active state and gamification icon" },
-      { label: "Accent Pink", hex: "#F06292", usage: "Hover, supporting gradients and microinteractions — secondary brand layer" },
-      { label: "Strong Pink", hex: "#A31545", usage: "Primary button in Light Mode; the app's real header (#A31545 in the top bar)" },
-      { label: "BG Light", hex: "#FFFBFD", usage: "Main light background — pinkish off-white; never pure white" },
-      { label: "Surface Light", hex: "#FDF2F5", usage: "Cards and surfaces in Light Mode — creates hierarchy without shadow" },
-      { label: "Text on Light", hex: "#1D1518", usage: "Primary text in Light Mode — near-black pinkish brown" },
-      { label: "Muted Light", hex: "#6E5E64", usage: "Captions, metadata and secondary labels in Light Mode — check WCAG AA contrast in context" },
+    pipelineLabel: "From prototype to library",
+    pipeline: [
+      { step: "Foundations", desc: "Plus Jakarta Sans and Inter, a spacing scale in multiples of 4 px and 10 to 16 px radii." },
+      { step: "Tokens", desc: "Primitives hold raw values; semantic tokens give each value its role and change per theme." },
+      { step: "Components", desc: "Header/Page, Nav/Bottom, 4 Card/Module and 19 Card/Lesson, with a nested Progress/Bar." },
+      { step: "Interface", desc: "The Lessons screen in Light and Dark, built only from linked instances, with no detached frames." },
     ],
-    colorTokensDark: [
-      { label: "Primary Pink", hex: "#D81B60", usage: "Progress bar, XP badge, active state and gamification icon" },
-      { label: "Accent Pink", hex: "#F06292", usage: "Hover, supporting gradients and microinteractions — secondary brand layer" },
-      { label: "Soft Pink", hex: "#F48FB1", usage: "Primary button and accessible CTA in Dark Mode; text accent over dark backgrounds" },
-      { label: "BG Dark", hex: "#120E10", usage: "Deep, warm background — black with a pink touch, never pure black" },
-      { label: "Surface Dark", hex: "#1E1A1D", usage: "Cards, bottom nav and elevated surfaces in Dark Mode" },
-      { label: "Text on Dark", hex: "#FCE4EC", usage: "Primary text in Dark Mode — light rose, harmonious with the brand" },
-      { label: "Muted Dark", hex: "#9E9EAE", usage: "Captions, metadata and secondary labels in Dark Mode — check WCAG AA contrast in context" },
-    ],
-    section03: {
-      title: "03 · Interface Components",
-      description: "A visual board with real components extracted from the prototype, preserving scale, hierarchy, and usage context within the product.",
+    tokens: {
+      label: "Foundations and tokens",
+      title: "The component keeps its role. The theme decides which values it uses.",
+      text:
+        "Components use semantic tokens only. Each token points to a different primitive in Light and in Dark, so switching theme requires no redesign. This is a selection of three tokens, not the full table.",
+      colToken: "Semantic token",
+      colLight: "Light",
+      colDark: "Dark",
+      roles: {
+        actionPrimary: "Primary action, active tab, focus",
+        bgSurface: "Surface of cards and bars",
+        textContent: "Titles and content text",
+      },
+      figureAlt: "Card/Lesson component shown side by side in the Light and Dark themes, with the same lessons and properties.",
+      figureCaptionStrong: "Card/Lesson",
+      figureCaption: "in both themes: same component, same properties. Only the variable mode changes.",
     },
     components: {
-      "card-login": { title: "Login card", alt: "App login screen" },
-      "cabecalho": { title: "Header", alt: "Standard app header" },
-      "cabecalho-home": { title: "Home header", alt: "Home screen header with points balance and notifications" },
-      "nav-bar": { title: "Bottom navigation", alt: "App bottom navigation bar with Home, Lessons, Store, Community and Profile icons" },
-      "card-home": { title: "Home card", alt: "Featured card shown on the home screen" },
-      "barra-progresso": { title: "Progress bar", alt: "Progress bar for a lesson or module" },
-      "streaks": { title: "Streaks", alt: "Indicator of consecutive study days (streak)" },
-      "plano-estudos": { title: "Study plan", alt: "Study plan selection card with weekly pace" },
-      "modulo-aula": { title: "Lesson module", alt: "Lesson module card with progress" },
-      "aula-assistida": { title: "Watched lesson", alt: "List item for an already watched lesson" },
-      "aula-nao-assistida": { title: "Unwatched lesson", alt: "List item for a lesson not yet watched" },
-      "barra-pesquisa-aulas": { title: "Lessons search bar", alt: "Search field for lessons and content" },
-      "card-cases": { title: "Case study card", alt: "Case study card inside the app" },
-      "certificado": { title: "Certificate", alt: "Certificate card issued to the student" },
-      "onboarding-points": { title: "Onboarding points", alt: "Initial explanation of how points work" },
-      "conquista-bloqueada": { title: "Locked achievement", alt: "Achievement badge still locked" },
-      "conquista-desbloqueada": { title: "Unlocked achievement", alt: "Achievement badge already unlocked" },
-      "ranking-ativado": { title: "Ranking enabled", alt: "Ranking screen with participation enabled" },
-      "ranking-desativado": { title: "Ranking hidden", alt: "Ranking screen with participation disabled" },
-      "item-loja": { title: "Store item", alt: "Product card available in the rewards store" },
-      "grande-premio-loja": { title: "Store grand prize", alt: "Featured high-value prize card in the rewards store" },
-      "barra-pesquisa-loja": { title: "Store search bar", alt: "Search field for products in the rewards store" },
-      "aba-feed-selecionada": { title: "Selected feed tab", alt: "Community feed tab in the selected state" },
-      "aba-feed-nao-selecionada": { title: "Unselected feed tab", alt: "Community feed tab in the unselected state" },
-      "aviso-comunidade": { title: "Community announcement", alt: "Pinned announcement card in the community" },
-      "sessoes-comunidade": { title: "Community sessions", alt: "Navigation between sessions inside the community" },
-      "perfil": { title: "Profile", alt: "Student profile screen with level and statistics" },
-      "player-aula": { title: "Lesson player", alt: "Video player showing the current lesson on the app home screen" },
-      "jornada-aprendizado": { title: "Learning journey", alt: "Learning journey list with student progress steps" },
+      label: "Reusable components",
+      title: "A few components, with properties that cover real cases.",
+      text:
+        "Instead of rebuilding elements on every screen, the patterns became configurable components. Variants handle states and sizes; text, booleans, icon swaps and slots avoid multiplying variants. Everything is built with Auto Layout and used as an instance.",
+      selectionLabel: "Selection shown",
+      catalog: [
+        { name: "Button/Primary", desc: "3 sizes × 4 states" },
+        { name: "Header/Page", desc: "screen header" },
+        { name: "Nav/Bottom", desc: "5 destinations" },
+        { name: "Card/Module", desc: "4 colors + Progress/Bar" },
+        { name: "Card/Lesson", desc: "19 instances" },
+      ],
+      composition: {
+        kicker: "Composition",
+        desc: "The header nests a Progress/Bar; lessons enter through a slot as Card/Lesson instances.",
+        alt: "Expanded UX Strategy Card/Module, with a nested progress bar and two Card/Lesson instances in the lessons slot.",
+        props: [
+          { name: "Color", kind: "variant · 4" },
+          { name: "Title · Meta", kind: "text" },
+          { name: "Show Lessons", kind: "boolean" },
+          { name: "Lessons", kind: "slot" },
+          { name: "Progress/Bar", kind: "nested" },
+        ],
+      },
+      button: {
+        kicker: "Variants",
+        desc: "3 sizes × 4 states = 12 variants.",
+        alt: "Button/Primary variants: SM, MD and LG sizes and Pressed, Focus and Disabled states.",
+        props: [
+          { name: "Size", kind: "variant" },
+          { name: "State", kind: "variant" },
+          { name: "Label", kind: "text" },
+          { name: "Show Icon", kind: "boolean" },
+          { name: "Icon", kind: "instance swap" },
+        ],
+      },
+      nav: {
+        kicker: "One variant per destination",
+        activeLabel: "Active",
+        altAulas: "Nav/Bottom with the Lessons destination active.",
+        altPerfil: "Nav/Bottom with the Profile destination active.",
+        props: [
+          { name: "Active", kind: "variant · 5 destinations" },
+          { name: "Nav/Item State × Focus", kind: "variant" },
+        ],
+      },
     },
+    application: {
+      label: "Real application and accessibility",
+      title: "The Lessons screen, rebuilt with the library.",
+      text:
+        "The Light and Dark versions use the same main components. Each has its own instances, set by the theme's variable mode. Search and tabs are still local structures of the screen.",
+      screensLight: "Light",
+      screensDark: "Dark",
+      altLight: "Lessons screen in the Light theme, built with library instances.",
+      altDark: "Lessons screen in the Dark theme, built with the same instances and the Dark mode.",
+      screensNote: "Both screens already include the contrast improvements proposed below, so they differ from the published prototype.",
+      accessibilityKicker: "Accessibility review",
+      accessibilityTitle: "Module header",
+      accessibilityP1:
+        "In the prototype, the white title and meta sit on a light pink gradient. Measured at both ends of the gradient, contrast falls below 4.5:1, the minimum required for text of this size (WCAG 1.4.3).",
+      accessibilityP2:
+        "The proposal keeps the hue and the white text and darkens the gradient to each module's -700 tones. Modules stay distinguishable, and legibility meets the criterion.",
+      asBuiltLabel: "As built · published prototype",
+      asBuiltBadge: "2.76–2.86:1 · fails",
+      asBuiltAlt: "UX Strategy module header as it is in the prototype: white text on a light pink gradient.",
+      proposedLabel: "Proposed · Figma",
+      proposedBadge: "5.91–6.03:1 · passes",
+      proposedAlt: "UX Strategy module header proposed in Figma: white text on a dark pink gradient.",
+      status: "The improvement is specified in Figma and has not been implemented in the published prototype yet.",
+      statusDetail: "The Dark theme already met the criterion and did not change.",
+    },
+    closing:
+      "The full documentation, with tokens, component sheets, contrast criteria and the mapping to code, lives in the Figma file. The library is not connected to the app's code yet: there is no Code Connect or automatic sync.",
+    cta: "Explore the Design System in Figma",
+    newTab: "(opens in a new tab)",
   },
 };

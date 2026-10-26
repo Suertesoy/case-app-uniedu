@@ -16,9 +16,6 @@
   --hero-glow-1: rgba(216, 27, 96, 0.06);
   --hero-glow-2: rgba(240, 98, 146, 0.03);
   
-  --cursor-trail-color: rgba(216, 27, 96, 0.45);
-  --cursor-trail-glow: rgba(216, 27, 96, 0.2);
-  
   --progress-neutral: rgba(110, 94, 100, 0.22);
 }
 
@@ -38,9 +35,6 @@
   --hero-glow-1: rgba(216, 27, 96, 0.12);
   --hero-glow-2: rgba(240, 98, 146, 0.06);
   
-  --cursor-trail-color: rgba(244, 143, 177, 0.6);
-  --cursor-trail-glow: rgba(244, 143, 177, 0.3);
-  
   --progress-neutral: rgba(252, 228, 236, 0.25);
 }
 
@@ -58,18 +52,30 @@
   --color-glow-1: var(--hero-glow-1);
   --color-glow-2: var(--hero-glow-2);
   
-  --color-cursor-trail-color: var(--cursor-trail-color);
-  --color-cursor-trail-glow: var(--cursor-trail-glow);
 }
 
 @layer base {
   html,
   body {
-    /* Proteção complementar: a página só deve rolar na vertical.
-     * Não substitui a correção estrutural dos elementos que causavam o overflow,
-     * mas evita que qualquer resíduo de poucos pixels deixe a página arrastável. */
     max-width: 100%;
+  }
+
+  /*
+   * Proteção contra scroll horizontal. Atenção: html E body com overflow-x: hidden fazem o body
+   * virar um contêiner de rolagem próprio (o overflow do html vai para o viewport, o do body
+   * não), e o `position: sticky` do header passa a grudar nesse contêiner que nunca rola,
+   * ou seja, para de funcionar. Por isso só o html usa hidden (vai para o viewport) e o body
+   * usa clip, que corta o excesso sem criar contêiner de rolagem. Em navegadores sem suporte a
+   * clip a declaração é ignorada e o hidden do html continua protegendo.
+   */
+  html {
     overflow-x: hidden;
+    /* Altura do header sticky (h-20 + borda) + folga: âncoras não ficam sob ele. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    overflow-x: clip;
   }
 
   body {
@@ -267,6 +273,9 @@ html {
 
 /* Accessibility: respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   .reveal-container-3d {
     opacity: 1 !important;
     transform: none !important;

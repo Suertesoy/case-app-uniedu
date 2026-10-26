@@ -1,310 +1,475 @@
-import { useEffect, useRef, useState } from "react";
-import { Sun, Moon, X } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Info, XCircle } from "lucide-react";
 import RevealOnScroll from "./RevealOnScroll";
-import { designSystemContent, componentBoardColumns, type ComponentBoardItem, type Lang } from "../content/translations";
+import { DESIGN_SYSTEM_FIGMA_URL } from "./RecruitingDesignSystemSection";
+import { AUTHORS, designSystemContent, type Lang } from "../content/translations";
 
-// Lookup plano de todos os itens, na ordem das colunas (col1 → col2 → col3) —
-// usado pelo lightbox e como base da lista única do mobile.
-const allBoardItems = componentBoardColumns.flat();
+const ASSET_BASE = "/case-design-system";
 
-// No mobile, os dois componentes mais compactos/quadrados ficam lado a lado no
-// final; o restante — incluindo os componentes grandes da jornada — segue em
-// coluna única, sempre visível, na mesma ordem da prancha desktop.
-const FINAL_PAIR_IDS = ["card-cases", "item-loja"];
-const mobileMainItems = allBoardItems.filter((item) => !FINAL_PAIR_IDS.includes(item.id));
-const finalPairItems = FINAL_PAIR_IDS.map((id) => allBoardItems.find((item) => item.id === id)!);
+// Valores conferidos nas variáveis do Figma (modos Light e Dark). Não mudam com o idioma.
+const semanticTokens = [
+  {
+    token: "action/primary",
+    role: "actionPrimary",
+    light: { primitive: "pink/700", hex: "#A31545" },
+    dark: { primitive: "pink/300", hex: "#F48FB1" },
+  },
+  {
+    token: "bg/surface",
+    role: "bgSurface",
+    light: { primitive: "neutral/0", hex: "#FFFFFF" },
+    dark: { primitive: "neutral/900", hex: "#1E1A1D" },
+  },
+  {
+    token: "text/content",
+    role: "textContent",
+    light: { primitive: "neutral/1000", hex: "#0A0A0A" },
+    dark: { primitive: "tw/gray-100", hex: "#F3F4F6" },
+  },
+] as const;
 
-interface ThemeToggleProps {
-  theme: "light" | "dark";
-  setTheme: (theme: "light" | "dark") => void;
-  labels: { light: string; dark: string };
+function Prop({ name, kind }: { name: string; kind: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-elevated border border-border text-xs whitespace-nowrap">
+      <span className="font-semibold text-text-primary">{name}</span>
+      <span className="text-text-secondary">{kind}</span>
+    </span>
+  );
 }
 
-function ThemeToggle({ theme, setTheme, labels }: ThemeToggleProps) {
-  const isDark = theme === "dark";
+/*
+ * Prancha neutra na cor bg/page do Figma (#F9FAFB): os recortes exportados têm esse fundo.
+ * A moldura externa usa as superfícies do site para a prancha clara não "flutuar" no Dark.
+ */
+function Canvas({
+  children,
+  className = "",
+  grow = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  grow?: boolean;
+}) {
   return (
-    <div className="flex items-center gap-1 p-1 rounded-full border border-border bg-surface text-xs">
-      <button
-        onClick={() => setTheme("light")}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
-          !isDark
-            ? "bg-surface-elevated text-text-primary shadow-sm"
-            : "text-text-secondary hover:text-text-primary"
-        }`}
-      >
-        <Sun size={11} />{labels.light}
-      </button>
-      <button
-        onClick={() => setTheme("dark")}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
-          isDark
-            ? "bg-[#1E1A1D] text-[#FCE4EC] shadow-sm"
-            : "text-text-secondary hover:text-text-primary"
-        }`}
-      >
-        <Moon size={11} />{labels.dark}
-      </button>
+    <div className={`rounded-2xl bg-surface-elevated border border-border p-1.5 shadow-sm ${grow ? "flex-1 flex flex-col" : ""}`}>
+      <div className={`rounded-xl bg-[#F9FAFB] ring-1 ring-black/5 p-3 sm:p-4 ${grow ? "flex-1" : ""} ${className}`}>
+        {children}
+      </div>
     </div>
   );
 }
 
-// Botão + imagem de um componente da prancha — usado no board desktop (3
-// colunas), na lista única mobile, no acordeão da jornada e no par final.
-// Sem card externo: o próprio <img> carrega a moldura, sombra e superfície
-// reais do recorte do protótipo.
-function BoardImage({
-  item,
-  meta,
-  maxWidth,
-  onOpen,
-}: {
-  item: ComponentBoardItem;
-  meta: { title: string; alt: string };
-  maxWidth?: number;
-  onOpen: (id: string, trigger: HTMLButtonElement) => void;
-}) {
+function BlockHeading({ index, label }: { index: string; label: string }) {
   return (
-    <button
-      type="button"
-      onClick={(e) => onOpen(item.id, e.currentTarget)}
-      className="block w-full cursor-zoom-in"
-      aria-label={meta.alt}
-    >
-      <img
-        src={`/components/${item.file}`}
-        alt={meta.alt}
-        loading="lazy"
-        className="block mx-auto w-full h-auto object-contain transition-all duration-300 hover:opacity-85 hover:scale-[1.01]"
-        style={{ maxWidth: maxWidth ?? item.maxWidth }}
-      />
-    </button>
+    <div className="flex items-center gap-3">
+      <span className="text-xs font-bold text-brand-strong tabular-nums">{index}</span>
+      <span className="h-px w-8 bg-brand/40" />
+      <span className="text-xs font-bold uppercase tracking-widest text-text-secondary">{label}</span>
+    </div>
   );
 }
 
-// ─── Static hex/bg values per token — separados por contexto Light/Dark ─────
-const colorHexLight = ["#D81B60", "#F06292", "#A31545", "#FFFBFD", "#FDF2F5", "#1D1518", "#6E5E64"];
-const colorHexDark = ["#D81B60", "#F06292", "#F48FB1", "#120E10", "#1E1A1D", "#FCE4EC", "#9E9EAE"];
-
-// ─── Typography style metadata (language-independent) ────────────────────────
-const typeMeta = [
-  { className: "text-2xl md:text-3xl font-extrabold tracking-tight", size: "32–40px", weight: "800", leading: "1.2", tracking: "−0.02em", font: "Plus Jakarta Sans" },
-  { className: "text-xl font-bold tracking-tight", size: "20px", weight: "700", leading: "1.3", tracking: "−0.01em", font: "Plus Jakarta Sans" },
-  { className: "text-sm font-normal", size: "14px", weight: "400", leading: "1.6", tracking: "—", font: "Inter" },
-  { className: "text-xs font-bold tracking-wide uppercase", size: "10px", weight: "700", leading: "1.4", tracking: "0.1em + uppercase", font: "Inter" },
-];
-
-// ─────────────────────────────────────────────────────────────────────────────
-
-interface DesignSystemSectionProps {
-  theme: "light" | "dark";
-  setTheme: (theme: "light" | "dark") => void;
-  lang: Lang;
+function Swatch({ hex, primitive }: { hex: string; primitive: string }) {
+  return (
+    <div className="flex items-center gap-2.5 min-w-0">
+      <span
+        className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border border-black/10 shrink-0 shadow-sm"
+        style={{ backgroundColor: hex }}
+        aria-hidden="true"
+      />
+      <span className="min-w-0">
+        <span className="block text-xs font-semibold text-text-primary truncate">{primitive}</span>
+        <span className="block text-xs text-text-secondary font-mono">{hex}</span>
+      </span>
+    </div>
+  );
 }
 
-export default function DesignSystemSection({ theme, setTheme, lang }: DesignSystemSectionProps) {
-  const isDark = theme === "dark";
+function ContrastBadge({ pass, children }: { pass: boolean; children: React.ReactNode }) {
+  const Icon = pass ? CheckCircle2 : XCircle;
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-semibold text-text-primary whitespace-nowrap ${
+        pass ? "border-emerald-600/40 bg-emerald-600/10" : "border-red-500/40 bg-red-500/10"
+      }`}
+    >
+      <Icon className={`w-3.5 h-3.5 shrink-0 ${pass ? "text-emerald-600" : "text-red-500"}`} />
+      {children}
+    </span>
+  );
+}
+
+export default function DesignSystemSection({ lang }: { lang: Lang }) {
   const c = designSystemContent[lang];
-
-  const colorHex = isDark ? colorHexDark : colorHexLight;
-  const colorTokens = (isDark ? c.colorTokensDark : c.colorTokensLight).map((token, i) => ({
-    ...token,
-    bg: colorHex[i],
-  }));
-
-  const typeSamples = c.typeSamples.map((sample, i) => ({ ...sample, ...typeMeta[i] }));
-
-  const [lightboxId, setLightboxId] = useState<string | null>(null);
-  const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-
-  const openLightbox = (id: string, trigger: HTMLButtonElement) => {
-    lastTriggerRef.current = trigger;
-    setLightboxId(id);
-  };
-
-  const closeLightbox = () => {
-    setLightboxId(null);
-    // Devolve o foco ao card que abriu o modal, em vez de perdê-lo no body.
-    lastTriggerRef.current?.focus();
-  };
-
-  useEffect(() => {
-    if (!lightboxId) return;
-    closeButtonRef.current?.focus();
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeLightbox();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [lightboxId]);
-
-  const lightboxItem = allBoardItems.find((item) => item.id === lightboxId) ?? null;
 
   return (
     <section id="design-system" className="py-24 bg-surface/20 border-t border-border transition-all duration-300">
       <div className="max-w-7xl mx-auto px-6">
-
-        {/* ── Header ── */}
-        <RevealOnScroll direction="up">
-          <div className="text-center mb-16">
-            <span className="text-xs font-bold tracking-wide uppercase text-brand mb-4 block">
-              {c.eyebrow}
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-4">
-              {c.title}
-            </h2>
-            <p className="text-text-secondary max-w-2xl mx-auto text-sm leading-relaxed">
-              {c.description}
+        {/* 01 — DA INTERFACE AO SISTEMA */}
+        <RevealOnScroll direction="up" duration={900}>
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-widest text-brand">{c.eyebrow}</span>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-text-primary mt-3 mb-5">{c.title}</h2>
+            <p className="text-text-secondary text-sm md:text-base leading-relaxed">{c.intro}</p>
+            <p className="text-text-secondary text-xs leading-relaxed mt-4">
+              {c.authorshipOriginal} {AUTHORS.lucas.name} {c.authorshipAnd} {AUTHORS.najme.name}. {c.authorshipDs}{" "}
+              {AUTHORS.lucas.name}, {c.authorshipAi}
             </p>
           </div>
         </RevealOnScroll>
 
-        {/* ── 01 · Tipografia ── */}
-        <RevealOnScroll direction="up" delay={100}>
-          <div className="mb-16">
-            <h3 className="text-xs font-bold tracking-wide uppercase text-brand mb-5">
-              {c.section01.title}
-            </h3>
-            <div className="rounded-2xl border border-border bg-surface-elevated overflow-hidden">
-              <div className="px-5 py-3 border-b border-border flex items-center gap-2 bg-surface/50">
-                <span className="w-2 h-2 rounded-full bg-brand/40 block" />
-                <span className="text-sm text-text-secondary font-medium">
-                  {c.section01.fontNote}
-                </span>
+        <RevealOnScroll direction="up" delay={100} duration={900}>
+          <dl className="grid grid-cols-2 md:grid-cols-4 gap-px mt-12 rounded-2xl overflow-hidden border border-border bg-border">
+            {c.facts.map((fact) => (
+              <div key={fact.label} className="bg-page p-4 sm:p-5">
+                <dt className="sr-only">{fact.label}</dt>
+                <dd>
+                  <span className="block text-2xl md:text-3xl font-bold tracking-tight text-text-primary">{fact.value}</span>
+                  <span className="block text-xs text-text-secondary leading-snug mt-1">{fact.label}</span>
+                </dd>
               </div>
-              <div className="divide-y divide-border">
-                {typeSamples.map((t) => (
-                  <div key={t.role} className="px-5 py-5 flex flex-col md:flex-row gap-3 md:gap-6 items-start">
-                    {/* Role tag */}
-                    <div className="w-full md:w-16 shrink-0">
-                      <span className="text-xs font-bold tracking-wide uppercase text-brand">{t.role}</span>
-                    </div>
-                    {/* Sample + use */}
-                    <div className="flex-1 min-w-0">
-                      <p className={`${t.className} text-text-primary leading-tight`}>{t.sample}</p>
-                      <p className="text-sm text-text-secondary mt-2 italic leading-relaxed hidden md:block">{t.use}</p>
-                    </div>
-                    {/* Technical specs */}
-                    <div className="hidden md:grid grid-cols-2 gap-x-4 gap-y-1.5 w-52 shrink-0 text-xs">
-                      <span className="text-text-secondary font-mono">size</span>
-                      <span className="text-text-primary font-mono">{t.size}</span>
-                      <span className="text-text-secondary font-mono">weight</span>
-                      <span className="text-text-primary font-mono">{t.weight}</span>
-                      <span className="text-text-secondary font-mono">line-height</span>
-                      <span className="text-text-primary font-mono">{t.leading}</span>
-                      <span className="text-text-secondary font-mono">tracking</span>
-                      <span className="text-text-primary font-mono">{t.tracking}</span>
-                      <span className="text-text-secondary font-mono">font</span>
-                      <span className="text-text-primary font-mono text-xs">{t.font}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+            ))}
+          </dl>
         </RevealOnScroll>
 
-        {/* ── 02 · Cores e Tokens — preview separada por Light/Dark ── */}
-        <RevealOnScroll direction="up" delay={100}>
-          <div className="mb-16">
-            <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-              <h3 className="text-xs font-bold tracking-wide uppercase text-brand">
-                {c.section02.title}
-              </h3>
-              {/* Toggle local — preview de tokens Light/Dark, independente do tema global do site */}
-              <ThemeToggle theme={theme} setTheme={setTheme} labels={c.themeToggle} />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-              {colorTokens.map((tk) => (
-                <div key={tk.label} className="rounded-xl border border-border overflow-hidden bg-surface-elevated">
-                  <div className="h-10 w-full" style={{ background: tk.bg }} />
-                  <div className="p-3">
-                    <p className="text-xs font-bold text-text-primary leading-tight">{tk.label}</p>
-                    <p className="text-xs text-text-secondary font-mono mt-0.5">{tk.hex}</p>
-                    <p className="text-sm text-text-secondary mt-1.5 leading-snug">{tk.usage}</p>
-                  </div>
-                </div>
+        <RevealOnScroll direction="up" delay={150} duration={900}>
+          <div className="mt-12">
+            <BlockHeading index="01" label={c.pipelineLabel} />
+            <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
+              {c.pipeline.map((item, idx) => (
+                <li key={item.step} className="p-5 rounded-2xl bg-surface border border-border">
+                  <p className="text-sm font-bold text-text-primary">
+                    <span className="text-brand-strong tabular-nums mr-2">0{idx + 1}</span>
+                    {item.step}
+                  </p>
+                  <p className="text-xs text-text-secondary leading-relaxed mt-2">{item.desc}</p>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </RevealOnScroll>
 
-        {/* ── 03 · Componentes da Interface — prancha manual em 3 colunas, sem cards ── */}
-        <RevealOnScroll direction="up" delay={100}>
-          <div data-cursor-trail-ignore className="max-w-[1100px] mx-auto">
-            <h3 className="text-xs font-bold tracking-wide uppercase text-brand mb-2 text-left">
-              {c.section03.title}
-            </h3>
-            <p className="text-sm text-text-secondary mb-10 leading-relaxed max-w-2xl text-left">
-              {c.section03.description}
-            </p>
+        {/* 02 — FOUNDATIONS E TOKENS */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 mt-24 items-start">
+          <div className="lg:col-span-5">
+            <RevealOnScroll direction="left" duration={900}>
+              <BlockHeading index="02" label={c.tokens.label} />
+              <h3 className="text-xl md:text-3xl font-bold tracking-tight text-text-primary mt-4 leading-snug">
+                {c.tokens.title}
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed mt-4">{c.tokens.text}</p>
+            </RevealOnScroll>
+          </div>
 
-            {/* Desktop/tablet — prancha manual em 3 colunas (inalterada) */}
-            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-x-6">
-              {componentBoardColumns.map((column, colIndex) => (
-                <div
-                  key={colIndex}
-                  className={
-                    colIndex === 2 ? "flex flex-col gap-5 md:grid md:grid-cols-2 md:col-span-2 lg:flex lg:flex-col lg:col-span-1" : "flex flex-col gap-5"
-                  }
-                >
-                  {column.map((item) => (
-                    <BoardImage key={item.id} item={item} meta={c.components[item.id]} onOpen={openLightbox} />
+          <div className="lg:col-span-7 space-y-5">
+            <RevealOnScroll direction="right" duration={900}>
+              <div className="rounded-2xl bg-surface border border-border overflow-hidden">
+                <div className="hidden sm:grid grid-cols-[1.3fr_1fr_1fr] gap-4 px-5 py-3 border-b border-border text-xs font-bold uppercase tracking-wide text-text-secondary">
+                  <span>{c.tokens.colToken}</span>
+                  <span>{c.tokens.colLight}</span>
+                  <span>{c.tokens.colDark}</span>
+                </div>
+                <ul>
+                  {semanticTokens.map((item) => (
+                    <li
+                      key={item.token}
+                      className="grid grid-cols-2 sm:grid-cols-[1.3fr_1fr_1fr] gap-x-4 gap-y-3 px-5 py-4 border-b border-border last:border-b-0"
+                    >
+                      <div className="col-span-2 sm:col-span-1 min-w-0">
+                        <p className="text-sm font-bold text-text-primary font-mono">{item.token}</p>
+                        <p className="text-xs text-text-secondary mt-0.5">{c.tokens.roles[item.role]}</p>
+                      </div>
+                      <div>
+                        <span className="sm:hidden block text-xs font-bold uppercase tracking-wide text-text-secondary mb-1.5">
+                          {c.tokens.colLight}
+                        </span>
+                        <Swatch {...item.light} />
+                      </div>
+                      <div>
+                        <span className="sm:hidden block text-xs font-bold uppercase tracking-wide text-text-secondary mb-1.5">
+                          {c.tokens.colDark}
+                        </span>
+                        <Swatch {...item.dark} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </RevealOnScroll>
+
+            <RevealOnScroll direction="right" delay={100} duration={900}>
+              <figure>
+                <Canvas>
+                  <img
+                    src={`${ASSET_BASE}/card-lesson-light-dark.webp`}
+                    alt={c.tokens.figureAlt}
+                    width={1056}
+                    height={426}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-auto"
+                  />
+                </Canvas>
+                <figcaption className="text-xs text-text-secondary leading-relaxed mt-3">
+                  <span className="font-semibold text-text-primary">{c.tokens.figureCaptionStrong}</span> {c.tokens.figureCaption}
+                </figcaption>
+              </figure>
+            </RevealOnScroll>
+          </div>
+        </div>
+
+        {/* 03 — COMPONENTES REUTILIZÁVEIS */}
+        <div className="mt-24">
+          <RevealOnScroll direction="up" duration={900}>
+            <div className="max-w-3xl">
+              <BlockHeading index="03" label={c.components.label} />
+              <h3 className="text-xl md:text-3xl font-bold tracking-tight text-text-primary mt-4 leading-snug">
+                {c.components.title}
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed mt-4">{c.components.text}</p>
+            </div>
+          </RevealOnScroll>
+
+          <RevealOnScroll direction="up" delay={100} duration={900}>
+            <div className="mt-8">
+              <p className="text-xs font-bold uppercase tracking-wide text-text-secondary mb-3">{c.components.selectionLabel}</p>
+              <ul className="flex flex-wrap gap-2">
+                {c.components.catalog.map((item) => (
+                  <li
+                    key={item.name}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface border border-border text-xs"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand" aria-hidden="true" />
+                    <span className="font-bold text-text-primary font-mono">{item.name}</span>
+                    <span className="text-text-secondary">{item.desc}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </RevealOnScroll>
+
+          <div className="grid lg:grid-cols-12 gap-5 mt-8">
+            <div className="lg:col-span-7">
+              <RevealOnScroll direction="up" duration={900}>
+                <figure className="p-5 sm:p-6 rounded-2xl bg-surface border border-border h-full flex flex-col">
+                  <figcaption className="mb-4">
+                    <span className="text-xs font-bold uppercase tracking-wide text-brand">{c.components.composition.kicker}</span>
+                    <p className="text-base font-bold text-text-primary mt-1 font-mono">Card/Module</p>
+                    <p className="text-xs text-text-secondary leading-relaxed mt-1">{c.components.composition.desc}</p>
+                  </figcaption>
+                  <Canvas grow className="flex items-center">
+                    <img
+                      src={`${ASSET_BASE}/card-module-composition.webp`}
+                      alt={c.components.composition.alt}
+                      width={1056}
+                      height={578}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-auto"
+                    />
+                  </Canvas>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {c.components.composition.props.map((prop) => (
+                      <Prop key={prop.name} {...prop} />
+                    ))}
+                  </div>
+                </figure>
+              </RevealOnScroll>
+            </div>
+
+            <div className="lg:col-span-5 flex flex-col gap-5">
+              <RevealOnScroll direction="up" delay={100} duration={900}>
+                <figure className="p-5 sm:p-6 rounded-2xl bg-surface border border-border">
+                  <figcaption className="mb-4">
+                    <span className="text-xs font-bold uppercase tracking-wide text-brand">{c.components.button.kicker}</span>
+                    <p className="text-base font-bold text-text-primary mt-1 font-mono">Button/Primary</p>
+                    <p className="text-xs text-text-secondary leading-relaxed mt-1">{c.components.button.desc}</p>
+                  </figcaption>
+                  <Canvas>
+                    <img
+                      src={`${ASSET_BASE}/button-primary-variants.webp`}
+                      alt={c.components.button.alt}
+                      width={1056}
+                      height={312}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-auto"
+                    />
+                  </Canvas>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {c.components.button.props.map((prop) => (
+                      <Prop key={prop.name} {...prop} />
+                    ))}
+                  </div>
+                </figure>
+              </RevealOnScroll>
+
+              <RevealOnScroll direction="up" delay={200} duration={900}>
+                <figure className="p-5 sm:p-6 rounded-2xl bg-surface border border-border">
+                  <figcaption className="mb-4">
+                    <span className="text-xs font-bold uppercase tracking-wide text-brand">{c.components.nav.kicker}</span>
+                    <p className="text-base font-bold text-text-primary mt-1 font-mono">Nav/Bottom</p>
+                  </figcaption>
+                  <Canvas className="space-y-3">
+                    {[
+                      { file: "nav-bottom-active-aulas.webp", active: "Aulas", alt: c.components.nav.altAulas },
+                      { file: "nav-bottom-active-perfil.webp", active: "Perfil", alt: c.components.nav.altPerfil },
+                    ].map((nav) => (
+                      <div key={nav.file}>
+                        <img
+                          src={`${ASSET_BASE}/${nav.file}`}
+                          alt={nav.alt}
+                          width={1056}
+                          height={128}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full h-auto rounded-md"
+                        />
+                        <p className="text-xs text-[#4A5565] mt-1.5">
+                          {c.components.nav.activeLabel} = <span className="font-semibold text-[#0A0A0A]">{nav.active}</span>
+                        </p>
+                      </div>
+                    ))}
+                  </Canvas>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {c.components.nav.props.map((prop) => (
+                      <Prop key={prop.name} {...prop} />
+                    ))}
+                  </div>
+                </figure>
+              </RevealOnScroll>
+            </div>
+          </div>
+        </div>
+
+        {/* 04 — APLICAÇÃO REAL E ACESSIBILIDADE */}
+        <div className="mt-24 rounded-[2rem] bg-surface border border-border p-5 sm:p-8 lg:p-12">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-5">
+              <RevealOnScroll direction="left" duration={900}>
+                <BlockHeading index="04" label={c.application.label} />
+                <h3 className="text-xl md:text-3xl font-bold tracking-tight text-text-primary mt-4 leading-snug">
+                  {c.application.title}
+                </h3>
+                <p className="text-text-secondary text-sm leading-relaxed mt-4">{c.application.text}</p>
+                <p className="text-xs text-text-secondary leading-relaxed mt-6 pt-5 border-t border-border">
+                  {c.application.screensNote}
+                </p>
+              </RevealOnScroll>
+            </div>
+
+            <div className="lg:col-span-7">
+              <RevealOnScroll direction="scale" delay={100} duration={900}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-6 max-w-[17rem] sm:max-w-[34rem] mx-auto">
+                  {[
+                    { file: "aulas-light.webp", label: c.application.screensLight, alt: c.application.altLight },
+                    { file: "aulas-dark.webp", label: c.application.screensDark, alt: c.application.altDark },
+                  ].map((screen) => (
+                    <figure key={screen.file} className="min-w-0">
+                      <figcaption className="text-xs font-bold uppercase tracking-widest text-text-secondary mb-3 text-center">
+                        {screen.label}
+                      </figcaption>
+                      <div className="rounded-[1.25rem] sm:rounded-[1.75rem] border border-border bg-page p-1 sm:p-1.5 shadow-xl">
+                        <img
+                          src={`${ASSET_BASE}/${screen.file}`}
+                          alt={screen.alt}
+                          width={786}
+                          height={1704}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full h-auto rounded-[1rem] sm:rounded-[1.4rem]"
+                        />
+                      </div>
+                    </figure>
                   ))}
                 </div>
-              ))}
-            </div>
-
-            {/* Mobile — coluna única com todos os componentes sempre visíveis, sem accordion; par compacto no final */}
-            <div className="flex md:hidden flex-col items-center gap-6">
-              {mobileMainItems.map((item) => (
-                <BoardImage key={item.id} item={item} meta={c.components[item.id]} maxWidth={320} onOpen={openLightbox} />
-              ))}
-
-              <div className="grid grid-cols-2 gap-3.5 w-full max-w-[320px]">
-                {finalPairItems.map((item) => (
-                  <BoardImage key={item.id} item={item} meta={c.components[item.id]} onOpen={openLightbox} />
-                ))}
-              </div>
+              </RevealOnScroll>
             </div>
           </div>
-        </RevealOnScroll>
 
-      </div>
+          {/* REVISÃO DE ACESSIBILIDADE — AS BUILT × PROPOSED */}
+          <div className="mt-14 pt-10 border-t border-border grid lg:grid-cols-12 gap-8 lg:gap-12">
+            <div className="lg:col-span-5">
+              <RevealOnScroll direction="up" duration={900}>
+                <span className="text-xs font-bold uppercase tracking-wide text-brand">{c.application.accessibilityKicker}</span>
+                <h4 className="text-lg font-bold text-text-primary mt-2">{c.application.accessibilityTitle}</h4>
+                <p className="text-text-secondary text-sm leading-relaxed mt-3">{c.application.accessibilityP1}</p>
+                <p className="text-text-secondary text-sm leading-relaxed mt-3">{c.application.accessibilityP2}</p>
+              </RevealOnScroll>
+            </div>
 
-      {/* ── Lightbox — visualização ampliada do componente selecionado ── */}
-      {lightboxItem && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={c.components[lightboxItem.id].title}
-          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
-          onClick={closeLightbox}
-        >
-          <button
-            ref={closeButtonRef}
-            type="button"
-            onClick={closeLightbox}
-            aria-label={lang === "pt" ? "Fechar" : "Close"}
-            className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          <figure
-            className="max-w-4xl w-full flex flex-col items-center gap-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={`/components/${lightboxItem.file}`}
-              alt={c.components[lightboxItem.id].alt}
-              className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-xl shadow-2xl"
-            />
-            <figcaption className="text-sm font-semibold text-white/90">
-              {c.components[lightboxItem.id].title}
-            </figcaption>
-          </figure>
+            <div className="lg:col-span-7 space-y-5">
+              <RevealOnScroll direction="up" delay={100} duration={900}>
+                <figure>
+                  <figcaption className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                    <span className="text-xs font-bold uppercase tracking-wide text-text-secondary">{c.application.asBuiltLabel}</span>
+                    <ContrastBadge pass={false}>{c.application.asBuiltBadge}</ContrastBadge>
+                  </figcaption>
+                  <Canvas>
+                    <img
+                      src={`${ASSET_BASE}/module-header-as-built.webp`}
+                      alt={c.application.asBuiltAlt}
+                      width={1056}
+                      height={210}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-auto"
+                    />
+                  </Canvas>
+                  <p className="text-xs text-text-secondary mt-2 font-mono">#FFFFFF / #FB64B6 → #FF637E</p>
+                </figure>
+              </RevealOnScroll>
+
+              <RevealOnScroll direction="up" delay={150} duration={900}>
+                <figure>
+                  <figcaption className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                    <span className="text-xs font-bold uppercase tracking-wide text-brand-strong">{c.application.proposedLabel}</span>
+                    <ContrastBadge pass>{c.application.proposedBadge}</ContrastBadge>
+                  </figcaption>
+                  <Canvas>
+                    <img
+                      src={`${ASSET_BASE}/module-header-proposed.webp`}
+                      alt={c.application.proposedAlt}
+                      width={1056}
+                      height={210}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-auto"
+                    />
+                  </Canvas>
+                  <p className="text-xs text-text-secondary mt-2 font-mono">#FFFFFF / #C6005C → #C70036</p>
+                </figure>
+              </RevealOnScroll>
+
+              <RevealOnScroll direction="up" delay={200} duration={900}>
+                <div className="flex gap-3 p-4 rounded-xl bg-page border border-brand/30">
+                  <Info className="w-4 h-4 text-brand-strong shrink-0 mt-0.5" aria-hidden="true" />
+                  <p className="text-sm text-text-primary leading-relaxed">
+                    <span className="font-bold">{c.application.status}</span>{" "}
+                    <span className="text-text-secondary">{c.application.statusDetail}</span>
+                  </p>
+                </div>
+              </RevealOnScroll>
+            </div>
+          </div>
         </div>
-      )}
+
+        {/* FECHAMENTO + CTA */}
+        <RevealOnScroll direction="up" duration={900}>
+          <div className="mt-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">{c.closing}</p>
+            <a
+              href={DESIGN_SYSTEM_FIGMA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full md:w-auto shrink-0 px-7 py-4 bg-surface-elevated text-text-primary border border-brand/40 rounded-2xl text-sm font-bold tracking-wide hover:border-brand hover:text-brand-strong active:scale-98 transition-all flex items-center justify-center gap-2"
+            >
+              {c.cta}
+              <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+              <span className="sr-only">{c.newTab}</span>
+            </a>
+          </div>
+        </RevealOnScroll>
+      </div>
     </section>
   );
 }

@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import prototypeLightVideo from "../../../NAVEGACAO_UNIEDU_LIGHTMODE.mp4";
 import prototypeDarkVideo from "../../../NAVEGACAO_UNIEDU_DARKMODE.mp4";
-import CursorTrail from "../components/CursorTrail";
 import MockupReveal3D from "../components/MockupReveal3D";
 import RecruitingDesignSystemSection from "../components/RecruitingDesignSystemSection";
 import RevealOnScroll from "../components/RevealOnScroll";
@@ -145,7 +144,6 @@ export default function RecruitingCasePage() {
 
   return (
     <div className="min-h-screen bg-page text-text-primary selection:bg-brand selection:text-white font-sans transition-colors duration-300">
-      <CursorTrail />
 
       {/* HEADER */}
       <header className="sticky top-0 z-50 bg-page/80 backdrop-blur-md border-b border-border transition-all duration-300">

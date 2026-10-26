@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import prototypeLightVideo from "../../../NAVEGACAO_UNIEDU_LIGHTMODE.mp4";
 import prototypeDarkVideo from "../../../NAVEGACAO_UNIEDU_DARKMODE.mp4";
-import CursorTrail from "../components/CursorTrail";
 import PersonaCard from "../components/PersonaCard";
 import JourneyMap from "../components/JourneyMap";
 import ResearchTensions from "../components/ResearchTensions";
@@ -20,6 +19,7 @@ import ProcessEvolutionCarousel from "../components/ProcessEvolutionCarousel";
 import MockupReveal3D from "../components/MockupReveal3D";
 import RevealOnScroll from "../components/RevealOnScroll";
 import DesignSystemSection from "../components/DesignSystemSection";
+import { BackToTop, ChapterRail, SectionsMenu, chapterId, useActiveChapter } from "../components/SectionNav";
 import { AUTHORS, appContent, pageTitle, htmlLang, type Lang } from "../content/translations";
 import { useTheme } from "../hooks/useTheme";
 
@@ -53,7 +53,7 @@ function FlagUS({ className }: { className?: string }) {
 function LanguageToggle({ lang, setLang, label }: { lang: Lang; setLang: (lang: Lang) => void; label: string }) {
   return (
     <div
-      className="flex items-center gap-0.5 p-1 rounded-full bg-surface border border-border"
+      className="flex items-center gap-0.5 p-0.5 sm:p-1 rounded-full bg-surface border border-border"
       role="group"
       aria-label={label}
     >
@@ -61,7 +61,7 @@ function LanguageToggle({ lang, setLang, label }: { lang: Lang; setLang: (lang: 
         onClick={() => setLang("pt")}
         aria-label="Português"
         aria-pressed={lang === "pt"}
-        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
+        className={`flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
           lang === "pt"
             ? "bg-surface-elevated text-brand-strong shadow-sm"
             : "text-text-secondary opacity-60 hover:opacity-100"
@@ -74,7 +74,7 @@ function LanguageToggle({ lang, setLang, label }: { lang: Lang; setLang: (lang: 
         onClick={() => setLang("en")}
         aria-label="English"
         aria-pressed={lang === "en"}
-        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
+        className={`flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
           lang === "en"
             ? "bg-surface-elevated text-brand-strong shadow-sm"
             : "text-text-secondary opacity-60 hover:opacity-100"
@@ -101,9 +101,19 @@ function AuthorLink({ name, href }: { name: string; href: string }) {
   );
 }
 
+// Destinos do menu principal por largura: em lg só Design System (o espaço também é de logo, idioma,
+// tema e CTA); em xl+ os quatro prioritários. Os 8 capítulos completos estão sempre em "Seções".
+const PRIMARY_NAV_IDS = {
+  lg: ["design-system"],
+  xl: ["solucao-rapida", "pesquisa", "produto", "design-system"],
+};
+
+const primaryNavVisibility = (id: string) =>
+  PRIMARY_NAV_IDS.lg.includes(id) ? "" : PRIMARY_NAV_IDS.xl.includes(id) ? "hidden xl:inline" : "hidden";
+
 export default function TccCasePage() {
   // Theme State
-  const { theme, setTheme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   // Language State
   const [lang, setLang] = useState<Lang>(() => {
@@ -119,6 +129,7 @@ export default function TccCasePage() {
   }, [lang]);
 
   const t = appContent[lang];
+  const { activeId, activate } = useActiveChapter();
 
   // Scroll to top on load when no hash anchor is present
   useEffect(() => {
@@ -166,11 +177,9 @@ export default function TccCasePage() {
 
   return (
     <div className="min-h-screen bg-page text-text-primary selection:bg-brand selection:text-white font-sans transition-colors duration-300">
-      <CursorTrail />
-
       {/* 1. HEADER */}
       <header className="sticky top-0 z-50 bg-page/80 backdrop-blur-md border-b border-border transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-2 sm:gap-3">
           {/* Brand */}
           <div className="flex flex-col shrink-0">
             <div className="flex items-center gap-2">
@@ -186,22 +195,44 @@ export default function TccCasePage() {
             </span>
           </div>
 
-          {/* Navigation Links — macro narrativa do case em 4 blocos, só em desktop amplo */}
-          <nav className="hidden lg:flex items-center gap-9 xl:gap-14">
-            {t.header.nav.map((item) => (
-              <a key={item.href} href={item.href} className="text-sm font-semibold text-text-secondary hover:text-brand-strong transition-colors whitespace-nowrap">{item.label}</a>
-            ))}
+          {/* Destinos prioritários, só em desktop. O índice completo (8 capítulos) fica no menu "Seções". */}
+          <nav aria-label={t.header.navAriaLabel} className="hidden lg:flex items-center gap-6 xl:gap-8">
+            {t.header.nav.map((item) => {
+              const id = chapterId(item.href);
+              const isActive = id === activeId;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => activate(id)}
+                  aria-current={isActive ? "location" : undefined}
+                  className={`${primaryNavVisibility(id)} text-sm font-semibold whitespace-nowrap transition-colors hover:text-brand-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand rounded-sm ${
+                    isActive ? "text-brand-strong" : "text-text-secondary"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </nav>
 
           {/* CTAs and Toggle */}
-          <div className="flex items-center gap-2 lg:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3 shrink-0">
+
+            <SectionsMenu
+              items={t.header.nav}
+              activeId={activeId}
+              onNavigate={activate}
+              label={t.header.sectionsLabel}
+              title={t.header.sectionsMenuTitle}
+            />
 
             <LanguageToggle lang={lang} setLang={setLang} label={t.header.langToggleLabel} />
 
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-surface border border-border text-text-secondary hover:text-brand-strong transition-all duration-300 active:scale-95 cursor-pointer flex items-center justify-center hover:bg-surface-elevated shrink-0"
+              className="p-2 sm:p-2.5 rounded-xl bg-surface border border-border text-text-secondary hover:text-brand-strong transition-all duration-300 active:scale-95 cursor-pointer flex items-center justify-center hover:bg-surface-elevated shrink-0"
               aria-label={t.header.themeToggleLabel}
             >
               {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
@@ -212,7 +243,7 @@ export default function TccCasePage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t.header.ctaPrototype}
-              className="px-3 sm:px-4 xl:px-5 py-2.5 bg-brand text-white rounded-xl text-xs font-bold tracking-wide hover:bg-opacity-90 active:scale-95 transition-all flex items-center gap-1.5 shadow-lg shadow-brand/25 border border-brand shrink-0"
+              className="px-2.5 sm:px-4 xl:px-5 py-2.5 bg-brand text-white rounded-xl text-xs font-bold tracking-wide hover:bg-opacity-90 active:scale-95 transition-all flex items-center gap-1.5 shadow-lg shadow-brand/25 border border-brand shrink-0"
             >
               <span className="hidden sm:inline xl:hidden">{t.header.ctaPrototypeShort}</span>
               <span className="hidden xl:inline">{t.header.ctaPrototype}</span>
@@ -223,7 +254,7 @@ export default function TccCasePage() {
       </header>
 
       {/* 2. HERO SECTION */}
-      <section ref={heroRef} className="relative overflow-hidden pt-16 pb-24 md:py-32 flex flex-col items-center justify-center transition-all duration-300">
+      <section id="inicio" tabIndex={-1} ref={heroRef} className="relative overflow-hidden pt-16 pb-24 md:py-32 flex flex-col items-center justify-center transition-all duration-300 focus:outline-none">
         {/* Ambient Glows */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35rem] h-[35rem] bg-glow-1 rounded-full blur-[120px] pointer-events-none transition-colors duration-300" />
         <div className="absolute top-1/3 left-1/4 w-[25rem] h-[25rem] bg-glow-2 rounded-full blur-[100px] pointer-events-none transition-colors duration-300" />
@@ -783,7 +814,7 @@ export default function TccCasePage() {
       </section>
 
       {/* 12. DESIGN SYSTEM */}
-      <DesignSystemSection theme={theme} setTheme={setTheme} lang={lang} />
+      <DesignSystemSection lang={lang} />
 
       {/* 13. DO FIGMA AO PRODUTO NAVEGÁVEL */}
       <section id="implementacao" className="py-24 max-w-7xl mx-auto px-6 relative transition-all duration-300">
@@ -1047,6 +1078,15 @@ export default function TccCasePage() {
         </div>
       </footer>
 
+      {/* NAVEGAÇÃO DE LEITURA — camada auxiliar: régua de capítulos (xl+) e retorno ao início */}
+      <ChapterRail
+        items={t.header.nav}
+        activeId={activeId}
+        onNavigate={activate}
+        ariaLabel={t.header.railAriaLabel}
+        topLabel={t.header.railTopLabel}
+      />
+      <BackToTop label={t.header.backToTopLabel} onTop={() => activate(null)} />
     </div>
   );
 }
